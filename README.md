@@ -30,7 +30,7 @@ The page has `noindex` set so search engines skip the prototype. Remove that met
 
 ## Versions
 
-- **v1** (tag `v1`): warm cream and spruce look with serif headlines.
-- **v2** (tag `v2`): white, photo-led look with a muted hero video, modeled on a premium Shopify theme.
+- **v1** (commit `bb3243c`): warm cream and spruce look with serif headlines.
+- **v2** (commit `c16fb8d`): white, photo-led look with a muted hero video, modeled on a premium Shopify theme.
 
-To go back to v1: `git checkout v1 -- index.html` (assets are shared), then commit and push.
+To go back to v1: `git checkout bb3243c -- index.html` (assets are shared), then commit and push. Both commits stay in the branch history.
