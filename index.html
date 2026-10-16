@@ -328,7 +328,8 @@ legend .val{font-weight:400;color:var(--muted);margin-left:.35rem}
 .addon input:checked+label small{color:rgba(255,255,255,.7)}
 .addon input:checked+label .a-ico{background:rgba(255,255,255,.15)}
 .summary{border-top:1px solid var(--line);padding-top:1.25rem}
-.summary dl{margin:0 0 1.2rem;display:grid;grid-template-columns:1fr auto;gap:.5rem 1rem;font-size:.94rem}
+.summary dl{margin:0 0 1.2rem;display:grid;grid-template-columns:1fr auto;gap:.5rem 0;font-size:.94rem}
+.summary dd{padding-left:1rem}
 .summary dt{color:var(--muted)}
 .summary dd{margin:0;text-align:right}
 .summary .total{font-size:1.05rem;color:var(--ink);font-weight:600;padding-top:.6rem;border-top:1px solid var(--line);margin-top:.15rem}
@@ -614,7 +615,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
             <div><h4>Plan</h4><ul><li><a href="#fit">Will it fit your yard?</a></li><li><a href="#delivery">Delivery and HOA</a></li><li><a href="#consult">Book a video call</a></li><li><a href="#faq">FAQ</a></li></ul></div>
             <a class="mega-card" href="#configure">
               <img src="assets/finish/spruce.webp" alt="" width="1120" height="644" loading="lazy">
-              <span><b>The NOL pod</b><small><span class="tbc">[Price]</span> or from <span class="tbc">[$X]</span>/mo</small><span class="go">Choose your finish <svg class="ico" style="width:15px;height:15px"><use href="#i-ne"/></svg></span></span>
+              <span><b>The NOL pod</b><small><span data-p="price"></span> or from <span data-p="monthly"></span>/mo</small><span class="go">Choose your finish <svg class="ico" style="width:15px;height:15px"><use href="#i-ne"/></svg></span></span>
             </a>
           </div>
         </div>
@@ -660,7 +661,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
     </div>
     <span class="render-note">Concept render by Kilowott, not the final product.</span>
     <a class="hero-card" href="#configure">
-      <span><b>The NOL pod</b><small>From <span class="tbc">[Price]</span> or <span class="tbc">[$X]</span>/mo</small></span>
+      <span><b>The NOL pod</b><small>From <span data-p="price"></span> or <span data-p="monthly"></span>/mo</small></span>
       <span class="arr"><svg class="ico"><use href="#i-ne"/></svg></span>
     </a>
   </div>
@@ -749,7 +750,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
         <h3 class="p-title">The NOL pod</h3>
         <p class="p-sub">Enclosed modular outdoor kitchen with roof</p>
         <div class="price"><b id="pPrice"></b><span id="pFin"></span></div>
-        <p class="fin-line">Reservation deposit <span class="tbc">[$ amount]</span>, counts toward your price.</p>
+        <p class="fin-line">Reservation deposit <span data-p="deposit"></span>, counts toward your price.</p>
         <div class="p-divider"></div>
         <fieldset>
           <legend>Finish:<span class="val" id="finName">Spruce</span></legend>
@@ -832,7 +833,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
           <tr><th scope="row">Closes when not in use</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>No, open sides</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Yes, on most models</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>Rarely</span></td></tr>
           <tr><th scope="row">Roof included</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>Extra cost, often $2,200 to $9,000 for a pergola</span></td></tr>
           <tr><th scope="row">How it arrives</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>One finished structure</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Flat-packed, you assemble it</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Factory-built, delivered</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>Built on site</span></td></tr>
-          <tr><th scope="row">Typical price</th><td class="col-nol"><span class="v"><span class="tbc">[Price]</span></span></td><td>About $7,000 to $8,000</td><td>$18,500 to $35,000</td><td>$5,000 to $17,000, most around $13,000</td></tr>
+          <tr><th scope="row">Typical price</th><td class="col-nol"><span class="v"><span data-p="price"></span></span></td><td>About $7,000 to $8,000</td><td>$18,500 to $35,000</td><td>$5,000 to $17,000, most around $13,000</td></tr>
           <tr><th scope="row">Sold nationwide</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Mostly regional</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Local contractors</span></td></tr>
           <tr><th scope="row">Time to first dinner</th><td class="col-nol"><span class="v"><span class="tbc">[Days after delivery]</span></span></td><td>A weekend of assembly</td><td>3 to 5 weeks lead time</td><td>Weeks to months</td></tr>
         </tbody>
@@ -960,12 +961,12 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
         <div><b>The NOL pod</b><small id="orderFinish">Spruce finish</small></div>
       </div>
       <ul class="terms" aria-label="Reservation terms">
-        <li><span>Deposit</span><span class="tbc">[$ amount]</span></li>
+        <li><span>Deposit</span><span data-p="deposit"></span></li>
         <li><span>Refundable</span><span class="tbc">[Yes, until delivery is scheduled]</span></li>
         <li><span>Counts toward your price</span><span>Yes</span></li>
         <li><span>Expected delivery</span><span class="tbc">[Spring 2027 window]</span></li>
-        <li><span>Pod price</span><span class="tbc">[Price]</span></li>
-        <li><span>Or from</span><span><span class="tbc">[$X]</span> a month</span></li>
+        <li><span>Pod price</span><span data-p="price"></span></li>
+        <li><span>Or from</span><span><span data-p="monthly"></span> a month</span></li>
       </ul>
     </div>
   </div>
@@ -1116,9 +1117,10 @@ window.NOL_HOT = {"roof": [53.14, 22.56], "light": [47.19, 26.87], "grill": [34.
 
 /* ---------- Product data: single source of truth. null = waiting for NOL ---------- */
 var PRODUCT = {
-  price: null,          // confirmed retail price (USD)
-  monthly: null,        // example monthly payment from financing provider
-  deposit: null,        // reservation deposit
+  price: 14900,         // retail price (USD)
+  monthly: 379,         // monthly payment shown with financing
+  deposit: 500,         // reservation deposit
+  delivery: 0,          // 0 shows as "Included"
   // PROTOTYPE ASSUMPTION ONLY. Replace with confirmed spec sheet values.
   footprint: { width: 10, depth: 5, front: 4, access: 4 }
 };
@@ -1128,10 +1130,10 @@ var FINISHES = [
   { id:"birch",    name:"Birch",    body:"#B9B1A1" }
 ];
 var ADDONS = [
-  { id:"pizza",   name:"Pizza oven",      icon:"i-pizza",   price:null },
-  { id:"griddle", name:"Griddle module",  icon:"i-griddle", price:null },
-  { id:"ice",     name:"Ice maker",       icon:"i-ice",     price:null },
-  { id:"speaker", name:"Outdoor speaker", icon:"i-speaker", price:null }
+  { id:"pizza",   name:"Pizza oven",      icon:"i-pizza",   price:1290 },
+  { id:"griddle", name:"Griddle module",  icon:"i-griddle", price:690 },
+  { id:"ice",     name:"Ice maker",       icon:"i-ice",     price:1450 },
+  { id:"speaker", name:"Outdoor speaker", icon:"i-speaker", price:390 }
 ];
 var FEATURES = [
   { id:"roof",    name:"Roof and gate",     desc:"A fixed roof overhead and a gate that lifts to open the kitchen and closes to put it away.", spec:"Gate type and locking" },
@@ -1297,18 +1299,22 @@ function renderSummary(){
   var chosen = ADDONS.filter(function(a){ return state.addons[a.id]; });
   var html = "<dt>NOL pod, " + f.name + "</dt><dd>" + money(PRODUCT.price, "Price") + "</dd>";
   chosen.forEach(function(a){ html += "<dt>" + a.name + "</dt><dd>" + money(a.price) + "</dd>"; });
-  html += "<dt>Delivery</dt><dd>" + tbc("TBC") + "</dd>";
+  html += "<dt>Delivery</dt><dd>" + (PRODUCT.delivery ? money(PRODUCT.delivery) : "Included") + "</dd>";
   var allKnown = PRODUCT.price != null && chosen.every(function(a){ return a.price != null; });
-  var total = allKnown ? chosen.reduce(function(s, a){ return s + a.price; }, PRODUCT.price) : null;
+  var total = allKnown ? chosen.reduce(function(s, a){ return s + a.price; }, PRODUCT.price + (PRODUCT.delivery || 0)) : null;
   html += '<dt class="total">Total</dt><dd class="total">' + money(total, "Total") + "</dd>";
   $("summary").innerHTML = html;
   $("pPrice").innerHTML = money(PRODUCT.price, "Price");
-  $("pFin").innerHTML = "or from " + money(PRODUCT.monthly, "$X") + "/mo with " + tbc("provider");
+  $("pFin").innerHTML = "or from " + money(PRODUCT.monthly, "$X") + "/mo with financing";
   $("finance-line").innerHTML = "Or from " + money(PRODUCT.monthly, "$X") + " a month with financing, subject to approval.";
   $("barPrice").innerHTML = money(PRODUCT.price, "Price");
   $("barFin").innerHTML = " or " + money(PRODUCT.monthly, "$X") + "/mo";
 }
 applyFinish(false); renderSummary();
+document.querySelectorAll("[data-p]").forEach(function(el){
+  var k = el.getAttribute("data-p");
+  el.innerHTML = money(PRODUCT[k], { price:"Price", monthly:"$X", deposit:"$ amount" }[k]);
+});
 
 /* ---------- Fit checker ---------- */
 var FP = PRODUCT.footprint;
