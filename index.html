@@ -260,6 +260,29 @@ body.preview .no-photo .photo-tag,body.preview .is-render .photo-tag{display:non
 @media (max-width:860px){.split{grid-template-columns:minmax(0,1fr)}}
 
 /* =========================================================
+   Choose your pod: tier cards
+   ========================================================= */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin-top:3rem;align-items:stretch}
+.tier{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:border-color .3s,box-shadow .35s var(--ease),transform .35s var(--ease)}
+.tier:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.tier.pop{border-color:var(--ink)}
+.tier .t-img{aspect-ratio:3/2;overflow:hidden;background:var(--soft)}
+.tier .t-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.tier:hover .t-img img{transform:scale(1.04)}
+.tier .t-flag{position:absolute;top:1rem;left:1rem;background:var(--ink);color:#fff;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;border-radius:var(--pill);padding:.35rem .75rem;z-index:1}
+.tier .t-body{padding:1.5rem 1.5rem 1.6rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.tier h3{font-size:2rem;font-weight:300;letter-spacing:-0.03em}
+.tier .t-tag{color:var(--muted);font-size:.92rem}
+.tier .t-price{margin-top:.75rem;font-size:1.25rem;font-weight:500}
+.tier .t-price small{display:block;font-size:.84rem;font-weight:400;color:var(--muted)}
+.tier ul{list-style:none;margin:1rem 0 1.25rem;padding:1rem 0 0;border-top:1px solid var(--line);display:grid;gap:.45rem;font-size:.9rem}
+.tier li{display:flex;gap:.55rem;align-items:center}
+.tier li .ico{width:17px;height:17px}
+.tier .t-dims{font-size:.8rem;color:var(--muted);margin-bottom:1.25rem}
+.tier .btn{margin-top:auto}
+@media (max-width:960px){.tiers{grid-template-columns:minmax(0,1fr)}}
+
+/* =========================================================
    Inside (pinned scroll)
    ========================================================= */
 .inside{background:var(--soft)}
@@ -321,7 +344,25 @@ legend .val{font-weight:400;color:var(--muted);margin-left:.35rem}
 .addons{display:flex;flex-wrap:wrap;gap:.5rem}
 .addon label{display:inline-flex;gap:.6rem;align-items:center;border:1.5px solid var(--line);background:#fff;border-radius:var(--pill);padding:0 1rem 0 .45rem;cursor:pointer;min-height:44px;font-size:.88rem;transition:all .2s}
 .addon label:hover{border-color:var(--ink)}
-.addon .a-ico{width:30px;height:30px;border-radius:50%;background:var(--soft);display:grid;place-items:center}
+.addon .a-ico{width:30px;height:30px;border-radius:50%;background:var(--soft);display:grid;place-items:center;overflow:hidden;flex:none}
+.addon .a-ico img{width:100%;height:100%;object-fit:cover}
+.addon input:disabled+label{cursor:default;background:var(--soft);border-color:var(--soft)}
+.addon input:disabled+label small{color:var(--ink);font-weight:500}
+.tier-pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.tier-pick input,.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.tier-pick label{display:grid;gap:.1rem;border:1.5px solid var(--line);border-radius:var(--r);padding:.7rem .85rem;cursor:pointer;transition:border-color .2s}
+.tier-pick label b{font-weight:500}
+.tier-pick label small{color:var(--muted);font-size:.8rem}
+.tier-pick label:hover{border-color:var(--line-2)}
+.tier-pick input:checked+label{border-color:var(--ink);box-shadow:inset 0 0 0 .5px var(--ink)}
+.tier-pick input:focus-visible+label,.opt input:focus-visible+label{outline:2px solid var(--ink);outline-offset:2px}
+.opts{display:flex;flex-wrap:wrap;gap:.6rem}
+.opt label{display:grid;gap:.35rem;justify-items:center;cursor:pointer;font-size:.76rem;color:var(--muted)}
+.opt label img{width:92px;height:62px;object-fit:cover;border-radius:8px;border:1.5px solid var(--line);padding:2px;background:#fff;transition:border-color .2s}
+.opt label:hover img{border-color:var(--line-2)}
+.opt input:checked+label{color:var(--ink)}
+.opt input:checked+label img{border-color:var(--ink)}
+.opt-row{display:grid;gap:1.1rem}
 .addon .a-ico svg{width:16px;height:16px}
 .addon small{color:var(--muted);font-size:.78rem}
 .addon input:checked+label{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -615,7 +656,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
             <div><h4>Plan</h4><ul><li><a href="#fit">Will it fit your yard?</a></li><li><a href="#delivery">Delivery and HOA</a></li><li><a href="#consult">Book a video call</a></li><li><a href="#faq">FAQ</a></li></ul></div>
             <a class="mega-card" href="#configure">
               <img src="assets/finish/spruce.webp" alt="" width="1120" height="644" loading="lazy">
-              <span><b>The NOL pod</b><small><span data-p="price"></span> or from <span data-p="monthly"></span>/mo</small><span class="go">Choose your finish <svg class="ico" style="width:15px;height:15px"><use href="#i-ne"/></svg></span></span>
+              <span><b>The NOL pod</b><small>From <span data-p="from"></span> or <span data-p="fromMonthly"></span>/mo</small><span class="go">Choose your pod <svg class="ico" style="width:15px;height:15px"><use href="#i-ne"/></svg></span></span>
             </a>
           </div>
         </div>
@@ -661,7 +702,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
     </div>
     <span class="render-note">Concept render by Kilowott, not the final product.</span>
     <a class="hero-card" href="#configure">
-      <span><b>The NOL pod</b><small>From <span data-p="price"></span> or <span data-p="monthly"></span>/mo</small></span>
+      <span><b>The NOL pod</b><small>From <span data-p="from"></span> or <span data-p="fromMonthly"></span>/mo</small></span>
       <span class="arr"><svg class="ico"><use href="#i-ne"/></svg></span>
     </a>
   </div>
@@ -701,6 +742,20 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
   </div>
 </section>
 
+<!-- CHOOSE YOUR POD: three tiers -->
+<section class="bg-soft" id="tiers" aria-labelledby="h-tiers">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="kicker">Choose your pod</span>
+        <h2 id="h-tiers">Three sizes of good. Pick yours.</h2>
+      </div>
+      <p class="lede">Every pod arrives finished, with a grill, sink and fridge built in. Step up for more storage, lighting and features.</p>
+    </div>
+    <div class="tiers" id="tierCards"></div>
+  </div>
+</section>
+
 <!-- INSIDE: SIGNATURE SCROLL REVEAL -->
 <section class="inside" id="inside" aria-labelledby="h-inside" style="padding:0">
   <div class="inside-pin" id="insidePin">
@@ -732,34 +787,38 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
     <div class="sec-head" data-reveal>
       <div>
         <span class="kicker">Make it yours</span>
-        <h2 id="h-config">Choose your finish and extras</h2>
+        <h2 id="h-config">Choose your pod, colors and extras</h2>
       </div>
       <p class="lede">You can change your mind until delivery is scheduled.</p>
     </div>
     <div class="pdp">
       <div class="gallery">
         <div class="gallery-main">
-          <span class="badge" id="galBadge">Spruce</span>
-          <img id="galMain" src="assets/finish/spruce.webp" alt="Concept render of the open pod in the Spruce finish" width="1120" height="644" decoding="async">
+          <span class="badge" id="galBadge">Better</span>
+          <img id="galMain" src="assets/tiers/better.jpg" alt="The NOL Better pod" width="983" height="655" decoding="async" style="height:100%;object-fit:cover">
         </div>
         <div class="thumbs" id="thumbs" role="group" aria-label="Product views"></div>
-        <p class="note">Concept finishes for review. Final colors come from NOL's product samples. Closed and half-open views shown in Spruce.</p>
+        <p class="note" id="galNote"></p>
       </div>
       <div class="p-info">
         <span class="kicker" style="margin-bottom:.6rem">Nordic Outdoor Living</span>
-        <h3 class="p-title">The NOL pod</h3>
-        <p class="p-sub">Enclosed modular outdoor kitchen with roof</p>
+        <h3 class="p-title" id="pTitle">NOL Better</h3>
+        <p class="p-sub" id="pSub">More features. More possibilities.</p>
         <div class="price"><b id="pPrice"></b><span id="pFin"></span></div>
         <p class="fin-line">Reservation deposit <span data-p="deposit"></span>, counts toward your price.</p>
         <div class="p-divider"></div>
         <fieldset>
-          <legend>Finish:<span class="val" id="finName">Spruce</span></legend>
-          <div class="swatches" id="swatches"></div>
+          <legend>Pod:<span class="val" id="tierName">Better</span></legend>
+          <div class="tier-pick" id="tierPick"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Colors</legend>
+          <div class="opt-row" id="optRow"></div>
         </fieldset>
         <fieldset>
           <legend>Add-ons<span class="val">optional</span></legend>
           <div class="addons" id="addons"></div>
-          <p class="note">Example add-ons. The final list of 10 to 15 comes from NOL.</p>
+          <p class="note" id="addonNote"></p>
         </fieldset>
         <div class="summary" aria-live="polite">
           <dl id="summary"></dl>
@@ -774,7 +833,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
         </ul>
         <div class="acc">
           <details><summary>What's included</summary><div class="acc-body"><ul id="incList"></ul></div></details>
-          <details><summary>Dimensions and utilities</summary><div class="acc-body"><p>Prototype footprint: <span class="tbc" id="podDims2"></span>. Power <span class="tbc">[110V or 240V]</span>, gas <span class="tbc">[propane or natural gas]</span>, water and drainage <span class="tbc">[TBC]</span>.</p></div></details>
+          <details><summary>Dimensions and utilities</summary><div class="acc-body"><p id="podDims2"></p><p style="margin-top:.6rem">Power <span class="tbc">[110V or 240V]</span>, gas <span class="tbc">[propane or natural gas]</span>, water and drainage <span class="tbc">[TBC]</span>.</p></div></details>
           <details><summary>Delivery and returns</summary><div class="acc-body"><p>Delivered across the continental US. <span class="tbc">[Freight type, lead time, curbside or placed]</span>. <span class="tbc">[Returns and cancellation terms]</span></p></div></details>
         </div>
       </div>
@@ -808,7 +867,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
           <text x="300" y="160" text-anchor="middle" fill="#fff" font-size="15" font-weight="500" font-family="Archivo, sans-serif" id="planPodLabel">Pod</text>
           <text x="300" y="280" text-anchor="middle" fill="currentColor" font-size="13" font-family="Archivo, sans-serif" id="planClearLabel">Clearance to open and cook</text>
         </svg>
-        <p class="note">Prototype footprint: <span class="tbc" id="podDims"></span>. Final dimensions and clearances come from NOL's spec sheet.</p>
+        <p class="note">Footprint of the <span id="fitTier">Better</span>: <span id="podDims"></span>. A specialist confirms clearances on a video call.</p>
       </div>
     </div>
   </div>
@@ -833,7 +892,7 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
           <tr><th scope="row">Closes when not in use</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>No, open sides</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Yes, on most models</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>Rarely</span></td></tr>
           <tr><th scope="row">Roof included</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>Extra cost, often $2,200 to $9,000 for a pergola</span></td></tr>
           <tr><th scope="row">How it arrives</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>One finished structure</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Flat-packed, you assemble it</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Factory-built, delivered</span></td><td><span class="v no"><svg class="ico"><use href="#i-x-c"/></svg>Built on site</span></td></tr>
-          <tr><th scope="row">Typical price</th><td class="col-nol"><span class="v"><span data-p="price"></span></span></td><td>About $7,000 to $8,000</td><td>$18,500 to $35,000</td><td>$5,000 to $17,000, most around $13,000</td></tr>
+          <tr><th scope="row">Typical price</th><td class="col-nol"><span class="v">From&nbsp;<span data-p="from"></span></span></td><td>About $7,000 to $8,000</td><td>$18,500 to $35,000</td><td>$5,000 to $17,000, most around $13,000</td></tr>
           <tr><th scope="row">Sold nationwide</th><td class="col-nol"><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v yes"><svg class="ico"><use href="#i-check-c"/></svg>Yes</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Mostly regional</span></td><td><span class="v part"><svg class="ico"><use href="#i-part-c"/></svg>Local contractors</span></td></tr>
           <tr><th scope="row">Time to first dinner</th><td class="col-nol"><span class="v"><span class="tbc">[Days after delivery]</span></span></td><td>A weekend of assembly</td><td>3 to 5 weeks lead time</td><td>Weeks to months</td></tr>
         </tbody>
@@ -957,15 +1016,15 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
     </div>
     <div class="order" data-reveal>
       <div class="order-head">
-        <img id="orderImg" src="assets/finish/spruce.webp" alt="" width="110" height="63">
-        <div><b>The NOL pod</b><small id="orderFinish">Spruce finish</small></div>
+        <img id="orderImg" src="assets/tiers/better.jpg" alt="" width="110" height="73" style="object-fit:cover;aspect-ratio:3/2">
+        <div><b id="orderTitle">NOL Better</b><small id="orderFinish">Anthracite</small></div>
       </div>
       <ul class="terms" aria-label="Reservation terms">
         <li><span>Deposit</span><span data-p="deposit"></span></li>
         <li><span>Refundable</span><span class="tbc">[Yes, until delivery is scheduled]</span></li>
         <li><span>Counts toward your price</span><span>Yes</span></li>
         <li><span>Expected delivery</span><span class="tbc">[Spring 2027 window]</span></li>
-        <li><span>Pod price</span><span data-p="price"></span></li>
+        <li><span id="orderTierLabel">Better pod</span><span data-p="price"></span></li>
         <li><span>Or from</span><span><span data-p="monthly"></span> a month</span></li>
       </ul>
     </div>
@@ -1096,8 +1155,8 @@ footer ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
 <div class="buybar" id="buybar" aria-hidden="true">
   <div class="in">
     <div class="meta">
-      <img id="barImg" src="assets/finish/spruce.webp" alt="" width="60" height="35">
-      <div><b>The NOL pod</b><small><span id="barFinish">Spruce</span> · <span id="barPrice"></span><span class="fin" id="barFin"></span></small></div>
+      <img id="barImg" src="assets/tiers/better.jpg" alt="" width="60" height="40" style="border-radius:8px;object-fit:cover;aspect-ratio:3/2">
+      <div><b id="barTitle">NOL Better</b><small><span id="barFinish">Anthracite</span> · <span id="barPrice"></span><span class="fin" id="barFin"></span></small></div>
     </div>
     <a class="btn btn-dark btn-sm" href="#reserve" data-cta="buybar_reserve" tabindex="-1">Reserve <span class="arr"><svg class="ico"><use href="#i-ne"/></svg></span></a>
   </div>
@@ -1115,25 +1174,49 @@ window.NOL_HOT = {"roof": [53.14, 22.56], "light": [47.19, 26.87], "grill": [34.
 (function(){
 "use strict";
 
-/* ---------- Product data: single source of truth. null = waiting for NOL ---------- */
+/* ---------- Product data: single source of truth ---------- */
 var PRODUCT = {
-  price: 14900,         // retail price (USD)
-  monthly: 379,         // monthly payment shown with financing
   deposit: 500,         // reservation deposit
   delivery: 0,          // 0 shows as "Included"
-  // PROTOTYPE ASSUMPTION ONLY. Replace with confirmed spec sheet values.
-  footprint: { width: 10, depth: 5, front: 4, access: 4 }
+  clearance: 3,         // ft in front of the pod to open it and cook
+  access: 3.5           // ft of access width needed for delivery
 };
-var FINISHES = [
-  { id:"spruce",   name:"Spruce",   body:"#21342B" },
-  { id:"graphite", name:"Graphite", body:"#36393C" },
-  { id:"birch",    name:"Birch",    body:"#B9B1A1" }
+// Three tiers. dims in cm.
+var TIERS = [
+  { id:"good",   name:"Good",   price:9900,  monthly:249, img:"assets/tiers/good.jpg",   opt:"good",
+    tag:"Compact. Functional. Timeless.", look:"Anthracite exterior, white cabinets",
+    features:["Short height","Manual opening","2 cabinets","Sink","BBQ grill","Fridge"],
+    dims:{ length:260, internal:230, height:150, width:92 },
+    included:[], hidden:["led","fan","speaker"] },
+  { id:"better", name:"Better", price:14900, monthly:379, img:"assets/tiers/better.jpg", opt:"better", popular:true,
+    tag:"More features. More possibilities.", look:"Anthracite",
+    features:["Full-height enclosure","Electronic opening","LED lighting (white or RGB)","Exhaust fan","3 cabinets","Sink","BBQ grill","Fridge"],
+    dims:{ length:260, internal:230, height:235, width:92 },
+    included:["led","electronic","fan"], hidden:["led-warm","led-rgb"] },
+  { id:"best",   name:"Best",   price:19900, monthly:499, img:"assets/tiers/best.jpg",   opt:"better",
+    tag:"More space. More features. More together.", look:"Anthracite",
+    features:["Full-height enclosure","Electronic opening","LED lighting (white or RGB)","Exhaust fan","4 cabinets","Sink","BBQ grill","Fridge","Bluetooth speakers"],
+    dims:{ length:300, internal:270, height:235, width:92 },
+    included:["led","electronic","fan","speaker"], hidden:["led-warm","led-rgb"] }
 ];
+var COLORS = [
+  { id:"ext", name:"Exterior",   img:function(t, c){ return "assets/tiers/" + t.opt + "-ext-" + c + ".jpg"; } },
+  { id:"cab", name:"Cabinets",   img:function(t, c){ return "assets/tiers/" + t.opt + "-cab-" + c + ".jpg"; } },
+  { id:"top", name:"Countertop", img:function(t, c){ return "assets/tiers/top-" + c + ".jpg"; } }
+];
+var SHADES = [ { id:"anthracite", name:"Anthracite grey" }, { id:"white", name:"White" } ];
 var ADDONS = [
-  { id:"pizza",   name:"Pizza oven",      icon:"i-pizza",   price:1290 },
-  { id:"griddle", name:"Griddle module",  icon:"i-griddle", price:690 },
-  { id:"ice",     name:"Ice maker",       icon:"i-ice",     price:1450 },
-  { id:"speaker", name:"Outdoor speaker", icon:"i-speaker", price:390 }
+  { id:"led",        name:"LED lighting",       img:"led-warm",   price:null },
+  { id:"led-warm",   name:"LED kit, warm white", img:"led-warm",  price:290 },
+  { id:"led-rgb",    name:"LED kit, RGB",       img:"led-rgb",    price:390 },
+  { id:"electronic", name:"Electronic opening", img:"electronic", price:1190 },
+  { id:"fan",        name:"Exhaust fan",        img:"fan",        price:null },
+  { id:"speaker",    name:"Speaker kit",        img:"speaker",    price:390 },
+  { id:"zip",        name:"Zip screen",         img:"zip",        price:1490 },
+  { id:"tools",      name:"BBQ tool kit",       img:"tools",      price:149 },
+  { id:"lamp",       name:"Solar lamp",         img:"lamp",       price:79 },
+  { id:"plant",      name:"Faux plant",         img:"plant",      price:59 },
+  { id:"mat",        name:"Soft working mat",   img:"mat",        price:89 }
 ];
 var FEATURES = [
   { id:"roof",    name:"Roof and gate",     desc:"A fixed roof overhead and a gate that lifts to open the kitchen and closes to put it away.", spec:"Gate type and locking" },
@@ -1223,103 +1306,141 @@ function selectFeature(i){
 }
 selectFeature(2);
 window.dataLayer.pop(); // don't count the default selection as a view
-$("incList").innerHTML = FEATURES.map(function(f){ return "<li>" + f.name + "</li>"; }).join("");
 
 /* ---------- Configurator + gallery ---------- */
-var state = { finish: "spruce", addons: {}, view: "open" };
-var VIEWS = [
-  { id:"open",   label:"Open",      src:function(){ return window.NOL_FINISH[state.finish]; } },
-  { id:"half",   label:"Half open", src:function(){ return SEQ[14]; } },
-  { id:"closed", label:"Closed",    src:function(){ return SEQ[0]; } },
-  { id:"plan",   label:"Footprint", src:null }
-];
+var state = { tier: "better", ext: "anthracite", cab: "anthracite", top: "anthracite", addons: {} };
+function tier(){ return TIERS.filter(function(t){ return t.id === state.tier; })[0]; }
+function ftIn(cm){ var inch = Math.round(cm / 2.54), ft = Math.floor(inch / 12), r = inch % 12; return ft + " ft" + (r ? " " + r + " in" : ""); }
+function shadeName(id){ return SHADES.filter(function(x){ return x.id === id; })[0].name.split(" ")[0]; }
+var CHECK = '<svg class="ico"><use href="#i-check"/></svg>';
+
+// Tier cards
+$("tierCards").innerHTML = TIERS.map(function(t){
+  return '<article class="tier' + (t.popular ? " pop" : "") + '" data-reveal>' +
+    (t.popular ? '<span class="t-flag">Most popular</span>' : "") +
+    '<div class="t-img"><img src="' + t.img + '" alt="The NOL ' + t.name + ' pod" loading="lazy"></div>' +
+    '<div class="t-body"><h3>' + t.name + '</h3><p class="t-tag">' + t.tag + '</p>' +
+    '<p class="t-price">' + money(t.price) + '<small>or from ' + money(t.monthly) + '/mo with financing</small></p>' +
+    '<ul>' + t.features.map(function(f){ return "<li>" + CHECK + f + "</li>"; }).join("") + '</ul>' +
+    '<p class="t-dims">' + t.dims.length + ' x ' + t.dims.width + ' x ' + t.dims.height + ' cm (L x W x H)</p>' +
+    '<a class="btn ' + (t.popular ? "btn-dark" : "btn-line") + ' btn-block" href="#configure" data-tier="' + t.id + '">Choose ' + t.name + ' <span class="arr"><svg class="ico"><use href="#i-ne"/></svg></span></a>' +
+    '</div></article>';
+}).join("");
+document.querySelectorAll("[data-tier]").forEach(function(a){
+  a.addEventListener("click", function(){ setTier(a.getAttribute("data-tier"), true); track("tier_card_click", { tier: a.getAttribute("data-tier") }); });
+});
+
+// Tier picker
+$("tierPick").innerHTML = TIERS.map(function(t){
+  return '<span><input type="radio" name="tier" id="tp-' + t.id + '" value="' + t.id + '"' + (t.id === state.tier ? " checked" : "") + '>' +
+    '<label for="tp-' + t.id + '"><b>' + t.name + '</b><small>' + money(t.price) + '</small></label></span>';
+}).join("");
+$("tierPick").addEventListener("change", function(e){ setTier(e.target.value, false); track("variant_select", { tier: state.tier }); });
+
+// Gallery thumbs: the three pods + footprint
 var galMain = $("galMain"), galBadge = $("galBadge"), thumbWrap = $("thumbs");
-VIEWS.forEach(function(v){
+TIERS.concat([{ id:"plan", name:"Footprint" }]).forEach(function(t){
   var b = document.createElement("button");
-  b.type = "button"; b.className = "thumb"; b.dataset.view = v.id;
-  b.setAttribute("aria-pressed", v.id === state.view ? "true" : "false");
-  b.innerHTML = v.src ? '<img alt="" width="1120" height="644" src="' + v.src() + '">' :
-    '<svg viewBox="0 0 160 92" aria-hidden="true"><rect x="8" y="8" width="144" height="76" rx="4" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 4"/><rect x="40" y="18" width="80" height="36" rx="2" fill="#111"/><rect x="40" y="54" width="80" height="22" rx="2" fill="#111" fill-opacity=".06" stroke="#111" stroke-opacity=".4" stroke-dasharray="3 3"/></svg>';
-  b.insertAdjacentHTML("beforeend", "<span>" + v.label + "</span>");
+  b.type = "button"; b.className = "thumb"; b.dataset.view = t.id;
+  b.innerHTML = (t.img ? '<img alt="" src="' + t.img + '" style="aspect-ratio:3/2;object-fit:cover;border-radius:8px">' :
+    '<svg viewBox="0 0 150 100" aria-hidden="true" style="aspect-ratio:3/2"><rect x="8" y="8" width="134" height="84" rx="4" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 4"/><rect x="30" y="22" width="90" height="30" rx="2" fill="#111"/><rect x="30" y="52" width="90" height="26" rx="2" fill="#111" fill-opacity=".06" stroke="#111" stroke-opacity=".4" stroke-dasharray="3 3"/></svg>') +
+    "<span>" + t.name + "</span>";
   b.addEventListener("click", function(){
-    if (v.id === "plan"){ $("fit").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }); return; }
-    state.view = v.id; renderGallery(true);
-    track("gallery_view", { view: v.id });
+    if (t.id === "plan"){ $("fit").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }); return; }
+    setTier(t.id, false); track("gallery_view", { view: t.id });
   });
   thumbWrap.appendChild(b);
 });
-function currentFinish(){ return FINISHES.filter(function(x){ return x.id === state.finish; })[0]; }
-function renderGallery(animate){
-  var v = VIEWS.filter(function(x){ return x.id === state.view; })[0], f = currentFinish();
-  var src = v.src();
-  var shown = v.id === "open" ? f.name : "Spruce";
-  galMain.alt = "Concept render of the pod, " + v.label.toLowerCase() + ", in the " + shown + " finish";
-  galBadge.textContent = shown + " · " + v.label;
-  if (animate && !reduceMotion){
+
+// Color options
+function renderOptions(){
+  var t = tier();
+  $("optRow").innerHTML = COLORS.map(function(c){
+    return '<div><p class="small" style="margin-bottom:.45rem">' + c.name + ': <span class="muted">' + shadeName(state[c.id]) + '</span></p><div class="opts">' +
+      SHADES.map(function(sh){
+        var id = "opt-" + c.id + "-" + sh.id;
+        return '<span class="opt"><input type="radio" name="opt-' + c.id + '" id="' + id + '" value="' + sh.id + '" data-group="' + c.id + '"' + (state[c.id] === sh.id ? " checked" : "") + '>' +
+          '<label for="' + id + '"><img src="' + c.img(t, sh.id) + '" alt="" loading="lazy">' + sh.name + '</label></span>';
+      }).join("") + '</div></div>';
+  }).join("");
+}
+$("optRow").addEventListener("change", function(e){
+  state[e.target.getAttribute("data-group")] = e.target.value;
+  renderOptions(); renderSummary();
+  track("option_select", { option: e.target.getAttribute("data-group"), value: e.target.value });
+});
+
+// Add-ons, per tier: hidden, included, or optional
+function renderAddons(){
+  var t = tier();
+  $("addons").innerHTML = ADDONS.filter(function(a){
+    var inc = t.included.indexOf(a.id) > -1;
+    return t.hidden.indexOf(a.id) < 0 && (a.price != null || inc);
+  }).map(function(a){
+    var inc = t.included.indexOf(a.id) > -1;
+    if (inc) delete state.addons[a.id];
+    return '<span class="addon"><input type="checkbox" id="ad-' + a.id + '" value="' + a.id + '"' + (inc ? " checked disabled" : (state.addons[a.id] ? " checked" : "")) + '>' +
+      '<label for="ad-' + a.id + '"><span class="a-ico"><img src="assets/addons/' + a.img + '.jpg" alt=""></span>' + a.name + ' <small>' + (inc ? "Included" : "+" + money(a.price)) + '</small></label></span>';
+  }).join("");
+  $("addonNote").textContent = t.included.length ? "Items marked Included come standard on the " + t.name + "." : "Upgrade to Better for electronic opening, LED lighting and an exhaust fan as standard.";
+}
+$("addons").addEventListener("change", function(e){
+  if (e.target.disabled) return;
+  state.addons[e.target.value] = e.target.checked; renderSummary();
+  track(e.target.checked ? "add_to_cart" : "remove_from_cart", { item: e.target.value, tier: state.tier });
+});
+
+function setTier(id, fromCard){
+  state.tier = id;
+  var t = tier();
+  // drop add-ons the new tier hides or includes
+  Object.keys(state.addons).forEach(function(k){ if (t.hidden.indexOf(k) > -1 || t.included.indexOf(k) > -1) delete state.addons[k]; });
+  var r = $("tp-" + id); if (r) r.checked = true;
+  if (!reduceMotion && !fromCard){
     galMain.style.opacity = 0;
-    setTimeout(function(){ galMain.src = src; galMain.style.opacity = 1; }, 180);
-  } else galMain.src = src;
-  thumbWrap.querySelectorAll(".thumb").forEach(function(t){ t.setAttribute("aria-pressed", String(t.dataset.view === state.view)); });
-  var openThumb = thumbWrap.querySelector('[data-view="open"] img'); if (openThumb) openThumb.src = window.NOL_FINISH[state.finish];
+    setTimeout(function(){ galMain.src = t.img; galMain.style.opacity = 1; }, 180);
+  } else galMain.src = t.img;
+  galMain.alt = "The NOL " + t.name + " pod";
+  galBadge.textContent = t.name;
+  $("galNote").textContent = "Shown in " + t.look.toLowerCase() + ". Choose your colors in the options.";
+  thumbWrap.querySelectorAll(".thumb").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.view === id)); });
+  $("pTitle").textContent = "NOL " + t.name;
+  $("pSub").textContent = t.tag;
+  $("tierName").textContent = t.name;
+  $("incList").innerHTML = t.features.map(function(f){ return "<li>" + f + "</li>"; }).join("");
+  var d = t.dims;
+  $("podDims2").textContent = "Length " + d.length + " cm (" + ftIn(d.length) + "), internal kitchen length " + d.internal + " cm, height " + d.height + " cm (" + ftIn(d.height) + "), depth " + d.width + " cm (" + ftIn(d.width) + ").";
+  $("fitTier").textContent = t.name;
+  $("podDims").textContent = ftIn(d.length) + " wide, " + ftIn(d.width) + " deep, plus " + PRODUCT.clearance + " ft in front";
+  $("barImg").src = t.img; $("orderImg").src = t.img;
+  $("barTitle").textContent = "NOL " + t.name; $("orderTitle").textContent = "NOL " + t.name;
+  $("orderTierLabel").textContent = t.name + " pod";
+  renderOptions(); renderAddons(); renderSummary();
 }
 
-var swatchWrap = $("swatches");
-FINISHES.forEach(function(f, i){
-  var s = document.createElement("span"); s.className = "swatch";
-  s.innerHTML = '<input type="radio" name="finish" id="fin-' + f.id + '" value="' + f.id + '"' + (i === 0 ? " checked" : "") + '>' +
-    '<label for="fin-' + f.id + '" title="' + f.name + '"><i style="background:' + f.body + '"></i><span class="sr-only">' + f.name + '</span></label>';
-  swatchWrap.appendChild(s);
-});
-swatchWrap.addEventListener("change", function(e){
-  state.finish = e.target.value; state.view = "open"; applyFinish(true); renderSummary();
-  track("variant_select", { variant: state.finish });
-});
-var addonWrap = $("addons");
-ADDONS.forEach(function(a){
-  var d = document.createElement("span"); d.className = "addon";
-  d.innerHTML = '<input type="checkbox" id="ad-' + a.id + '" value="' + a.id + '">' +
-    '<label for="ad-' + a.id + '"><span class="a-ico"><svg class="ico"><use href="#' + a.icon + '"/></svg></span>' + a.name + ' <small>' + money(a.price) + '</small></label>';
-  addonWrap.appendChild(d);
-});
-addonWrap.addEventListener("change", function(e){
-  state.addons[e.target.value] = e.target.checked; renderSummary();
-  track(e.target.checked ? "add_to_cart" : "remove_from_cart", { item: e.target.value });
-});
-function applyFinish(animate){
-  var f = currentFinish(), src = window.NOL_FINISH[f.id];
-  document.documentElement.style.setProperty("--pod-body", f.body);
-  $("finName").textContent = f.name;
-  $("barFinish").textContent = f.name;
-  $("orderFinish").textContent = f.name + " finish";
-  $("barImg").src = src; $("orderImg").src = src;
-  renderGallery(animate);
-}
 function renderSummary(){
-  var f = currentFinish();
+  var t = tier();
   var chosen = ADDONS.filter(function(a){ return state.addons[a.id]; });
-  var html = "<dt>NOL pod, " + f.name + "</dt><dd>" + money(PRODUCT.price, "Price") + "</dd>";
+  var colors = shadeName(state.ext) + " exterior, " + shadeName(state.cab).toLowerCase() + " cabinets, " + shadeName(state.top).toLowerCase() + " top";
+  var html = "<dt>NOL " + t.name + "<br><span class='small'>" + colors + "</span></dt><dd>" + money(t.price) + "</dd>";
   chosen.forEach(function(a){ html += "<dt>" + a.name + "</dt><dd>" + money(a.price) + "</dd>"; });
   html += "<dt>Delivery</dt><dd>" + (PRODUCT.delivery ? money(PRODUCT.delivery) : "Included") + "</dd>";
-  var allKnown = PRODUCT.price != null && chosen.every(function(a){ return a.price != null; });
-  var total = allKnown ? chosen.reduce(function(s, a){ return s + a.price; }, PRODUCT.price + (PRODUCT.delivery || 0)) : null;
-  html += '<dt class="total">Total</dt><dd class="total">' + money(total, "Total") + "</dd>";
+  var total = chosen.reduce(function(sum, a){ return sum + a.price; }, t.price + (PRODUCT.delivery || 0));
+  html += '<dt class="total">Total</dt><dd class="total">' + money(total) + "</dd>";
   $("summary").innerHTML = html;
-  $("pPrice").innerHTML = money(PRODUCT.price, "Price");
-  $("pFin").innerHTML = "or from " + money(PRODUCT.monthly, "$X") + "/mo with financing";
-  $("finance-line").innerHTML = "Or from " + money(PRODUCT.monthly, "$X") + " a month with financing, subject to approval.";
-  $("barPrice").innerHTML = money(PRODUCT.price, "Price");
-  $("barFin").innerHTML = " or " + money(PRODUCT.monthly, "$X") + "/mo";
+  $("pPrice").innerHTML = money(t.price);
+  $("pFin").innerHTML = "or from " + money(t.monthly) + "/mo with financing";
+  $("finance-line").innerHTML = "Or from " + money(t.monthly) + " a month with financing, subject to approval.";
+  $("barPrice").innerHTML = money(t.price);
+  $("barFin").innerHTML = " or " + money(t.monthly) + "/mo";
+  $("barFinish").textContent = shadeName(state.ext);
+  $("orderFinish").textContent = colors.charAt(0).toUpperCase() + colors.slice(1);
+  var vals = { price: t.price, monthly: t.monthly, deposit: PRODUCT.deposit, from: TIERS[0].price, fromMonthly: TIERS[0].monthly };
+  document.querySelectorAll("[data-p]").forEach(function(el){ el.innerHTML = money(vals[el.getAttribute("data-p")]); });
 }
-applyFinish(false); renderSummary();
-document.querySelectorAll("[data-p]").forEach(function(el){
-  var k = el.getAttribute("data-p");
-  el.innerHTML = money(PRODUCT[k], { price:"Price", monthly:"$X", deposit:"$ amount" }[k]);
-});
+setTier(state.tier, true);
 
 /* ---------- Fit checker ---------- */
-var FP = PRODUCT.footprint;
-var dimsText = FP.width + " ft wide, " + FP.depth + " ft deep, plus " + FP.front + " ft in front";
-$("podDims").textContent = dimsText; $("podDims2").textContent = dimsText;
 function validateNum(input){
   var field = input.closest(".field"), msg = field.querySelector(".msg");
   var v = parseFloat(input.value);
@@ -1335,13 +1456,14 @@ $("fitForm").addEventListener("submit", function(e){
   var dep = validateNum($("fDep"));
   var acc = validateNum($("fAcc"));
   if (len == null || dep == null || acc == null) return;
+  var d = tier().dims, FP = { width: +(d.length / 30.48).toFixed(1), depth: +(d.width / 30.48).toFixed(1), front: PRODUCT.clearance, access: PRODUCT.access };
   var needDepth = FP.depth + FP.front;
   var fitsSpace = len >= FP.width && dep >= needDepth;
   var fitsAccess = acc >= FP.access;
   var out = $("fitResult"), title, body, st;
   if (fitsSpace && fitsAccess){ st = "ok"; title = "Looks like it fits."; body = "You have room for the pod and space in front to open it and cook. A specialist can confirm the details on a short video call."; }
   else if (fitsSpace){ st = "access"; title = "The space works, but access is tight."; body = "Your narrowest access is under " + FP.access + " ft. Delivery may need a different route or placement. Book a call and we'll look at options with you."; }
-  else { st = "no"; title = "It may be a tight fit."; body = "The pod needs about " + FP.width + " by " + needDepth + " ft including room to open it. Send us photos on a call and we'll check together."; }
+  else { st = "no"; title = "It may be a tight fit."; body = "The " + tier().name + " needs about " + FP.width + " by " + needDepth + " ft including room to open it. Send us photos on a call and we'll check together."; }
   out.hidden = false; out.dataset.state = st;
   out.innerHTML = "<h3>" + title + "</h3><p class='muted'>" + body + "</p><p style='margin-top:1rem'><a class='text-link' href='#consult'>Book a video call</a></p>";
   // update plan drawing to scale
@@ -1358,8 +1480,8 @@ $("fitForm").addEventListener("submit", function(e){
 
 /* ---------- Reserve (prototype) ---------- */
 $("reserveBtn").addEventListener("click", function(){
-  $("reserveMsg").textContent = "Prototype: this opens Shopify checkout for the deposit once pricing and terms are confirmed.";
-  track("begin_checkout", { type: "reservation_deposit", finish: state.finish });
+  $("reserveMsg").textContent = "Prototype: this opens Shopify checkout for the deposit.";
+  track("begin_checkout", { type: "reservation_deposit", tier: state.tier });
 });
 
 /* ---------- Consultation form ---------- */
