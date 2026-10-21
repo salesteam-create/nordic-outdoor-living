@@ -5,7 +5,11 @@ Static homepage prototype for the NOL modular outdoor kitchen, built for client 
 ## Structure
 
 ```
-index.html            The page (HTML, CSS and JS in one file)
+index.html            Homepage
+product.html          Product page (Good, Better, Best). Open a tier directly with product.html?tier=best
+assets/css/site.css   Shared styles for both pages
+assets/js/catalog.js  Prices, tiers, colors and add-ons, shared by both pages
+assets/js/product.js  Product page behavior
 assets/frames/        30-frame render sequence (closed to open), used by the hero and "What's inside"
 assets/finish/        Open renders per finish (Spruce, Graphite, Birch)
 assets/photos/        Lifestyle photo slots (see assets/photos/README.md)
@@ -16,8 +20,7 @@ assets/vendor/        GSAP 3.12.5 + ScrollTrigger, bundled locally
 ## Updating content
 
 - **Unconfirmed details** are wrapped in `<span class="tbc">[...]</span>`. The "Highlight unconfirmed" button in the top bar highlights all of them.
-- **Price, monthly payment, deposit and footprint** live in the `PRODUCT` object near the top of the main script. Set a number and every price on the page updates.
-- **Finishes and add-ons** are the `FINISHES` and `ADDONS` arrays in the same script.
+- **Prices, tiers, colors and add-ons** live in `assets/js/catalog.js`. Change a number there and both pages update.
 - **Lifestyle photos**: add `build.jpg`, `life-1.jpg`, `life-2.jpg` and `life-3.jpg` to `assets/photos/`. They replace the placeholders automatically.
 - **Hero video**: replace `assets/video/hero.mp4`, `hero.webm` and `hero-poster.jpg`. Strip the audio track when exporting.
 - **Renders**: replace files in `assets/frames/` or `assets/finish/` with the same names and sizes (1120 x 644, transparent background).
