@@ -120,6 +120,7 @@ body.show-tbc .tbc{background:var(--hl);color:var(--hl-ink);border-radius:3px;pa
 .mega ul a{display:block;text-decoration:none;padding:.4rem 0;font-size:1.02rem}
 .mega ul a:hover{text-decoration:underline;text-underline-offset:4px}
 .mega-card{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:center;text-decoration:none;background:var(--soft);border-radius:var(--r);padding:1rem 1.5rem 1rem 1rem}
+.mega-card img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:8px}
 .mega-card b{display:block;font-weight:400;font-size:1.5rem;letter-spacing:-0.02em}
 .mega-card small{color:var(--muted);font-size:.85rem}
 .mega-card .go{display:inline-flex;margin-top:.7rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;gap:.4rem;align-items:center}
