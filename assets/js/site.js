@@ -57,6 +57,17 @@ if (tbcBtn) tbcBtn.addEventListener("click", function(){
   tbcBtn.setAttribute("aria-pressed", String(on));
 });
 
+/* ---------- Smooth anchor scrolling in JS (CSS scroll-behavior fights GSAP pinning) ---------- */
+document.addEventListener("click", function(e){
+  var a = e.target.closest('a[href^="#"]');
+  if (!a || a.getAttribute("href").length < 2) return;
+  var t = document.getElementById(a.getAttribute("href").slice(1));
+  if (!t) return;
+  e.preventDefault();
+  t.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+  if (history.pushState) history.pushState(null, "", a.getAttribute("href"));
+});
+
 /* ---------- Waitlist ---------- */
 var wf = $("waitForm");
 if (wf) wf.addEventListener("submit", function(e){

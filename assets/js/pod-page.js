@@ -1,4 +1,4 @@
-/* NOL POD page: one per POD (pod-premium.html, pod-signature.html, pod-exclusive.html).
+/* NOL POD page: one per POD (pod-good.html, pod-better.html, pod-best.html).
    The POD comes from <body data-pod>. Data from catalog.js, buy box from configurator.js. */
 (function(){
 "use strict";
@@ -14,12 +14,12 @@ var CAM = '<svg class="ico"><use href="#i-camera"/></svg>';
 var cfg = window.NOL_Configurator.mount($("cfgPod"), { pod: POD.id, upgrade: true, titleTag: "h1", consultHref: "index.html#consult" });
 
 /* ---------- Media gallery ---------- */
-var KEY = POD.id.charAt(0).toUpperCase();
+var KEY = String(POD.num);
 var MEDIA = [
   { type:"img", src:POD.img, label:"NOL " + POD.name, shot:POD.shot, note:"Concept render. Final photos follow once the manufacturer is confirmed." },
-  { type:"video", label:"See it open", shot:"POD-" + KEY + "-VID", note:"Concept video of the roof opening." },
-  { type:"img", src:"assets/frames/29.webp", contain:true, label:"Open", shot:"POD-" + KEY + "-02", note:"Concept visual of the opening mechanism." },
-  { type:"img", src:"assets/frames/00.webp", contain:true, label:"Closed", shot:"POD-" + KEY + "-03", note:"Concept visual of the closed POD." },
+  { type:"video", label:"See it open", shot:"POD" + KEY + "-VID", note:"Concept video of the roof opening." },
+  { type:"img", src:"assets/frames/29.webp", contain:true, label:"Open", shot:"POD" + KEY + "-02", note:"Concept visual of the opening mechanism." },
+  { type:"img", src:"assets/frames/00.webp", contain:true, label:"Closed", shot:"POD" + KEY + "-03", note:"Concept visual of the closed POD." },
   { type:"plan", label:"Footprint", note:"Plan view with the clearance needed in front." }
 ];
 var viewer = $("viewer"), thumbWrap = $("thumbs"), cur = 0;
@@ -105,19 +105,26 @@ var ROWS = [
 ];
 if (live.length < 2) $("compare-tiers").hidden = true;
 var sel = function(p){ return p.id === POD.id ? ' class="sel"' : ""; };
-$("cmpTable").innerHTML =
-  '<thead><tr><th scope="col"><span class="sr-only">Feature</span></th>' + live.map(function(p){
-    var d = p.price - POD.price;
-    return '<th scope="col"' + sel(p) + '><img src="' + p.img + '" alt=""><b>' + p.name + '</b><small>' + money(p.price) + '</small>' +
-      '<span class="delta">' + (d === 0 ? "This POD" : (d > 0 ? "+" : "-") + money(Math.abs(d))) + '</span></th>';
-  }).join("") + '</tr></thead><tbody>' +
-  ROWS.map(function(r){ return '<tr><th scope="row">' + r[0] + '</th>' + live.map(function(p){ return '<td' + sel(p) + '>' + r[1](p) + '</td>'; }).join("") + '</tr>'; }).join("") +
-  '</tbody><tfoot><tr><td></td>' + live.map(function(p){
-    return '<td' + sel(p) + '>' + (p.id === POD.id ? '<span class="small">You are here</span>' :
-      '<a class="btn btn-line btn-plain" href="' + p.page + '?' + cfg.query() + '" data-pick="' + p.id + '">View ' + p.name + '</a>') + '</td>';
-  }).join("") + '</tr></tfoot>';
-// keep the configuration on the "View" links current
-cfg.onChange(function(api){ document.querySelectorAll("[data-pick]").forEach(function(a){ a.href = byId(C.PODS, a.dataset.pick).page + "?" + api.query(); }); });
+function deltaText(p){
+  if (p.id === POD.id) return "This POD";
+  if (p.num < POD.num) return "-" + money(POD.price - p.price);
+  var g = cfg.gapTo(p);
+  return g.gap > 0 ? (g.hot ? "Only " + money(g.gap) + " more" : "+" + money(g.gap) + " from your setup") : "Same as your setup";
+}
+function renderCmp(){
+  $("cmpTable").innerHTML =
+    '<thead><tr><th scope="col"><span class="sr-only">Feature</span></th>' + live.map(function(p){
+      return '<th scope="col"' + sel(p) + '><img src="' + p.img + '" alt=""><b>' + p.name + '</b><small>' + money(p.price) + '</small>' +
+        '<span class="delta">' + deltaText(p) + '</span></th>';
+    }).join("") + '</tr></thead><tbody>' +
+    ROWS.map(function(r){ return '<tr><th scope="row">' + r[0] + '</th>' + live.map(function(p){ return '<td' + sel(p) + '>' + r[1](p) + '</td>'; }).join("") + '</tr>'; }).join("") +
+    '</tbody><tfoot><tr><td></td>' + live.map(function(p){
+      return '<td' + sel(p) + '>' + (p.id === POD.id ? '<span class="small">You are here</span>' :
+        '<a class="btn btn-line btn-plain" href="' + p.page + '?' + cfg.query() + '" data-pick="' + p.id + '">View ' + p.name + '</a>') + '</td>';
+    }).join("") + '</tr></tfoot>';
+}
+// the price gaps and the "View" links follow the current setup
+cfg.onChange(renderCmp);
 
 /* ---------- Specs ---------- */
 var dl = function(rows){ return "<dl>" + rows.map(function(r){ return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") + "</dl>"; };

@@ -1,4 +1,4 @@
-"""Build pod-premium.html, pod-signature.html and pod-exclusive.html.
+"""Build pod-good.html, pod-better.html and pod-best.html.
 
 Each page = the homepage's head, header and footer (links pointed back at the homepage)
 + templates/pod-main.html with the POD's details filled in.
@@ -12,12 +12,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PODS = [
-    {"id": "premium", "num": 1, "name": "Premium", "shot": "POD-P-01", "low": 9900,
-     "desc": "NOL POD 1 Premium: compact outdoor kitchen with sink, BBQ and glass-door fridge, short-height shell and manual roof. Delivered across the US."},
-    {"id": "signature", "num": 2, "name": "Signature", "shot": "POD-S-01", "low": 14900,
-     "desc": "NOL POD 2 Signature: full-height outdoor kitchen with motorized roof, control module, LED lighting, sink, BBQ, fridge and storage. Delivered across the US."},
-    {"id": "exclusive", "num": 3, "name": "Exclusive", "shot": "POD-X-01", "low": 19900,
-     "desc": "NOL POD 3 Exclusive: our most complete outdoor kitchen with motorized roof, speakers, fan, heater, two storage cabinets, sink, BBQ and fridge."},
+    {"id": "good", "num": 1, "name": "Good", "shot": "POD1-01", "low": 9900,
+     "desc": "NOL POD 1 Good: compact outdoor kitchen with sink, BBQ and glass-door fridge, short-height shell and manual roof. Delivered across the US."},
+    {"id": "better", "num": 2, "name": "Better", "shot": "POD2-01", "low": 14900,
+     "desc": "NOL POD 2 Better: full-height outdoor kitchen with motorized roof, control module, LED lighting, sink, BBQ, fridge and storage. Delivered across the US."},
+    {"id": "best", "num": 3, "name": "Best", "shot": "POD3-01", "low": 19900,
+     "desc": "NOL POD 3 Best: our most complete outdoor kitchen with motorized roof, speakers, fan, heater, two storage cabinets, sink, BBQ and fridge."},
 ]
 
 
@@ -59,10 +59,10 @@ def main():
 <meta charset="utf-8"><meta name="robots" content="noindex"><title>NOL PODs</title>
 <script>
 var t = new URLSearchParams(location.search).get("tier");
-var map = { good: "premium", better: "signature", best: "exclusive", premium: "premium", signature: "signature", exclusive: "exclusive" };
-location.replace("pod-" + (map[t] || "signature") + ".html");
+var map = { good: "good", better: "better", best: "best", premium: "good", signature: "better", exclusive: "best" };
+location.replace("pod-" + (map[t] || "better") + ".html");
 </script>
-<a href="pod-signature.html">Continue to the NOL PODs</a>
+<a href="pod-better.html">Continue to the NOL PODs</a>
 """)
     print("wrote product.html (redirect)")
 

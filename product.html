@@ -2,7 +2,7 @@
 <meta charset="utf-8"><meta name="robots" content="noindex"><title>NOL PODs</title>
 <script>
 var t = new URLSearchParams(location.search).get("tier");
-var map = { good: "premium", better: "signature", best: "exclusive", premium: "premium", signature: "signature", exclusive: "exclusive" };
-location.replace("pod-" + (map[t] || "signature") + ".html");
+var map = { good: "good", better: "better", best: "best", premium: "good", signature: "better", exclusive: "best" };
+location.replace("pod-" + (map[t] || "better") + ".html");
 </script>
-<a href="pod-signature.html">Continue to the NOL PODs</a>
+<a href="pod-better.html">Continue to the NOL PODs</a>

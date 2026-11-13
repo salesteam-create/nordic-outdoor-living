@@ -30,7 +30,7 @@ function mount(root, opts){
   var listeners = [];
   var q = readQuery();
   var st = {
-    pod: opts.pod || "signature",
+    pod: opts.pod || "better",
     faces: q.faces || "white", exterior: q.exterior || "grey", interior: q.interior || "grey",
     fuel: q.fuel || "propane", cook: q.cook || "bbq", led: q.led || "warm",
     addons: q.addons || {}
@@ -66,6 +66,22 @@ function mount(root, opts){
   }
   function total(){ return lines().reduce(function(s, l){ return s + l.price; }, 0); }
 
+  /* What this exact setup would cost on another POD: its price, the same cooking swap, and the
+     chosen add-ons it doesn't already include. gap = that minus today's total. */
+  function gapTo(x){
+    var carried = 0, free = [];
+    C.ADDONS.forEach(function(a){
+      if (!st.addons[a.id]) return;
+      var s = C.addonStatus(a, x);
+      if (s === "inc") free.push(a); else if (s === "opt") carried += a.price;
+    });
+    var target = x.price + byId(C.COOKING, st.cook).delta + carried;
+    var gap = target - total();
+    return { gap: gap, target: target, free: free, hot: gap > 0 && gap <= (x.price - pod().price) * C.PRODUCT.upsellHotShare };
+  }
+  function lc(s){ return /^[A-Z][a-z]/.test(s) && !/^(Bluetooth|LED|TV)/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+  function listText(arr){ return arr.length < 2 ? arr.join("") : arr.slice(0, -1).join(", ") + " and " + arr[arr.length - 1]; }
+
   /* ---------- Render ---------- */
   function chip(name, id, value, checked, label, extra){
     return '<span class="cfg-chip"><input type="radio" name="' + name + '" id="' + id + '" value="' + value + '"' + (checked ? " checked" : "") + '>' +
@@ -86,16 +102,24 @@ function mount(root, opts){
       h += '<div class="cfg-step"><span class="cfg-label">POD</span><div class="cfg-ctrl tier-pick">' +
         C.launched().map(function(x){
           return '<span><input type="radio" name="' + uid + '-pod" id="' + uid + '-pod-' + x.id + '" value="' + x.id + '" data-k="pod"' + (x.id === p.id ? " checked" : "") + '>' +
-            '<label for="' + uid + '-pod-' + x.id + '"><b>' + x.name + '</b><small>' + money(x.price) + '</small></label></span>';
+            '<label for="' + uid + '-pod-' + x.id + '"' + (x.num > p.num && gapTo(x).hot ? ' class="hot"' : "") + '><b>' + x.name + '</b><small>' + pickNote(x, p) + '</small></label></span>';
         }).join("") + '</div></div>';
     }
     if (opts.upgrade){
       var ups = C.launched().filter(function(x){ return x.num > p.num; });
-      if (ups.length) h += '<div class="upsell">' + ups.map(function(x){
+      if (ups.length) h += '<div class="upsell"><p class="up-head">Upgrade your setup</p>' + ups.map(function(x){
         var between = C.launched().filter(function(y){ return y.num > p.num && y.num < x.num; });
-        var gains = between.length ? "Everything in " + between.map(function(y){ return y.name; }).join(", ") + ", plus " + x.adds : x.adds;
-        return '<a class="up-card" href="' + x.page + '?' + toQuery(st) + '" data-up="' + x.id + '"><img src="' + x.img + '" alt="" data-shot="' + x.shot + '">' +
-          '<span><b>' + x.name + ' for +' + money(x.price - p.price) + '</b><small>' + (between.length ? "" : "Adds ") + esc(gains) + '.</small></span>' + ARR + '</a>';
+        var g = gapTo(x);
+        // what the bigger POD adds, minus anything the customer has already chosen
+        var adds = x.adds.filter(function(a){ return !(a[1] && st.addons[a[1]]); }).map(function(a){ return a[0]; });
+        var addsTxt = listText(adds);
+        var head = g.gap > 0 ? (g.hot ? "Only " + money(g.gap) + " more for " + x.name : x.name + ": +" + money(g.gap) + " from your setup")
+                             : x.name + (g.gap === 0 ? " for the same price as your setup" : " for " + money(-g.gap) + " less than your setup");
+        var gains = between.length ? "Everything in " + between.map(function(y){ return y.name; }).join(", ") + ", plus " + addsTxt
+          : g.free.length ? "Your " + listText(g.free.map(function(a){ return lc(a.name); })) + (g.free.length > 1 ? " come" : " comes") + " included, plus " + addsTxt
+          : "Adds " + addsTxt;
+        return '<a class="up-card' + (g.hot ? " up-hot" : "") + '" href="' + x.page + '?' + toQuery(st) + '" data-up="' + x.id + '" data-gap="' + g.gap + '"><img src="' + x.img + '" alt="" data-shot="' + x.shot + '">' +
+          '<span><b>' + head + '</b><small>' + esc(gains) + '.</small></span>' + ARR + '</a>';
       }).join("") + '</div>';
     }
 
@@ -162,6 +186,12 @@ function mount(root, opts){
     listeners.forEach(function(fn){ fn(api); });
     if (window.NOL_tagShots) window.NOL_tagShots(root);
   }
+  function pickNote(x, p){
+    if (x.id === p.id) return money(x.price);
+    if (x.num < p.num) return "-" + money(p.price - x.price);
+    var g = gapTo(x).gap;
+    return g > 0 ? "+" + money(g) + " from your setup" : "Same as your setup";
+  }
   function thumb(a){
     return '<span class="a-ico">' + (a.img ? '<img src="' + a.img + '" alt="" data-shot="' + a.shot + '">' : '<svg class="ico"><use href="#i-camera"/></svg>') + '</span>';
   }
@@ -188,12 +218,12 @@ function mount(root, opts){
       track("begin_checkout", { pod: st.pod, value: total(), config: toQuery(st) });
     }
     var up = e.target.closest("[data-up]");
-    if (up) track("upgrade_click", { from: st.pod, to: up.getAttribute("data-up") });
+    if (up) track("upgrade_click", { from: st.pod, to: up.getAttribute("data-up"), gap: +up.getAttribute("data-gap") });
   });
 
   var api = {
     get state(){ return st; },
-    pod: pod, lines: lines, total: total, query: function(){ return toQuery(st); },
+    pod: pod, lines: lines, total: total, gapTo: gapTo, query: function(){ return toQuery(st); },
     setPod: function(id){ st.pod = id; render(); },
     onChange: function(fn){ listeners.push(fn); fn(api); }
   };
