@@ -1,47 +1,93 @@
-/* NOL catalog: prices, tiers, colors and add-ons. Shared by every page. */
+/* NOL catalog: PODs, parts, options and rules, following the Modular System Guide (Oct 27, 2026).
+   Shared by every page. Change a price, a size or a launch flag here and the whole site follows. */
 (function(){
+
 var PRODUCT = {
   deposit: 500,         // reservation deposit
-  delivery: 0,          // 0 shows as "Included"
-  clearance: 3,         // ft in front of the pod to open it and cook
-  access: 3.5           // ft of access width needed for delivery
+  clearance: 3,         // ft in front of the POD to open it and cook
+  access: 3             // ft of access width for the flat-pack pallet (30 in wide)
 };
-// Three tiers. dims in cm.
-var TIERS = [
-  { id:"good",   name:"Good",   price:9900,  monthly:249, img:"assets/tiers/good.jpg",   opt:"good",
-    tag:"Compact. Functional. Timeless.", look:"Anthracite exterior, white cabinets",
-    features:["Short height","Manual opening","2 cabinets","Sink","BBQ grill","Fridge"],
-    dims:{ length:260, internal:230, height:150, width:92 },
-    included:[], hidden:["led","fan","speaker"] },
-  { id:"better", name:"Better", price:14900, monthly:379, img:"assets/tiers/better.jpg", opt:"better", popular:true,
-    tag:"More features. More possibilities.", look:"Anthracite",
-    features:["Full-height enclosure","Electronic opening","LED lighting (white or RGB)","Exhaust fan","3 cabinets","Sink","BBQ grill","Fridge"],
-    dims:{ length:260, internal:230, height:235, width:92 },
-    included:["led","electronic","fan"], hidden:["led-warm","led-rgb"] },
-  { id:"best",   name:"Best",   price:19900, monthly:499, img:"assets/tiers/best.jpg",   opt:"better",
-    tag:"More space. More features. More together.", look:"Anthracite",
-    features:["Full-height enclosure","Electronic opening","LED lighting (white or RGB)","Exhaust fan","4 cabinets","Sink","BBQ grill","Fridge","Bluetooth speakers"],
-    dims:{ length:300, internal:270, height:235, width:92 },
-    included:["led","electronic","fan","speaker"], hidden:["led-warm","led-rgb"] }
+
+/* The three kits. launched:false hides a POD everywhere (cards, comparison, upgrade nudges, its page). */
+var PODS = [
+  { id:"premium", num:1, name:"Premium", launched:true, price:9900, monthly:249,
+    page:"pod-premium.html", img:"assets/pods/premium.jpg", shot:"POD-P-01",
+    tag:"Compact. Functional. Timeless.",
+    size:{ w:10, h:7.5, d:4 }, shell:"Short height, manual roof", cabinets:0, countertop:"Covers the fridge",
+    highlights:["Short-height shell with manual roof","Sink cabinet with black faucet and grey water tank","BBQ cabinet with stainless BBQ","Glass-door fridge"] },
+  { id:"signature", num:2, name:"Signature", launched:true, popular:true, price:14900, monthly:379,
+    page:"pod-signature.html", img:"assets/pods/signature.jpg", shot:"POD-S-01",
+    tag:"More capabilities. A brighter outdoor life.", adds:"a full-height shell, motorized roof, control module, LED lighting and an extra cabinet",
+    size:{ w:12, h:8.5, d:4 }, shell:"Full height, motorized roof", cabinets:1, countertop:"Covers the fridge and 1 cabinet",
+    highlights:["Full-height shell with motorized roof","Control module with remote","LED light kit, warm white or RGB","Extra storage cabinet"] },
+  { id:"exclusive", num:3, name:"Exclusive", launched:true, price:19900, monthly:499,
+    page:"pod-exclusive.html", img:"assets/pods/exclusive.jpg", shot:"POD-X-01",
+    tag:"Our most complete kit.", adds:"Bluetooth speakers, a fan, an infrared heater and a second cabinet",
+    size:{ w:14, h:8.5, d:4 }, shell:"Full height, motorized roof, strongest frame", cabinets:2, countertop:"Covers the fridge and 2 cabinets",
+    highlights:["Strongest full-height shell","Bluetooth speakers, fan and infrared heater","Two extra storage cabinets","Everything in Signature"] }
 ];
+
+/* Core parts in every kit (qty per kit comes from the POD). */
+var PARTS = [
+  { id:"sink",    name:"Sink cabinet",        img:"assets/parts/sink-cabinet.jpg",    shot:"PART-SINK",   desc:"Two doors, sink with black faucet, plumbing kit and grey water tank." },
+  { id:"bbqcab",  name:"BBQ cabinet",         img:"assets/parts/bbq-cabinet.jpg",     shot:"PART-BBQCAB", desc:"Vented cooking slot with two drawers. Takes the BBQ, smoker, pizza oven or griddle." },
+  { id:"bbq",     name:"Stainless BBQ",       img:"assets/parts/bbq.jpg",             shot:"APP-BBQ",     desc:"Propane or natural gas, stainless grates." },
+  { id:"fridge",  name:"Glass-door fridge",   img:"assets/parts/fridge.jpg",          shot:"PART-FRIDGE", desc:"Stainless with tempered glass door and adjustable shelves. 110 V." },
+  { id:"storage", name:"Storage cabinet",     img:"assets/parts/storage-cabinet.jpg", shot:"PART-CAB1",   desc:"Single door, left or right swing, adjustable shelf." }
+];
+
+/* Colors: three elements, white or grey each. Frame, cabinet sides, faucet and handles are always black. */
 var COLORS = [
-  { id:"ext", name:"Exterior",   img:function(t, c){ return "assets/tiers/" + t.opt + "-ext-" + c + ".jpg"; } },
-  { id:"cab", name:"Cabinets",   img:function(t, c){ return "assets/tiers/" + t.opt + "-cab-" + c + ".jpg"; } },
-  { id:"top", name:"Countertop", img:function(t, c){ return "assets/tiers/top-" + c + ".jpg"; } }
+  { id:"faces",    name:"Cabinet faces" },
+  { id:"exterior", name:"Exterior panels" },
+  { id:"interior", name:"Interior panels" }
 ];
-var SHADES = [ { id:"anthracite", name:"Anthracite grey" }, { id:"white", name:"White" } ];
+var SHADES = [ { id:"white", name:"White", hex:"#ECE7DF" }, { id:"grey", name:"Grey", hex:"#56595C" } ];
+
+var FUELS = [ { id:"propane", name:"Propane" }, { id:"natural-gas", name:"Natural gas" } ];
+var LED_COLORS = [ { id:"warm", name:"Warm white" }, { id:"rgb", name:"RGB" } ];
+
+/* The BBQ cabinet takes one cooking appliance. The BBQ is standard; the others swap in for the price difference. */
+var COOKING = [
+  { id:"bbq",     short:"BBQ", name:"Stainless BBQ",         delta:0,   img:"assets/parts/bbq.jpg",        shot:"APP-BBQ",     note:"Propane or natural gas" },
+  { id:"griddle", short:"Griddle", name:"Stainless griddle",     delta:390, img:"assets/parts/griddle.jpg",    shot:"APP-GRIDDLE", note:"Propane or natural gas" },
+  { id:"pizza",   short:"Pizza oven", name:"Stainless pizza oven",  delta:590, img:"assets/parts/pizza-oven.jpg", shot:"APP-PIZZA",   note:"Propane or natural gas, stone included" },
+  { id:"smoker",  short:"Smoker", name:"Stainless smoker",      delta:790, img:"assets/parts/smoker.jpg",     shot:"APP-SMOKER",  note:"Pellet fueled, digital controls" }
+];
+
+/* Add-ons. per POD: "inc" = included, "opt" = optional add-on, absent = not offered on that POD (yet).
+   needs: another add-on it depends on (added automatically when not already there). */
 var ADDONS = [
-  { id:"led",        name:"LED lighting",       img:"led-warm",   price:null },
-  { id:"led-warm",   name:"LED kit, warm white", img:"led-warm",  price:290 },
-  { id:"led-rgb",    name:"LED kit, RGB",       img:"led-rgb",    price:390 },
-  { id:"electronic", name:"Electronic opening", img:"electronic", price:1190 },
-  { id:"fan",        name:"Exhaust fan",        img:"fan",        price:null },
-  { id:"speaker",    name:"Speaker kit",        img:"speaker",    price:390 },
-  { id:"zip",        name:"Zip screen",         img:"zip",        price:1490 },
-  { id:"tools",      name:"BBQ tool kit",       img:"tools",      price:149 },
-  { id:"lamp",       name:"Solar lamp",         img:"lamp",       price:79 },
-  { id:"plant",      name:"Faux plant",         img:"plant",      price:59 },
-  { id:"mat",        name:"Soft working mat",   img:"mat",        price:89 }
+  { id:"control",   name:"Control module + remote", price:690,  img:"assets/parts/control-module.jpg", shot:"ADD-CONTROL", per:{ signature:"inc", exclusive:"inc" }, desc:"One remote for lights, fan, heater, roller screen and roof." },
+  { id:"roofmotor", name:"Roof Motor Arm",          price:1490, img:null, shot:"ADD-ROOFMOTOR", per:{ signature:"inc", exclusive:"inc" }, needs:"control", desc:"Opens and closes the roof." },
+  { id:"led",       name:"LED light kit",           price:490,  img:"assets/parts/led-kit.jpg", shot:"ADD-LED", per:{ signature:"inc", exclusive:"inc" }, desc:"Roof perimeter and toe kick, warm white or RGB." },
+  { id:"hood",      name:"Hood fan",                price:890,  img:"assets/parts/hood-fan.jpg", shot:"ADD-HOOD", per:{ signature:"opt", exclusive:"opt" }, desc:"Ventilation over the cooking slot, baffle filters and LED." },
+  { id:"speakers",  name:"Bluetooth speakers",      price:390,  img:"assets/parts/speakers.jpg", shot:"ADD-SPEAKERS", per:{ signature:"opt", exclusive:"inc" }, desc:"Ceiling-mounted, weather resistant." },
+  { id:"fan",       name:"Ceiling fan",             price:490,  img:null, shot:"ADD-FAN", per:{ signature:"opt", exclusive:"inc" }, needs:"control", desc:"Ceiling-mounted, adjustable angle." },
+  { id:"heater",    name:"Infrared heater",         price:790,  img:null, shot:"ADD-HEATER", per:{ signature:"opt", exclusive:"inc" }, needs:"control", desc:"Ceiling-mounted infrared heat for cooler evenings." },
+  { id:"roller",    name:"Roller screen",           price:1290, img:null, shot:"ADD-ROLLER", per:{ signature:"opt", exclusive:"opt" }, needs:"control", desc:"Side screen, run from the control module. Assembled onsite." },
+  { id:"awning",    name:"Awning",                  price:690,  img:null, shot:"ADD-AWNING", per:{ premium:"opt", signature:"opt", exclusive:"opt" }, desc:"Extra shade. Assembled onsite." },
+  { id:"tv",        name:"TV bracket",              price:149,  img:null, shot:"ADD-TV", per:{ premium:"opt", signature:"opt", exclusive:"opt" }, desc:"TV mount. Assembled onsite." }
 ];
-window.NOL_CATALOG = { PRODUCT: PRODUCT, TIERS: TIERS, COLORS: COLORS, SHADES: SHADES, ADDONS: ADDONS };
+
+/* Rear utility panel: every connection exits one panel at the back. */
+var UTILITIES = [
+  ["Power", "110 V, 20 A. 20 ft black extension cord included"],
+  ["Gas", "Propane with ball valve, or natural gas. Extension hose included"],
+  ["Hot and cold water", "1/2 in PEX to the home supply"],
+  ["Grey water", "2 in pipe to the grey water tank or a drain"],
+  ["Garden hose (optional)", "Two 1/2 in PEX-to-hose connectors included"]
+];
+
+/* ---------- Helpers ---------- */
+function money(v){ return "$" + Number(v).toLocaleString("en-US"); }
+function byId(list, id){ for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
+function launched(){ return PODS.filter(function(p){ return p.launched; }); }
+function sizeText(p){ return p.size.w + " ft W x " + p.size.h + " ft H x " + p.size.d + " ft D"; }
+function addonStatus(a, pod){ return a.per[pod.id] || "na"; }
+function firstOffer(a){ for (var i = 0; i < PODS.length; i++) if (PODS[i].launched && a.per[PODS[i].id]) return PODS[i]; return null; }
+
+window.NOL_CATALOG = { PRODUCT:PRODUCT, PODS:PODS, PARTS:PARTS, COLORS:COLORS, SHADES:SHADES, FUELS:FUELS, LED_COLORS:LED_COLORS,
+  COOKING:COOKING, ADDONS:ADDONS, UTILITIES:UTILITIES,
+  money:money, byId:byId, launched:launched, sizeText:sizeText, addonStatus:addonStatus, firstOffer:firstOffer };
 })();
