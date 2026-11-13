@@ -28,7 +28,7 @@ assets/pods/  assets/parts/ Product and part images (concept renders)
 ## Common changes
 
 - **Prices, sizes, what's included:** edit `assets/js/catalog.js`. Every page follows.
-- **Upgrade nudge:** the gap to a bigger POD counts add-ons it already includes. It is highlighted once the setup has closed 30% of the price gap (`upsellHotShare` in `catalog.js`).
+- **Upgrade nudge:** the gap to a bigger POD counts add-ons it already includes. It is highlighted once the setup has closed 30% of the price gap (`upsellHotShare` in `catalog.js`). At that moment a pop-up suggests the upgrade, once per POD per visit, closing itself after 12 seconds.
 - **Launch only some PODs:** set `launched:false` on a POD in `catalog.js`. It disappears from cards, menus, comparisons and upgrade nudges, and its page redirects home. With one POD launched, the homepage drops the POD picker and comparison.
 - **Header, footer or product page layout:** edit `index.html` or `templates/pod-main.html`, then run `python3 tools/build_pod_pages.py`.
 - **Images:** every image has a code (e.g. `POD2-01`). Click "Highlight unconfirmed" in the top bar to see the codes on the page. The shot list maps each code to what to shoot. Replace a file with the same name and size to swap it.

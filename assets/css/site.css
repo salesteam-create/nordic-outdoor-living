@@ -714,3 +714,16 @@ body.show-tbc .shot-tag{display:block}
 /* Pinned scroll section: keep the canvas on its own layer so pinning does not repaint it */
 .inside-art canvas{will-change:transform}
 body.pinning .buybar{transform:translate(-50%,140%)}
+
+/* Upgrade pop-up */
+.up-toast{position:fixed;right:clamp(.75rem,2vw,1.5rem);bottom:calc(5.5rem + env(safe-area-inset-bottom,0px));z-index:60;width:min(380px,calc(100% - 1.5rem));display:grid;grid-template-columns:84px minmax(0,1fr) auto;gap:.9rem;align-items:start;background:#fff;border:1.5px solid var(--ink);border-radius:var(--r-lg);padding:.8rem .7rem .9rem .8rem;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(16px);transition:opacity .3s var(--ease),transform .35s var(--ease)}
+.up-toast.show{opacity:1;transform:none}
+.up-toast img{width:84px;aspect-ratio:3/2;object-fit:cover;border-radius:8px}
+.up-toast b{display:block;font-weight:600;font-size:.95rem;line-height:1.3}
+.up-toast b::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#C9A227;margin-right:.45rem;vertical-align:middle}
+.up-toast small{display:block;color:var(--muted);font-size:.8rem;line-height:1.4;margin:.25rem 0 .7rem}
+.up-toast .btn{min-height:38px;font-size:.7rem;padding-left:1rem}
+.up-toast .btn .arr{width:28px;height:28px}
+.up-x{width:32px;height:32px;border-radius:50%;border:0;background:var(--soft);display:grid;place-items:center;cursor:pointer}
+.up-x .ico{width:14px;height:14px}
+@media (max-width:560px){.up-toast{left:.75rem;right:.75rem;width:auto;grid-template-columns:64px minmax(0,1fr) auto}.up-toast img{width:64px}}

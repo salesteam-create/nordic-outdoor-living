@@ -108,16 +108,7 @@ function mount(root, opts){
     if (opts.upgrade){
       var ups = C.launched().filter(function(x){ return x.num > p.num; });
       if (ups.length) h += '<div class="upsell"><p class="up-head">Upgrade your setup</p>' + ups.map(function(x){
-        var between = C.launched().filter(function(y){ return y.num > p.num && y.num < x.num; });
-        var g = gapTo(x);
-        // what the bigger POD adds, minus anything the customer has already chosen
-        var adds = x.adds.filter(function(a){ return !(a[1] && st.addons[a[1]]); }).map(function(a){ return a[0]; });
-        var addsTxt = listText(adds);
-        var head = g.gap > 0 ? (g.hot ? "Only " + money(g.gap) + " more for " + x.name : x.name + ": +" + money(g.gap) + " from your setup")
-                             : x.name + (g.gap === 0 ? " for the same price as your setup" : " for " + money(-g.gap) + " less than your setup");
-        var gains = between.length ? "Everything in " + between.map(function(y){ return y.name; }).join(", ") + ", plus " + addsTxt
-          : g.free.length ? "Your " + listText(g.free.map(function(a){ return lc(a.name); })) + (g.free.length > 1 ? " come" : " comes") + " included, plus " + addsTxt
-          : "Adds " + addsTxt;
+        var u = upText(x), g = u.g, head = u.head, gains = u.gains;
         return '<a class="up-card' + (g.hot ? " up-hot" : "") + '" href="' + x.page + '?' + toQuery(st) + '" data-up="' + x.id + '" data-gap="' + g.gap + '"><img src="' + x.img + '" alt="" data-shot="' + x.shot + '">' +
           '<span><b>' + head + '</b><small>' + esc(gains) + '.</small></span>' + ARR + '</a>';
       }).join("") + '</div>';
@@ -186,6 +177,47 @@ function mount(root, opts){
     listeners.forEach(function(fn){ fn(api); });
     if (window.NOL_tagShots) window.NOL_tagShots(root);
   }
+  /* Upgrade wording, shared by the card and the pop-up */
+  function upText(x){
+    var p = pod(), g = gapTo(x);
+    var between = C.launched().filter(function(y){ return y.num > p.num && y.num < x.num; });
+    // what the bigger POD adds, minus anything the customer has already chosen
+    var addsTxt = listText(x.adds.filter(function(a){ return !(a[1] && st.addons[a[1]]); }).map(function(a){ return a[0]; }));
+    var head = g.gap > 0 ? (g.hot ? "Only " + money(g.gap) + " more for " + x.name : x.name + ": +" + money(g.gap) + " from your setup")
+                         : x.name + (g.gap === 0 ? " for the same price as your setup" : " for " + money(-g.gap) + " less than your setup");
+    var gains = between.length ? "Everything in " + between.map(function(y){ return y.name; }).join(", ") + ", plus " + addsTxt
+      : g.free.length ? "Your " + listText(g.free.map(function(a){ return lc(a.name); })) + (g.free.length > 1 ? " come" : " comes") + " included, plus " + addsTxt
+      : "Adds " + addsTxt;
+    return { g: g, head: head, gains: gains };
+  }
+
+  /* ---------- Upgrade pop-up: appears when the customer's own change brings a bigger POD within reach.
+     Once per POD per visit, closes itself after 12 s, never on page load. ---------- */
+  var seen = {}, toast = null, toastTimer = null;
+  function hotNow(){
+    var out = {};
+    C.launched().forEach(function(x){ if (x.num > pod().num){ var g = gapTo(x); if (g.hot) out[x.id] = g.gap; } });
+    return out;
+  }
+  function closeToast(){ if (toast){ toast.classList.remove("show"); var t = toast; setTimeout(function(){ t.remove(); }, 300); toast = null; } clearTimeout(toastTimer); }
+  function showToast(x){
+    closeToast();
+    var u = upText(x);
+    seen[x.id] = true;
+    toast = document.createElement("div");
+    toast.className = "up-toast"; toast.setAttribute("role", "status");
+    toast.innerHTML = '<img src="' + x.img + '" alt="">' +
+      '<div><b>' + u.head + '</b><small>' + esc(u.gains) + '.</small>' +
+      '<a class="btn btn-dark btn-sm" href="' + x.page + '?' + toQuery(st) + '" data-up="' + x.id + '" data-gap="' + u.g.gap + '">View ' + x.name + ' ' + ARR + '</a></div>' +
+      '<button type="button" class="up-x" aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
+    document.body.appendChild(toast);
+    toast.querySelector(".up-x").addEventListener("click", function(){ closeToast(); track("upgrade_prompt_close", { to: x.id }); });
+    toast.querySelector("[data-up]").addEventListener("click", function(){ track("upgrade_click", { from: st.pod, to: x.id, gap: u.g.gap, source: "popup" }); });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ if (toast) toast.classList.add("show"); }); });
+    toastTimer = setTimeout(closeToast, 12000);
+    track("upgrade_prompt_shown", { from: st.pod, to: x.id, gap: u.g.gap });
+  }
+
   function pickNote(x, p){
     if (x.id === p.id) return money(x.price);
     if (x.num < p.num) return "-" + money(p.price - x.price);
@@ -199,6 +231,7 @@ function mount(root, opts){
   root.addEventListener("change", function(e){
     var t = e.target, k = t.getAttribute("data-k");
     if (!k) return;
+    var before = k === "pod" ? {} : hotNow();
     if (k === "addon"){
       if (t.checked) st.addons[t.value] = true; else delete st.addons[t.value];
       // removing a dependency removes what needs it
@@ -209,6 +242,11 @@ function mount(root, opts){
       track(k === "pod" ? "variant_select" : "option_select", { option: k, value: t.value, pod: st.pod });
     }
     var y = window.scrollY; render(); window.scrollTo(0, y);
+    if (k === "pod") closeToast();
+    var after = hotNow();
+    var reach = Object.keys(after).filter(function(id){ return !(id in before) && !seen[id]; })[0];
+    if (reach) showToast(byId(C.PODS, reach));
+    else Object.keys(after).length || closeToast();
     var again = root.querySelector('[data-k="' + k + '"][value="' + t.value + '"]'); if (again) again.focus({ preventScroll: true });
   });
   root.addEventListener("click", function(e){
