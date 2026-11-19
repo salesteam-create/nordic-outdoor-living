@@ -228,16 +228,32 @@ h2{font-size:clamp(2rem,3.8vw,3.3rem)}
   .stage{aspect-ratio:4/3.4}
 }
 
-/* Homepage product teaser */
-.teaser-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,5vw,4.5rem);align-items:center}
-.teaser-img{display:block;border-radius:20px;overflow:hidden}
-.teaser-img img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;transition:transform 1.2s var(--ease)}
+/* Homepage product teaser: the one dark block on the light page, so the buy prompt stands out */
+.teaser-card{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);background:var(--ink);color:#f3efe8;border-radius:28px;overflow:hidden;box-shadow:0 50px 100px -50px rgba(0,0,0,.55)}
+.teaser-img{position:relative;display:block;min-height:520px;overflow:hidden}
+.teaser-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
 .teaser-img:hover img{transform:scale(1.03)}
-.teaser h2{font-size:clamp(2rem,3.4vw,3rem);margin:.6rem 0 1rem}
-.teaser-price b{display:block;font-size:2rem;font-weight:450;letter-spacing:-.03em}
-.teaser-price > span{color:var(--muted);font-size:.93rem}
-.teaser .ticks{margin-top:1.4rem}
-@media (max-width:960px){.teaser-grid{grid-template-columns:minmax(0,1fr)}}
+.teaser-pill{position:absolute;left:1.2rem;top:1.2rem;display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .9rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink);font-size:.82rem;font-weight:500}
+.teaser-pill i{width:8px;height:8px;border-radius:50%;background:#3f9a5a;box-shadow:0 0 0 4px rgba(63,154,90,.2)}
+.teaser-copy{padding:clamp(2rem,4vw,3.5rem);display:flex;flex-direction:column;justify-content:center}
+.teaser .eyebrow{color:#cdb48e}
+.teaser h2{font-size:clamp(1.9rem,2.8vw,2.6rem);margin:.7rem 0 1.4rem;color:#fff;max-width:16ch}
+.teaser-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:.3rem 1rem;padding-bottom:1.3rem;border-bottom:1px solid rgba(255,255,255,.14)}
+.teaser-price b{font-size:clamp(2.6rem,4vw,3.4rem);font-weight:400;letter-spacing:-.04em;line-height:1;color:#fff}
+.teaser-price > span{color:rgba(243,239,232,.65);font-size:.93rem}
+.teaser .ticks{margin-top:1.3rem;color:rgba(243,239,232,.9)}
+.teaser .ticks .ico{color:#cdb48e}
+.teaser-finish{display:flex;align-items:center;gap:.5rem;margin-top:1.2rem;font-size:.88rem;color:rgba(243,239,232,.65)}
+.teaser-finish span{margin-right:.3rem}
+.teaser-finish i{width:22px;height:22px;border-radius:50%;background:var(--c);box-shadow:0 0 0 1px rgba(255,255,255,.25)}
+.teaser-finish small{margin-left:.3rem;font-size:.88rem}
+.teaser-cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.8rem}
+.btn-ghost{color:#fff;border-color:rgba(255,255,255,.3);background:transparent}
+.btn-ghost:hover{border-color:#fff}
+.teaser-trust{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin:1.4rem 0 0;padding:0;font-size:.84rem;color:rgba(243,239,232,.65)}
+.teaser-trust li{display:flex;align-items:center;gap:.45rem}
+.teaser-trust .ico{width:16px;height:16px;color:#cdb48e}
+@media (max-width:960px){.teaser-card{grid-template-columns:minmax(0,1fr)}.teaser-img{min-height:0;aspect-ratio:3/2}.teaser-cta .btn{flex:1 1 220px}}
 
 /* Product page */
 .pdp-top{padding-top:clamp(1.5rem,3vw,2.5rem)}
