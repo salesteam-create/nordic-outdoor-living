@@ -1,6 +1,6 @@
 """Build pod-good.html, pod-better.html and pod-best.html.
 
-Each page = the homepage's head, header and footer (links pointed back at the homepage)
+Each page = the head, header and footer from templates/shell-v3.html (links pointed back at the homepage)
 + templates/pod-main.html with the POD's details filled in.
 Run from the repo root after changing index.html's header/footer or the template:
 
@@ -27,7 +27,7 @@ def relink(html):
 
 
 def main():
-    home = (ROOT / "index.html").read_text()
+    home = (ROOT / "templates" / "shell-v3.html").read_text()  # header/footer source for the POD pages
     template = (ROOT / "templates" / "pod-main.html").read_text()
     head = home[:home.index("<body>")]
     head = head[:head.index('<script type="application/ld+json">')] + "{{LD}}" + head[head.index("</script>", head.index('<script type="application/ld+json">')) + len("</script>"):]
