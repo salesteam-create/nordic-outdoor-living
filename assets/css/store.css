@@ -85,6 +85,25 @@ h2{font-size:clamp(2rem,3.8vw,3.3rem)}
 .rail::-webkit-scrollbar{display:none}
 .rail > *{scroll-snap-align:start}
 
+/* Pinned horizontal card sections (features, details). Reduced motion: a normal swipeable row. */
+.hs{padding:clamp(4.5rem,9vw,7rem) 0}
+.hs .sec-head{margin-bottom:clamp(1.5rem,3vw,2.5rem)}
+.hs-count{font-size:.95rem;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+.hs-now{color:var(--ink);font-weight:500}
+.hs-view{overflow-x:auto;scrollbar-width:none}
+.hs-view::-webkit-scrollbar{display:none}
+.hs-track{display:flex;gap:16px;width:max-content;padding:0 var(--edge)}
+.hs-track > *{flex:none;width:min(360px,80vw)}
+.hs-bar{height:2px;margin-top:clamp(1.5rem,3vw,2.2rem);background:var(--line)}
+.hs-bar span{display:block;height:100%;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+.hs-on .hs{padding:0}
+.hs-on .hs-pin{position:sticky;top:var(--stick,117px);height:calc(100vh - var(--stick,117px));height:calc(100svh - var(--stick,117px));display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hs-on .hs-pin > .wrap{width:100%}
+.hs-on .hs-view{overflow:visible}
+.hs-on .hs-track{will-change:transform}
+.hs-on .hs-track > .fcard{height:clamp(340px,calc(100svh - var(--stick,117px) - 250px),540px)}
+.hs-on .hs-track > .dcard img{height:clamp(300px,calc(100svh - var(--stick,117px) - 320px),460px);aspect-ratio:auto}
+
 /* Feature cards */
 .fcard{position:relative;height:540px;border-radius:var(--r);overflow:hidden;background:var(--tint);display:flex;flex-direction:column}
 .tint .fcard{background:var(--card)}

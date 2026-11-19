@@ -30,6 +30,7 @@ HTML, CSS and JS are about 19 KB gzipped in total. No WebGL, no animation librar
 
 - **Price, deposit, monthly, options, add-ons, specs:** edit the `P` object at the top of `assets/js/store.js`.
 - **Feature, detail and delivery cards:** edit `FEATURES`, `DETAILS` and `STEPS` in the same file.
+- **Pinned card sections:** in "Outdoor cooking" and "Designed down to the detail", scrolling down moves the cards sideways while the section stays pinned. Add `class="hs"` with the same inner markup to pin another row. With reduced motion turned on they become normal swipeable rows.
 - **Swap the scroll animation:** replace `assets/frames/00.webp` to `29.webp` with a new rendered sequence (same names). More frames: change `N` in the sequence block.
 - **Moving to Shopify:** each `<section>` maps to a theme section. The buy box options map to product variants and line-item properties, and "Reserve" becomes a deposit product added to the cart.
 

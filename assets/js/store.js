@@ -119,6 +119,41 @@ $$(".arrows").forEach(function(a){
   rail.addEventListener("scroll", sync, { passive:true }); addEventListener("resize", sync); sync();
 });
 
+/* ---------- Pinned sections: vertical scroll drives the cards sideways ---------- */
+(function(){
+  var secs = $$(".hs").map(function(sec){
+    var track = $(".hs-track", sec), n = track.children.length;
+    $(".hs-all", sec).textContent = (n < 10 ? "0" : "") + n;
+    return { sec:sec, track:track, n:n, bar:$(".hs-bar span", sec), now:$(".hs-now", sec), travel:0 };
+  });
+  if (reduce || !secs.length) return; // falls back to swipeable rows
+  document.documentElement.classList.add("hs-on");
+  var stick = 0, ticking = false;
+  function measure(){
+    stick = $("#hd").offsetHeight + $("#subnav").offsetHeight;
+    document.documentElement.style.setProperty("--stick", stick + "px");
+    secs.forEach(function(o){
+      o.travel = Math.max(0, o.track.scrollWidth - innerWidth);
+      o.sec.style.height = (innerHeight - stick + o.travel) + "px";
+    });
+    update();
+  }
+  function update(){
+    ticking = false;
+    secs.forEach(function(o){
+      var r = o.sec.getBoundingClientRect(), span = r.height - (innerHeight - stick);
+      var p = span > 0 ? Math.max(0, Math.min(1, (stick - r.top) / span)) : 0;
+      o.track.style.transform = "translate3d(" + (-o.travel * p).toFixed(1) + "px,0,0)";
+      o.bar.style.transform = "scaleX(" + p + ")";
+      var i = Math.min(o.n, Math.round(p * (o.n - 1)) + 1); o.now.textContent = (i < 10 ? "0" : "") + i;
+    });
+  }
+  addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive:true });
+  addEventListener("resize", measure);
+  addEventListener("load", measure);
+  measure();
+})();
+
 /* ---------- Gallery ---------- */
 var stage = $("#stage"), thumbs = $("#thumbs"), cur = 0;
 function plan(){
