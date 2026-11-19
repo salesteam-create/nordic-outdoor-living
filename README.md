@@ -1,52 +1,48 @@
 # Nordic Outdoor Living: website prototype
 
-Static prototype of the NOL store, built for client review and hosted on GitHub Pages. Product structure follows Tim's *NOL Outdoor Kitchen PODs: Modular System Guide* (Oct 27, 2026), with the POD names kept as Good, Better and Best.
+Static prototype of the NOL store, built for client review and hosted on GitHub Pages. Following Tim's latest feedback, the store sells one product, the NOL Outdoor Kitchen POD (the former "Good" kit). There are no tier names. The page layout follows a single-product Shopify page: video hero, feature cards, product with callouts, buy box, one scroll-driven section, detail and delivery carousels, specs, comparison, FAQ.
 
 ## Pages
 
 ```
-index.html            Homepage v5: sunny 3D hero journey (assets/js/scene/hero.js, pod.js, textures.js), then feature cards, cooking, utilities, PODs, finish, compare, FAQ (assets/js/home.js, assets/css/v5.css)
-pod-good.html      POD 1 Good product page   (generated, see below)
-pod-better.html    POD 2 Better product page (generated)
-pod-best.html    POD 3 Best product page (generated)
-product.html          Redirect for old links (product.html?tier=best -> pod-best.html)
+index.html        The product page (everything lives here)
+pod-good.html     Redirect to index.html#buy (old links)
+pod-better.html   Redirect to index.html#buy (old links)
+pod-best.html     Redirect to index.html#buy (old links)
+product.html      Redirect to index.html#buy (old links)
 ```
 
 ## Where things live
 
 ```
-assets/js/catalog.js        PODs, prices, sizes, parts, colors, cooking appliances, add-ons and rules
-assets/js/configurator.js   Buy box shared by every page (POD, colors, cooking, fuel, LED color, add-ons, total)
-assets/js/site.js           Shared header, menu, review mode, image codes, reveal
-assets/js/pod-page.js       Product page: gallery, kit, comparison, specs, add-on grid
-assets/css/v5.css           Homepage styles and shared tokens (fonts, colours, buttons, header, footer)
-assets/css/pod.css          Product page styles, loaded after v5.css
-assets/css/site.css         Legacy v3 styles (not used by the live pages; kept for reference)
-templates/pod-main.html     Body of the product pages
-tools/build_pod_pages.py    Builds the three pod-*.html files from index.html (head, icons, footer) and the template
-assets/pods/  assets/parts/ Product and part images (concept renders)
+assets/css/store.css   All styles (light, Google Sans Flex)
+assets/js/store.js     Product data at the top (price, options, add-ons, specs), then all page behaviour. No libraries.
+assets/frames/         30 rendered frames, scrubbed by scroll in "How it opens". Loaded only when the section is near.
+assets/video/          Hero video (muted, looping) and poster
+assets/pods, parts, photos   Product, part and lifestyle images
 ```
+
+## Weight
+
+HTML, CSS and JS are about 19 KB gzipped in total. No WebGL, no animation library. The hero video (about 1.1 MB as WebM) and the 30 frames (1.4 MB) are the heaviest assets. The frames load only when a visitor nears that section.
 
 ## Common changes
 
-- **Prices, sizes, what's included:** edit `assets/js/catalog.js`. Every page follows.
-- **Upgrade nudge:** the gap to a bigger POD counts add-ons it already includes. It is highlighted once the setup has closed 30% of the price gap (`upsellHotShare` in `catalog.js`). At that moment a pop-up suggests the upgrade, once per POD per visit, closing itself after 12 seconds.
-- **Launch only some PODs:** set `launched:false` on a POD in `catalog.js`. It disappears from cards, menus, comparisons and upgrade nudges, and its page redirects home. With one POD launched, the homepage drops the POD picker and comparison.
-- **Header, footer or product page layout:** edit `index.html` or `templates/pod-main.html`, then run `python3 tools/build_pod_pages.py`.
-- **Images:** every image has a code (e.g. `POD2-01`). Click "Highlight unconfirmed" in the top bar to see the codes on the page. The shot list maps each code to what to shoot. Replace a file with the same name and size to swap it.
+- **Price, deposit, monthly, options, add-ons, specs:** edit the `P` object at the top of `assets/js/store.js`.
+- **Feature, detail and delivery cards:** edit `FEATURES`, `DETAILS` and `STEPS` in the same file.
+- **Swap the scroll animation:** replace `assets/frames/00.webp` to `29.webp` with a new rendered sequence (same names). More frames: change `N` in the sequence block.
+- **Moving to Shopify:** each `<section>` maps to a theme section. The buy box options map to product variants and line-item properties, and "Reserve" becomes a deposit product added to the cart.
 
 ## Versions
 
 Frozen copies that open on their own live in `versions/` (see `versions/README.md`). The main site keeps changing; the snapshots never do.
 
-
-- **v1** (commit `bb3243c`): warm cream and spruce look with serif headlines.
-- **v2** (commit `c16fb8d`): white, photo-led look with a muted hero video.
-- **v3**: POD 1 / 2 / 3 per the Modular System Guide, separate product pages, upgrade nudges, launch switch.
-- **v4**: dark cinematic homepage with a coded 3D model of the POD and an eight-chapter scroll journey.
-- **v5 (current)**: light, polished homepage in Google Sans Flex. A detailed 3D Better POD in a sunny garden, with the 3D scroll limited to a three-beat hero (closed, open, inside). POD product pages restyled to match: same font, palette, header and footer, with the configurator, upgrade pop-up and comparison unchanged in behaviour.
-- **v3.1**: names back to Good / Better / Best, upgrade prices based on the customer's setup, scroll-animation fixes.
-- **Saved snapshots:** `versions/v1/` to `versions/v4/` open on their own. See `versions/README.md`.
+- **v1**: warm cream and spruce look with serif headlines.
+- **v2**: white, photo-led look with a muted hero video.
+- **v3**: Good / Better / Best per the Modular System Guide, product pages, upgrade nudges.
+- **v4**: dark cinematic homepage with a coded 3D model.
+- **v5**: light homepage with a coded 3D hero, Good / Better / Best product pages.
+- **v6 (current)**: single product, light, conversion-focused product page with one rendered scroll sequence.
 
 ## Hosting on GitHub Pages
 
