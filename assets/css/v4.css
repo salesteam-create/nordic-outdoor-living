@@ -250,3 +250,15 @@ h1 em,h2 em{font-style:italic;color:var(--gold-2)}
 @media (max-width:480px){.buy{font-size:.74rem;gap:.8rem;padding-left:1rem}}
 
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none !important;animation:none !important}}
+
+/* Phones: callouts become short labels, copy clears the floating bar */
+@media (max-width:820px){
+  .chapter,.chapter.right,.chapter.center,.chapter.top{top:auto;bottom:5.6rem}
+  .chapter.hero-ch{bottom:5.2rem}
+  .co p{width:auto;max-width:130px;font-size:0;padding:.35rem .6rem;white-space:nowrap}
+  .co p b{font-size:.92rem;margin:0}
+  .co.sm p{width:auto}
+  .co.tag p{font-size:.7rem}
+  .co.tag p b{font-size:1.2rem}
+  .co.tag em{display:none}
+}

@@ -189,7 +189,8 @@ function render(){
   renderer.toneMappingExposure = .95 - S.night * .1;
   // camera: scroll position, eased intro, a slow idle drift so the scene breathes
   const k = easeInOut(S.intro);
-  const fit = aspect < 1 ? 1 + (1 / aspect - 1) * .62 : 1;
+  // tall screens need the camera further back; the line-up needs more room still
+  const fit = (aspect < 1 ? 1 + (1 / aspect - 1) * .62 : 1) * (aspect < 1 ? 1 + .55 * S.lineup : 1);
   const tx = lerp(intro.tgt[0], S.tx, k), ty = lerp(intro.tgt[1], S.ty, k), tz = lerp(intro.tgt[2], S.tz, k);
   let cx = lerp(intro.cam[0], S.cx, k), cy = lerp(intro.cam[1], S.cy, k), cz = lerp(intro.cam[2], S.cz, k);
   cx = tx + (cx - tx) * fit; cy = ty + (cy - ty) * Math.min(fit, 1.25); cz = tz + (cz - tz) * fit;
