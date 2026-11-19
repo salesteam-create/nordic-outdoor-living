@@ -5,7 +5,7 @@ Static prototype of the NOL store, built for client review and hosted on GitHub 
 ## Pages
 
 ```
-index.html            Homepage v4: cinematic 3D scroll journey (assets/js/scene/, assets/css/v4.css): hero video, POD cards, configurator with POD picker, fit check, FAQ
+index.html            Homepage v5: sunny 3D hero journey (assets/js/scene/hero.js, pod.js, textures.js), then feature cards, cooking, utilities, PODs, finish, compare, FAQ (assets/js/home.js, assets/css/v5.css)
 pod-good.html      POD 1 Good product page   (generated, see below)
 pod-better.html    POD 2 Better product page (generated)
 pod-best.html    POD 3 Best product page (generated)
@@ -41,9 +41,10 @@ Frozen copies that open on their own live in `versions/` (see `versions/README.m
 - **v1** (commit `bb3243c`): warm cream and spruce look with serif headlines.
 - **v2** (commit `c16fb8d`): white, photo-led look with a muted hero video.
 - **v3**: POD 1 / 2 / 3 per the Modular System Guide, separate product pages, upgrade nudges, launch switch.
-- **v4 (in progress)**: dark cinematic homepage with a coded 3D model of the POD and an eight-chapter scroll journey. POD pages keep the v3 design for now.
+- **v4**: dark cinematic homepage with a coded 3D model of the POD and an eight-chapter scroll journey.
+- **v5 (current)**: light, polished homepage in Google Sans Flex. A detailed 3D Better POD in a sunny garden, with the 3D scroll limited to a three-beat hero (closed, open, inside). POD pages keep the v3 design for now.
 - **v3.1**: names back to Good / Better / Best, upgrade prices based on the customer's setup, scroll-animation fixes.
-- **Saved snapshots:** `versions/v1/`, `versions/v2/` and `versions/v3/` open on their own. See `versions/README.md`.
+- **Saved snapshots:** `versions/v1/` to `versions/v4/` open on their own. See `versions/README.md`.
 
 ## Hosting on GitHub Pages
 
