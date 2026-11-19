@@ -119,33 +119,6 @@ $$(".arrows").forEach(function(a){
   rail.addEventListener("scroll", sync, { passive:true }); addEventListener("resize", sync); sync();
 });
 
-/* ---------- Feature cards: vertical scroll drives them sideways while the section is pinned ---------- */
-(function(){
-  var sec = $("#features"), track = $("#featCards"), bar = $("#hsBar"), now = $("#hsNow"), n = track.children.length, travel = 0, ticking = false;
-  $("#hsAll").textContent = (n < 10 ? "0" : "") + n;
-  if (reduce) return; // falls back to a swipeable row
-  document.documentElement.classList.add("hs-on");
-  function measure(){
-    var stick = $("#hd").offsetHeight + $("#subnav").offsetHeight;
-    document.documentElement.style.setProperty("--stick", stick + "px");
-    travel = Math.max(0, track.scrollWidth - innerWidth);
-    sec.style.height = (innerHeight - stick + travel) + "px";
-    update();
-  }
-  function update(){
-    ticking = false;
-    var r = sec.getBoundingClientRect(), span = r.height - (innerHeight - parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick")));
-    var p = span > 0 ? Math.max(0, Math.min(1, (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick")) - r.top) / span)) : 0;
-    track.style.transform = "translate3d(" + (-travel * p).toFixed(1) + "px,0,0)";
-    bar.style.transform = "scaleX(" + p + ")";
-    var i = Math.min(n, Math.round(p * (n - 1)) + 1); now.textContent = (i < 10 ? "0" : "") + i;
-  }
-  addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive:true });
-  addEventListener("resize", measure);
-  addEventListener("load", measure);
-  measure();
-})();
-
 /* ---------- Gallery ---------- */
 var stage = $("#stage"), thumbs = $("#thumbs"), cur = 0;
 function plan(){
