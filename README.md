@@ -42,7 +42,7 @@ Frozen copies that open on their own live in `versions/` (see `versions/README.m
 - **v2** (commit `c16fb8d`): white, photo-led look with a muted hero video.
 - **v3**: POD 1 / 2 / 3 per the Modular System Guide, separate product pages, upgrade nudges, launch switch.
 - **v3.1**: names back to Good / Better / Best, upgrade prices based on the customer's setup, scroll-animation fixes.
-- **Saved snapshot `versions/v3/`**: the design as of Nov 19, 2026 (commit `186f024`), including the upgrade pop-up.
+- **Saved snapshots:** `versions/v1/`, `versions/v2/` and `versions/v3/` open on their own. See `versions/README.md`.
 
 ## Hosting on GitHub Pages
 
