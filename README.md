@@ -35,10 +35,14 @@ assets/pods/  assets/parts/ Product and part images (concept renders)
 
 ## Versions
 
+Frozen copies that open on their own live in `versions/` (see `versions/README.md`). The main site keeps changing; the snapshots never do.
+
+
 - **v1** (commit `bb3243c`): warm cream and spruce look with serif headlines.
 - **v2** (commit `c16fb8d`): white, photo-led look with a muted hero video.
 - **v3**: POD 1 / 2 / 3 per the Modular System Guide, separate product pages, upgrade nudges, launch switch.
 - **v3.1**: names back to Good / Better / Best, upgrade prices based on the customer's setup, scroll-animation fixes.
+- **Saved snapshot `versions/v3/`**: the design as of Nov 19, 2026 (commit `186f024`), including the upgrade pop-up.
 
 ## Hosting on GitHub Pages
 
