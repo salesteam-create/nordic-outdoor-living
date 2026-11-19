@@ -12,13 +12,13 @@
 <meta property="og:site_name" content="Nordic Outdoor Living">
 <meta property="og:title" content="The NOL POD outdoor kitchen">
 <meta property="og:description" content="Sink, BBQ and fridge under one roof. Lift it to cook, close it when you're done.">
-<meta property="og:image" content="assets/pods/good.jpg">
+<meta property="og:image" content="assets/photos/hero.jpg">
 <meta name="theme-color" content="#f7f5f1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131313'/%3E%3Cpath d='M7 14l9-6 9 6v10H7z' fill='none' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/video/hero-poster.jpg">
+<link rel="preload" as="image" href="assets/photos/hero.webp" imagesrcset="assets/photos/hero-1200.webp 1200w, assets/photos/hero.webp 2000w" imagesizes="100vw">
 <link rel="stylesheet" href="assets/css/store.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product","name":"NOL Outdoor Kitchen POD","brand":{"@type":"Brand","name":"Nordic Outdoor Living"},"image":["assets/pods/good.jpg"],"description":"Outdoor kitchen with sink, BBQ and glass-door fridge under a roof that lifts to cook and closes when you're done.","offers":{"@type":"Offer","priceCurrency":"USD","price":"9900","availability":"https://schema.org/PreOrder"}}
@@ -77,10 +77,7 @@
 
 <!-- HERO: muted video banner -->
 <section class="hero" aria-label="The NOL POD">
-  <video class="hero-media" autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-poster.jpg">
-    <source src="assets/video/hero.webm" type="video/webm">
-    <source src="assets/video/hero.mp4" type="video/mp4">
-  </video>
+  <img class="hero-media" src="assets/photos/hero.webp" srcset="assets/photos/hero-1200.webp 1200w, assets/photos/hero.webp 2000w" sizes="100vw" width="2000" height="1116" alt="The NOL outdoor kitchen on a stone patio at dusk, with warm LED light under the roof" fetchpriority="high">
   <div class="hero-shade"></div>
   <div class="wrap hero-copy">
     <p class="eyebrow light">The NOL POD · Outdoor kitchen</p>
@@ -94,15 +91,16 @@
 </section>
 
 <!-- FEATURE CARDS -->
-<section class="sec" id="features" aria-labelledby="h-feat">
-  <div class="wrap sec-head">
-    <h2 id="h-feat">Outdoor cooking,<br>without the project.</h2>
-    <div class="arrows" data-for="featCards">
-      <button type="button" data-dir="-1" aria-label="Previous"><svg class="ico"><use href="#i-left"/></svg></button>
-      <button type="button" data-dir="1" aria-label="Next"><svg class="ico"><use href="#i-arrow"/></svg></button>
+<!-- Scrolling down moves these cards sideways while the section stays pinned -->
+<section class="hs" id="features" aria-labelledby="h-feat">
+  <div class="hs-pin">
+    <div class="wrap sec-head">
+      <h2 id="h-feat">Outdoor cooking,<br>without the project.</h2>
+      <p class="hs-count"><span id="hsNow">01</span> / <span id="hsAll">07</span></p>
     </div>
+    <div class="hs-view"><div class="hs-track" id="featCards"></div></div>
+    <div class="wrap"><div class="hs-bar"><span id="hsBar"></span></div></div>
   </div>
-  <div class="rail" id="featCards"></div>
 </section>
 
 <!-- PRODUCT WITH CALLOUTS -->

@@ -1,6 +1,6 @@
 # Nordic Outdoor Living: website prototype
 
-Static prototype of the NOL store, built for client review and hosted on GitHub Pages. Following Tim's latest feedback, the store sells one product, the NOL Outdoor Kitchen POD (the former "Good" kit). There are no tier names. The page layout follows a single-product Shopify page: video hero, feature cards, product with callouts, buy box, one scroll-driven section, detail and delivery carousels, specs, comparison, FAQ.
+Static prototype of the NOL store, built for client review and hosted on GitHub Pages. Following Tim's latest feedback, the store sells one product, the NOL Outdoor Kitchen POD (the former "Good" kit). There are no tier names. The page layout follows a single-product Shopify page: image hero, feature cards that scroll sideways as you scroll down, product with callouts, buy box, one scroll-driven section, detail and delivery carousels, specs, comparison, FAQ.
 
 ## Pages
 
@@ -18,18 +18,20 @@ product.html      Redirect to index.html#buy (old links)
 assets/css/store.css   All styles (light, Google Sans Flex)
 assets/js/store.js     Product data at the top (price, options, add-ons, specs), then all page behaviour. No libraries.
 assets/frames/         30 rendered frames, scrubbed by scroll in "How it opens". Loaded only when the section is near.
-assets/video/          Hero video (muted, looping) and poster
+assets/photos/hero*    Hero image (2000 px WebP, 1200 px WebP for phones, JPG for link previews)
+assets/video/          Garden video, used in the product gallery
 assets/pods, parts, photos   Product, part and lifestyle images
 ```
 
 ## Weight
 
-HTML, CSS and JS are about 19 KB gzipped in total. No WebGL, no animation library. The hero video (about 1.1 MB as WebM) and the 30 frames (1.4 MB) are the heaviest assets. The frames load only when a visitor nears that section.
+HTML, CSS and JS are about 20 KB gzipped in total. No WebGL, no animation library. The hero image is 140 KB on phones and 300 KB on desktop. The 30 frames (1.4 MB) load only when a visitor nears that section; the video loads only if opened in the gallery.
 
 ## Common changes
 
 - **Price, deposit, monthly, options, add-ons, specs:** edit the `P` object at the top of `assets/js/store.js`.
 - **Feature, detail and delivery cards:** edit `FEATURES`, `DETAILS` and `STEPS` in the same file.
+- **Feature cards:** scrolling down moves them sideways while the section is pinned. With reduced motion turned on they become a normal swipeable row.
 - **Swap the scroll animation:** replace `assets/frames/00.webp` to `29.webp` with a new rendered sequence (same names). More frames: change `N` in the sequence block.
 - **Moving to Shopify:** each `<section>` maps to a theme section. The buy box options map to product variants and line-item properties, and "Reserve" becomes a deposit product added to the cart.
 
