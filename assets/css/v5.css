@@ -157,7 +157,7 @@ h1,h2,h3,h4{margin:0;font-weight:450;letter-spacing:-.025em;line-height:1.05;tex
 .d-panel{fill:#1b1c1e}
 .d-ports circle{fill:#c9ccd0;stroke:#8f9398;stroke-width:2}
 .d-lines path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 2.2s var(--ease)}
-.panel-fig.in .d-lines path,.no-rise .d-lines path{stroke-dashoffset:0}
+.panel-fig.in .d-lines path,html:not(.rise-on):not(.reveal-on) .d-lines path{stroke-dashoffset:0}
 .d-labels text{font:500 17px var(--sans);fill:var(--ink)}
 .d-cap{font:500 15px var(--sans);fill:var(--muted);letter-spacing:.04em}
 @media (max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.spec-list li{grid-template-columns:28px 1fr}.spec-list span{grid-column:2}}

@@ -19,9 +19,11 @@ assets/js/catalog.js        PODs, prices, sizes, parts, colors, cooking applianc
 assets/js/configurator.js   Buy box shared by every page (POD, colors, cooking, fuel, LED color, add-ons, total)
 assets/js/site.js           Shared header, menu, review mode, image codes, reveal
 assets/js/pod-page.js       Product page: gallery, kit, comparison, specs, add-on grid
-assets/css/site.css         All styles
+assets/css/v5.css           Homepage styles and shared tokens (fonts, colours, buttons, header, footer)
+assets/css/pod.css          Product page styles, loaded after v5.css
+assets/css/site.css         Legacy v3 styles (not used by the live pages; kept for reference)
 templates/pod-main.html     Body of the product pages
-tools/build_pod_pages.py    Builds the three pod-*.html files
+tools/build_pod_pages.py    Builds the three pod-*.html files from index.html (head, icons, footer) and the template
 assets/pods/  assets/parts/ Product and part images (concept renders)
 ```
 
@@ -42,7 +44,7 @@ Frozen copies that open on their own live in `versions/` (see `versions/README.m
 - **v2** (commit `c16fb8d`): white, photo-led look with a muted hero video.
 - **v3**: POD 1 / 2 / 3 per the Modular System Guide, separate product pages, upgrade nudges, launch switch.
 - **v4**: dark cinematic homepage with a coded 3D model of the POD and an eight-chapter scroll journey.
-- **v5 (current)**: light, polished homepage in Google Sans Flex. A detailed 3D Better POD in a sunny garden, with the 3D scroll limited to a three-beat hero (closed, open, inside). POD pages keep the v3 design for now.
+- **v5 (current)**: light, polished homepage in Google Sans Flex. A detailed 3D Better POD in a sunny garden, with the 3D scroll limited to a three-beat hero (closed, open, inside). POD product pages restyled to match: same font, palette, header and footer, with the configurator, upgrade pop-up and comparison unchanged in behaviour.
 - **v3.1**: names back to Good / Better / Best, upgrade prices based on the customer's setup, scroll-animation fixes.
 - **Saved snapshots:** `versions/v1/` to `versions/v4/` open on their own. See `versions/README.md`.
 

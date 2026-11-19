@@ -1,18 +1,17 @@
 <main id="top">
 
-<nav class="wrap crumbs" aria-label="Breadcrumb">
-  <ol><li><a href="index.html">Home</a></li><li><a href="index.html#tiers">Outdoor kitchen PODs</a></li><li aria-current="page">NOL {{NAME}}</li></ol>
-</nav>
-
 <!-- PRODUCT -->
 <section class="pp" id="product" aria-label="NOL {{NAME}}">
   <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol><li><a href="index.html">Home</a></li><li><a href="index.html#pods">Outdoor kitchen PODs</a></li><li aria-current="page">NOL {{NAME}}</li></ol>
+    </nav>
     <div class="pdp">
       <div class="gallery">
         <div class="viewer" id="viewer">
           <span class="badge" id="vBadge">NOL {{NAME}}</span>
-          <button class="vnav prev" type="button" id="vPrev" aria-label="Previous image"><svg class="ico" style="transform:rotate(90deg)"><use href="#i-chev"/></svg></button>
-          <button class="vnav next" type="button" id="vNext" aria-label="Next image"><svg class="ico" style="transform:rotate(-90deg)"><use href="#i-chev"/></svg></button>
+          <button class="vnav prev" type="button" id="vPrev" aria-label="Previous image"><svg class="ico"><use href="#i-arrow"/></svg></button>
+          <button class="vnav next" type="button" id="vNext" aria-label="Next image"><svg class="ico"><use href="#i-arrow"/></svg></button>
         </div>
         <div class="thumbs" id="thumbs" role="group" aria-label="Product media"></div>
         <p class="note" id="galNote"></p>
@@ -22,12 +21,12 @@
   </div>
 </section>
 
-<!-- HIGHLIGHTS -->
-<section class="bg-soft" aria-labelledby="h-hl">
+<!-- WHY A POD -->
+<section class="sec tint" aria-labelledby="h-hl">
   <div class="wrap">
     <div data-reveal>
-      <span class="kicker">Why a POD</span>
-      <h2 id="h-hl">An outdoor kitchen without the project</h2>
+      <p class="eyebrow">Why a POD</p>
+      <h2 class="sec-title" id="h-hl">An outdoor kitchen without the project.</h2>
     </div>
     <div class="highlights">
       <div data-reveal><svg class="ico"><use href="#i-flame"/></svg><h3>Opens when you cook</h3><p>Lift the roof and the kitchen is ready. Motorized on Better and Best, run from one remote.</p></div>
@@ -39,12 +38,12 @@
 </section>
 
 <!-- IN THE KIT -->
-<section id="kit" aria-labelledby="h-kit">
+<section class="sec" id="kit" aria-labelledby="h-kit">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
-        <span class="kicker">In the kit</span>
-        <h2 id="h-kit">What comes with the {{NAME}}</h2>
+        <p class="eyebrow">In the kit</p>
+        <h2 id="h-kit">What comes with the {{NAME}}.</h2>
       </div>
       <p class="lede">Every part is a standard NOL module. Only the shell changes between PODs.</p>
     </div>
@@ -53,56 +52,76 @@
 </section>
 
 <!-- COMPARE PODS -->
-<section class="bg-soft" id="compare-tiers" aria-labelledby="h-cmp">
+<section class="sec tint" id="compare-tiers" aria-labelledby="h-cmp">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
-        <span class="kicker">Compare</span>
+        <p class="eyebrow">Compare</p>
         <h2 id="h-cmp">Good, Better or Best?</h2>
       </div>
       <p class="lede">Every POD has a sink, BBQ and fridge. The difference is size, storage and how much is built in.</p>
     </div>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="POD comparison, scrolls sideways on small screens" data-reveal>
-      <table class="cmp" id="cmpTable"></table>
+    <div class="cmp-wrap" tabindex="0" role="region" aria-label="POD comparison, scrolls sideways on small screens" data-reveal>
+      <table class="cmp pcmp" id="cmpTable"></table>
     </div>
   </div>
 </section>
 
 <!-- SPECS -->
-<section id="specs" aria-labelledby="h-specs">
+<section class="sec" id="specs" aria-labelledby="h-specs">
   <div class="wrap">
-    <div data-reveal>
-      <span class="kicker">Specifications</span>
-      <h2 id="h-specs">NOL {{NAME}} at a glance</h2>
+    <div class="sec-head" data-reveal>
+      <div>
+        <p class="eyebrow">Specifications</p>
+        <h2 id="h-specs">NOL {{NAME}} at a glance.</h2>
+      </div>
+      <p class="lede">Power, gas, water and grey water all leave through one panel at the back. One visit from your plumber, one tidy run.</p>
     </div>
-    <div class="specs" id="specsGrid" data-reveal></div>
-    <figure class="util-img" data-reveal><div class="ph-img" data-shot="UTIL-REAR"><svg class="ico"><use href="#i-camera"/></svg><span>Rear utility panel photo coming</span></div></figure>
+    <div class="split specs-split">
+      <div class="specs" id="specsGrid" data-reveal></div>
+      <figure class="panel-fig" data-reveal>
+        <svg viewBox="-20 0 700 520" role="img" aria-label="Rear utility panel with power, gas, hot water, cold water and grey water connections">
+          <rect x="70" y="40" width="500" height="380" rx="6" class="d-wall"/>
+          <rect x="190" y="180" width="260" height="120" rx="8" class="d-panel"/>
+          <g class="d-ports">
+            <circle cx="235" cy="240" r="15"/><circle cx="288" cy="240" r="15"/><circle cx="341" cy="240" r="15"/><circle cx="394" cy="240" r="15"/><circle cx="430" cy="270" r="9"/>
+          </g>
+          <g class="d-lines">
+            <path d="M235 255 V330 Q235 360 205 370 L120 400"/><path d="M288 255 V350 Q288 380 268 400 L240 470"/>
+            <path d="M341 255 V360 Q341 390 360 410 L385 470"/><path d="M394 255 V330 Q394 360 425 370 L520 400"/><path d="M430 279 V300 Q430 320 460 325 L560 330"/>
+          </g>
+          <g class="d-labels">
+            <text x="100" y="392" text-anchor="end">Power</text><text x="236" y="492" text-anchor="middle">Gas</text><text x="390" y="492" text-anchor="middle">Hot · Cold</text><text x="528" y="392">Water</text><text x="566" y="334">Grey water</text>
+          </g>
+          <text x="320" y="160" text-anchor="middle" class="d-cap">Rear utility panel</text>
+        </svg>
+      </figure>
+    </div>
   </div>
 </section>
 
 <!-- ADD-ONS -->
-<section class="bg-soft" id="extras" aria-labelledby="h-extras">
+<section class="sec tint" id="extras" aria-labelledby="h-extras">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
-        <span class="kicker">Make it yours</span>
-        <h2 id="h-extras">Add-ons for the {{NAME}}</h2>
+        <p class="eyebrow">Make it yours</p>
+        <h2 id="h-extras">Add-ons for the {{NAME}}.</h2>
       </div>
-      <p class="lede">Add them now and they arrive with your POD.</p>
+      <p class="lede">Add them now and they arrive with your POD. Everything here stays in sync with your setup above.</p>
     </div>
     <div class="addon-grid" id="addonGrid"></div>
   </div>
 </section>
 
 <!-- INSPIRATION -->
-<section aria-labelledby="h-insp">
+<section class="sec" aria-labelledby="h-insp">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div>
-        <span class="kicker">Inspiration</span>
-        <h2 id="h-insp">Made for the evenings you'll remember</h2>
+        <p class="eyebrow">Inspiration</p>
+        <h2 id="h-insp">Made for the evenings you'll remember.</h2>
       </div>
-      <a class="btn btn-line" href="index.html#life">See more <span class="arr"><svg class="ico"><use href="#i-ne"/></svg></span></a>
     </div>
     <div class="insp" data-reveal>
       <figure><img src="{{IMG}}" data-shot="{{SHOT}}" alt="The NOL {{NAME}} POD at dusk" loading="lazy"></figure>
@@ -115,15 +134,15 @@
 </section>
 
 <!-- FAQ -->
-<section class="bg-soft" id="faq" aria-labelledby="h-faq">
+<section class="sec tint" id="faq" aria-labelledby="h-faq">
   <div class="wrap faq-grid">
     <div data-reveal>
-      <span class="kicker">FAQ</span>
-      <h2 id="h-faq">Questions, answered</h2>
-      <div class="help-card" style="background:#fff">
-        <strong style="font-weight:500">Not sure which POD?</strong>
+      <p class="eyebrow">FAQ</p>
+      <h2 id="h-faq">Questions, answered.</h2>
+      <div class="help-card">
+        <b>Not sure which POD?</b>
         <p>A specialist can walk you through size, utilities and delivery on a short video call.</p>
-        <a class="text-link" href="index.html#consult">Book a video call <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-line btn-sm" href="index.html#reserve">Request a call back <svg class="ico"><use href="#i-ne"/></svg></a>
       </div>
     </div>
     <div class="faq" data-reveal>

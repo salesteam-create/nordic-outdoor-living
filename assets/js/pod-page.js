@@ -27,7 +27,7 @@ function planSvg(){
   var W = POD.size.w, D = POD.size.d, clear = C.PRODUCT.clearance;
   var scale = Math.min(500 / W, 250 / (D + clear)), pw = W * scale, pd = D * scale, cd = clear * scale;
   var x = 300 - pw / 2, y = 200 - (pd + cd) / 2;
-  var t = function(x, y, s, fill, anchor){ return '<text x="' + x + '" y="' + y + '" text-anchor="' + (anchor || "middle") + '" fill="' + fill + '" font-size="14" font-family="Archivo, sans-serif">' + s + '</text>'; };
+  var t = function(x, y, s, fill, anchor){ return '<text x="' + x + '" y="' + y + '" text-anchor="' + (anchor || "middle") + '" fill="' + fill + '" font-size="14" font-family="Google Sans Flex, sans-serif">' + s + '</text>'; };
   return '<svg class="plan" viewBox="0 0 600 400" role="img" aria-label="Top-down footprint of the ' + POD.name + '">' +
     '<rect x="' + x + '" y="' + y + '" width="' + pw + '" height="' + pd + '" rx="4" fill="#111"/>' +
     '<rect x="' + x + '" y="' + (y + pd) + '" width="' + pw + '" height="' + cd + '" rx="4" fill="#111" fill-opacity=".05" stroke="#111" stroke-opacity=".45" stroke-dasharray="5 5"/>' +
