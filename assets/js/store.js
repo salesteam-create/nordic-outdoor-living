@@ -261,7 +261,7 @@ $("#reserveBtn").addEventListener("click", function(){
 (function(){
   if (!$("#opens")) return;
   var sec = $("#opens"), canvas = $("#seqCanvas"), ctx = canvas.getContext("2d"), N = 30, imgs = [], loaded = 0, last = -1, ticking = false;
-  var steps = $$("#seqSteps li"), bar = $("#seqBar");
+  var steps = $$("#seqSteps li"), bar = $("#seqBar"), tag = $("#seqTag"), NAMES = ["Closed", "Lift", "Cook"];
   if (reduce){ sec.classList.add("static"); return; }
   function src(i){ return "assets/frames/" + (i < 10 ? "0" : "") + i + ".webp"; }
   function load(){
@@ -272,8 +272,9 @@ $("#reserveBtn").addEventListener("click", function(){
     canvas.width = Math.round(r.width * d); canvas.height = Math.round(r.height * d); last = -1; draw();
   }
   function progress(){
-    var r = sec.getBoundingClientRect(), span = r.height - innerHeight;
-    return Math.max(0, Math.min(1, -r.top / span));
+    var stick = $("#hd").offsetHeight + $("#subnav").offsetHeight;
+    var r = sec.getBoundingClientRect(), span = r.height - (innerHeight - stick);
+    return Math.max(0, Math.min(1, (stick - r.top) / span));
   }
   function draw(){
     ticking = false;
@@ -281,14 +282,17 @@ $("#reserveBtn").addEventListener("click", function(){
     bar.style.transform = "scaleX(" + p + ")";
     var s = p < .3 ? 0 : p < .62 ? 1 : 2;
     steps.forEach(function(li, j){ li.classList.toggle("on", j === s); });
+    tag.textContent = NAMES[s];
     var im = imgs[i];
     while (im && !im.complete && i > 0) im = imgs[--i];
     if (!im || !im.complete || i === last) return;
     last = i;
-    var cw = canvas.width, ch = canvas.height, sc = Math.min(cw / im.naturalWidth, ch / im.naturalHeight) * (cw > ch ? 1 : 1.45);
+    // fit inside the viewer with a little air; the frames have black margins, so a 1.12 zoom fills the stage
+    var cw = canvas.width, ch = canvas.height, sc = Math.min(cw / im.naturalWidth, ch / im.naturalHeight) * 1.12;
     var w = im.naturalWidth * sc, h = im.naturalHeight * sc;
+    ctx.imageSmoothingQuality = "high";
     ctx.fillStyle = "#000"; ctx.fillRect(0, 0, cw, ch);
-    ctx.drawImage(im, (cw - w) / 2 + (cw > ch ? cw * .12 : 0), (ch - h) / 2 + (cw > ch ? 0 : -ch * .16), w, h);
+    ctx.drawImage(im, (cw - w) / 2, (ch - h) / 2 + ch * .03, w, h);
   }
   function req(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }
   new IntersectionObserver(function(en, o){ if (en[0].isIntersecting){ o.disconnect(); load(); size(); addEventListener("scroll", req, { passive:true }); addEventListener("resize", size); } }, { rootMargin:"150% 0px" }).observe(sec);

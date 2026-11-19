@@ -159,31 +159,45 @@
 </section>
 
 <!-- STORY BAND -->
-<section class="story" aria-labelledby="h-story">
-  <div class="story-copy">
-    <p class="eyebrow">Why we built it</p>
-    <h2 id="h-story">An outdoor kitchen shouldn't need a building permit and a summer of trades.</h2>
-    <p>Most outdoor kitchens are a construction project: masonry, a plumber, an electrician and weeks of mess. Then they sit open to the weather all winter.</p>
-    <p>The POD is one finished piece. It arrives ready to connect, cooks like a real kitchen, and closes into a clean, weather-tight shape when you're done.</p>
+<section class="sec story" aria-labelledby="h-story">
+  <div class="wrap">
+    <div class="story-card">
+      <div class="story-copy">
+        <p class="eyebrow">Why we built it</p>
+        <h2 id="h-story">An outdoor kitchen shouldn't need a summer of trades.</h2>
+        <p>Most outdoor kitchens are a construction project: masonry, a plumber, an electrician and weeks of mess. Then they sit open to the weather all winter.</p>
+        <p>The POD is one finished piece. It arrives ready to connect, cooks like a real kitchen, and closes into a clean, weather-tight shape when you're done.</p>
+        <dl class="story-facts">
+          <div><dt>1 pallet</dt><dd>Delivered flat-packed to your driveway</dd></div>
+          <div><dt>1 panel</dt><dd>For power, gas and water</dd></div>
+          <div><dt>3 ft</dt><dd>Clear in front is all it needs to open</dd></div>
+        </dl>
+      </div>
+      <figure class="story-img"><img src="assets/photos/life-1.jpg" alt="An outdoor kitchen glowing under its roof on a brick patio at dusk" loading="lazy" width="1200" height="1600"></figure>
+    </div>
   </div>
-  <figure class="story-img"><img src="assets/photos/life-3.jpg" alt="The POD open on a patio with the BBQ and fridge inside" loading="lazy" width="1400" height="1054"></figure>
 </section>
 
 <!-- SCROLL SEQUENCE: the only scroll animation on the page -->
 <section class="seq" id="opens" aria-labelledby="h-seq">
   <div class="seq-pin">
-    <canvas id="seqCanvas" aria-hidden="true"></canvas>
-    <img class="seq-fallback" src="assets/frames/29.webp" alt="The POD with its roof lifted, showing the BBQ, sink and fridge" loading="lazy">
-    <div class="seq-copy">
-      <p class="eyebrow light">How it opens</p>
-      <h2 id="h-seq">One roof. Two lives.</h2>
-      <ol class="seq-steps" id="seqSteps">
-        <li class="on"><b>Closed</b><span>A clean, weather-tight shape in the garden.</span></li>
-        <li><b>Lift</b><span>The roof swings up on gas struts, by hand.</span></li>
-        <li><b>Cook</b><span>It becomes a canopy over the BBQ, sink and fridge.</span></li>
-      </ol>
+    <div class="wrap seq-grid">
+      <div class="seq-copy">
+        <p class="eyebrow">How it opens</p>
+        <h2 id="h-seq">One roof. <br>Two lives.</h2>
+        <ol class="seq-steps" id="seqSteps">
+          <li class="on"><b>Closed</b><span>A clean, weather-tight shape in the garden.</span></li>
+          <li><b>Lift</b><span>The roof swings up on gas struts, by hand.</span></li>
+          <li><b>Cook</b><span>It becomes a canopy over the BBQ, sink and fridge.</span></li>
+        </ol>
+        <div class="seq-bar"><span id="seqBar"></span></div>
+      </div>
+      <div class="seq-stage">
+        <canvas id="seqCanvas" aria-hidden="true"></canvas>
+        <img class="seq-fallback" src="assets/frames/29.webp" alt="The POD with its roof lifted, showing the BBQ, sink and fridge" loading="lazy">
+        <span class="seq-tag" id="seqTag">Closed</span>
+      </div>
     </div>
-    <div class="seq-bar"><span id="seqBar"></span></div>
   </div>
 </section>
 
