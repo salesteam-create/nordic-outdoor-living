@@ -1,4 +1,4 @@
-/* NOL store: one product page. Plain JS, no libraries, so it drops into a Shopify theme as-is.
+/* NOL store: shared by the homepage (index.html) and the product page (product.html). Every block checks its section exists. Plain JS, no libraries, so it drops into a Shopify theme as-is.
    Product data lives at the top: change a price or an option here and the whole page follows. */
 (function(){
 "use strict";
@@ -87,6 +87,7 @@ $$("[data-monthly]").forEach(function(el){ el.textContent = money(P.monthly); })
 $$("[data-deposit]").forEach(function(el){ el.textContent = money(P.deposit); });
 
 /* ---------- Card rails ---------- */
+if ($("#featCards")){
 $("#featCards").innerHTML = FEATURES.map(function(f, i){
   return '<article class="fcard' + (f.dark ? " dark" : "") + '"><div class="fc-top"><p class="eyebrow">' + f.k + '</p><h3>' + f.t + '</h3></div>' +
     '<img src="' + f.img + '" alt="" loading="lazy">' +
@@ -99,14 +100,15 @@ $("#featCards").addEventListener("click", function(e){
   c.classList.toggle("open", open); b.setAttribute("aria-expanded", String(open));
   if (open) track("feature_card_open", { card: $(".eyebrow", c).textContent });
 });
-$("#detCards").innerHTML = DETAILS.map(function(d){
+}
+if ($("#detCards")) $("#detCards").innerHTML = DETAILS.map(function(d){
   return '<figure class="dcard' + (d.dark ? " dark" : "") + '"><img src="' + d.img + '" alt="" loading="lazy"><figcaption>' + d.t + '</figcaption></figure>';
 }).join("");
-$("#stepCards").innerHTML = STEPS.map(function(s){
+if ($("#stepCards")) $("#stepCards").innerHTML = STEPS.map(function(s){
   return '<article class="scard"><img src="' + s.img + '" alt="" loading="lazy"><p class="s-n">' + s.n + ' ' + s.k + '</p><h3>' + s.t + '</h3><p>' + s.d + '</p></article>';
 }).join("");
 $$(".arrows").forEach(function(a){
-  var rail = document.getElementById(a.dataset.for);
+  var rail = document.getElementById(a.dataset.for); if (!rail) return;
   function sync(){
     $("[data-dir='-1']", a).disabled = rail.scrollLeft < 8;
     $("[data-dir='1']", a).disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
@@ -154,7 +156,29 @@ $$(".arrows").forEach(function(a){
   measure();
 })();
 
-/* ---------- Gallery ---------- */
+/* ---------- Product page: gallery and configurator ---------- */
+var st = { cook:"bbq", fuel:"propane", addons:{}, total:P.price };
+P.finish.forEach(function(f){ st[f.id] = f.def; });
+function byId(list, id){ for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; }
+var kv = function(rows){ return rows.map(function(r){ return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join(""); };
+if ($("#specList")) $("#specList").innerHTML = kv(P.specs.concat(P.utilities));
+if ($("#miniPrice")) $("#miniPrice").textContent = "From " + money(P.price);
+/* "In the box" cards on the product page; the cooking card follows the buy box choice */
+function renderIncluded(){
+  var g = $("#incGrid"); if (!g) return;
+  var ck = byId(P.cooking, st.cook);
+  var items = [
+    { img:"assets/frames/00.webp", dark:true, t:"Shell with lift-up roof", d:"Black frame, white or grey panels. The roof lifts by hand on gas struts." },
+    { img:"assets/parts/sink-cabinet.jpg", t:"Sink cabinet", d:"Stainless sink, black faucet, plumbing kit and grey water tank." },
+    { img:"assets/parts/bbq-cabinet.jpg", t:"BBQ cabinet", d:"Vented cooking slot with two deep drawers underneath." },
+    { img:ck.img, t:ck.full, d:ck.delta ? "Your choice, +" + money(ck.delta) + " over the BBQ." : "Standard. Swap for a griddle, pizza oven or smoker." },
+    { img:"assets/parts/fridge.jpg", t:"Glass-door fridge", d:"Stainless, tempered glass, adjustable shelves. 110 V." }
+  ];
+  g.innerHTML = items.map(function(it){
+    return '<article class="inc' + (it.dark ? " dark" : "") + '"><img src="' + it.img + '" alt="" loading="lazy"><h3>' + it.t + '</h3><p>' + it.d + '</p></article>';
+  }).join("");
+}
+if ($("#stage")){
 var stage = $("#stage"), thumbs = $("#thumbs"), cur = 0;
 function plan(){
   return '<svg class="plan" viewBox="0 0 600 420" role="img" aria-label="Top-down footprint: 10 ft wide, 4 ft deep, with 3 ft clear in front">' +
@@ -191,10 +215,7 @@ thumbs.addEventListener("click", function(e){ var b = e.target.closest(".thumb")
 $$(".snav", stage).forEach(function(b){ b.addEventListener("click", function(){ show(cur + +b.dataset.step, true); }); });
 show(0);
 
-/* ---------- Configurator ---------- */
-var st = { cook:"bbq", fuel:"propane", addons:{} };
-P.finish.forEach(function(f){ st[f.id] = f.def; });
-function byId(list, id){ for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; }
+/* Configurator */
 
 function renderOptions(){
   $("#finish").innerHTML = P.finish.map(function(f){
@@ -217,6 +238,7 @@ function renderOptions(){
   $("#lines").textContent = extras.length ? "Includes " + extras.join(", ") : "BBQ, sink and fridge included";
   $("#miniPrice").textContent = money(total);
   st.total = total;
+  renderIncluded();
 }
 $("#info").addEventListener("click", function(e){
   var b = e.target.closest("[data-k]"); if (!b) return;
@@ -228,16 +250,16 @@ $("#info").addEventListener("click", function(e){
 });
 renderOptions();
 $("#included").innerHTML = P.included.map(function(t){ return "<li>" + ICO("i-check") + t + "</li>"; }).join("");
-var kv = function(rows){ return rows.map(function(r){ return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join(""); };
 $("#utilAcc").innerHTML = kv(P.utilities);
-$("#specList").innerHTML = kv(P.specs.concat(P.utilities));
 $("#reserveBtn").addEventListener("click", function(){
   $("#reserveMsg").textContent = "Prototype: this opens Shopify checkout for the " + money(P.deposit) + " deposit on this setup.";
   track("begin_checkout", { value: st.total, cook: st.cook, fuel: st.fuel, faces: st.faces, exterior: st.exterior, interior: st.interior, addons: Object.keys(st.addons).join(",") });
 });
+}
 
 /* ---------- Scroll sequence: 30 rendered frames scrubbed by scroll. Loads only when near. ---------- */
 (function(){
+  if (!$("#opens")) return;
   var sec = $("#opens"), canvas = $("#seqCanvas"), ctx = canvas.getContext("2d"), N = 30, imgs = [], loaded = 0, last = -1, ticking = false;
   var steps = $$("#seqSteps li"), bar = $("#seqBar");
   if (reduce){ sec.classList.add("static"); return; }
@@ -282,12 +304,13 @@ function activeSec(){
 }
 
 /* ---------- Mini buy box: after the hero, hidden while the buy box or footer is on screen ---------- */
-var mini = $("#mini"), miniLink = $("a", mini), hero = $(".hero"), buy = $("#buy"), foot = $(".ft");
+var mini = $("#mini"), miniLink = $("a", mini), hero = $(".hero"), zones = $$("[data-buyzone]"), seq = $("#opens"), foot = $(".ft");
+function inView(el){ var r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }
 function onScroll(){
   $("#hd").classList.toggle("solid", scrollY > 10);
-  var bR = buy.getBoundingClientRect(), fR = foot.getBoundingClientRect();
-  var qR = $("#opens").getBoundingClientRect();
-  var show = hero.getBoundingClientRect().bottom < 0 && !(bR.top < innerHeight && bR.bottom > 0) && !(qR.top < innerHeight * .5 && qR.bottom > innerHeight * .5) && fR.top > innerHeight;
+  var past = hero ? hero.getBoundingClientRect().bottom < 0 : scrollY > innerHeight * .6;
+  var inSeq = seq && (function(r){ return r.top < innerHeight * .5 && r.bottom > innerHeight * .5; })(seq.getBoundingClientRect());
+  var show = past && !zones.some(inView) && !inSeq && foot.getBoundingClientRect().top > innerHeight;
   mini.classList.toggle("show", show); mini.setAttribute("aria-hidden", String(!show)); miniLink.tabIndex = show ? 0 : -1;
   activeSec();
 }

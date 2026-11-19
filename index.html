@@ -7,8 +7,8 @@
 <meta name="description" content="The NOL POD: sink, BBQ and glass-door fridge in one outdoor kitchen with a roof that lifts when you cook and closes when you're done. From $9,900, delivered across the US.">
 <!-- Prototype hosted for review: keep it out of search results. Remove on the live store. -->
 <meta name="robots" content="noindex, nofollow">
-<link rel="canonical" href="https://nolshop.com/products/nol-pod">
-<meta property="og:type" content="product">
+<link rel="canonical" href="https://nolshop.com/">
+<meta property="og:type" content="website">
 <meta property="og:site_name" content="Nordic Outdoor Living">
 <meta property="og:title" content="The NOL POD outdoor kitchen">
 <meta property="og:description" content="Sink, BBQ and fridge under one roof. Lift it to cook, close it when you're done.">
@@ -21,7 +21,7 @@
 <link rel="preload" as="image" href="assets/video/hero-poster.jpg">
 <link rel="stylesheet" href="assets/css/store.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Product","name":"NOL Outdoor Kitchen POD","brand":{"@type":"Brand","name":"Nordic Outdoor Living"},"image":["assets/pods/good.jpg"],"description":"Outdoor kitchen with sink, BBQ and glass-door fridge under a roof that lifts to cook and closes when you're done.","offers":{"@type":"Offer","priceCurrency":"USD","price":"9900","availability":"https://schema.org/PreOrder"}}
+{"@context":"https://schema.org","@type":"Organization","name":"Nordic Outdoor Living","alternateName":"NOL","url":"https://nolshop.com/"}
 </script>
 </head>
 <body>
@@ -58,7 +58,7 @@
       <a href="#delivery">Delivery</a>
       <a href="#faq">Help</a>
     </nav>
-    <a class="btn btn-dark btn-sm" href="#buy" data-cta="header_reserve">Reserve</a>
+    <a class="btn btn-dark btn-sm" href="product.html" data-cta="header_reserve">Reserve</a>
   </div>
 </header>
 
@@ -87,7 +87,7 @@
     <h1>The outdoor kitchen that closes when dinner's done.</h1>
     <p class="hero-sub">Sink, BBQ and fridge under one roof. Lift it to cook. Close it and it's part of the garden.</p>
     <div class="row">
-      <a class="btn btn-light" href="#buy" data-cta="hero_reserve">Reserve from <span data-price></span> <svg class="ico"><use href="#i-ne"/></svg></a>
+      <a class="btn btn-light" href="product.html" data-cta="hero_reserve">Reserve from <span data-price></span> <svg class="ico"><use href="#i-ne"/></svg></a>
       <span class="hero-fin">or <span data-monthly></span>/mo with financing</span>
     </div>
   </div>
@@ -136,73 +136,23 @@
   </div>
 </section>
 
-<!-- BUY BOX -->
-<section class="sec buy" id="buy" aria-labelledby="h-buy">
-  <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="#top">Home</a><span>/</span><span aria-current="page">NOL Outdoor Kitchen POD</span></nav>
-    <div class="pdp">
-      <div class="gallery">
-        <div class="thumbs" id="thumbs" role="group" aria-label="Product images"></div>
-        <div class="stage" id="stage">
-          <span class="badge" id="stageBadge"></span>
-          <button class="snav prev" type="button" data-step="-1" aria-label="Previous image"><svg class="ico"><use href="#i-left"/></svg></button>
-          <button class="snav next" type="button" data-step="1" aria-label="Next image"><svg class="ico"><use href="#i-arrow"/></svg></button>
-        </div>
-      </div>
-
-      <div class="info" id="info">
-        <p class="eyebrow">NOL POD · 10 ft</p>
-        <h1 class="p-title" id="h-buy">NOL Outdoor Kitchen POD</h1>
-        <p class="p-sub">Sink, BBQ and glass-door fridge with a lift-up roof. 10 ft W x 7.5 ft H x 4 ft D (approx.)</p>
-
-        <div class="opt">
-          <div class="opt-head"><span>Choose your finish</span></div>
-          <div id="finish"></div>
-          <p class="fine">Frame, cabinet sides, faucet and handles are always black.</p>
-        </div>
-
-        <div class="opt">
-          <div class="opt-head"><span>Choose your cooking</span><small id="cookName"></small></div>
-          <div class="cook-grid" id="cook"></div>
-        </div>
-
-        <div class="opt">
-          <div class="opt-head"><span>Fuel</span></div>
-          <div class="chips" id="fuel"></div>
-        </div>
-
-        <div class="opt">
-          <div class="opt-head"><span>Add-ons</span><small>optional</small></div>
-          <div class="addons" id="addons"></div>
-        </div>
-
-        <div class="price-box">
-          <p class="pb-label">Your POD</p>
-          <p class="pb-price"><b id="total"></b><span id="lines"></span></p>
-          <a class="emi" href="#faq" data-cta="financing">
-            <span><small>Pay over time</small><b>From <span data-monthly></span>/month</b></span>
-            <svg class="ico"><use href="#i-arrow"/></svg>
-          </a>
-          <div class="cta-row">
-            <button class="btn btn-dark btn-block" type="button" id="reserveBtn">Reserve with <span data-deposit></span> deposit</button>
-            <a class="btn btn-line btn-block" href="#callback" data-cta="buybox_callback">Request a call back</a>
-          </div>
-          <p class="pb-msg" id="reserveMsg" aria-live="polite"></p>
-          <p class="pb-note">Your deposit counts toward the price. Ships flat-packed to your driveway.</p>
-        </div>
-
-        <ul class="trust">
-          <li><svg class="ico"><use href="#i-truck"/></svg>Driveway delivery</li>
-          <li><svg class="ico"><use href="#i-plug"/></svg>One utility panel</li>
-          <li><svg class="ico"><use href="#i-card"/></svg>Financing available</li>
-        </ul>
-
-        <div class="acc">
-          <details open><summary>Description</summary><div><p>The NOL POD is a complete outdoor kitchen in one architectural shell. A sink, a stainless BBQ and a glass-door fridge sit under a roof that lifts by hand into a canopy when you cook, then closes over everything when you're done. It arrives flat-packed and connects to your home at a single rear panel.</p></div></details>
-          <details><summary>What's included</summary><div><ul class="ticks" id="included"></ul></div></details>
-          <details><summary>Utilities</summary><div><dl class="kv" id="utilAcc"></dl></div></details>
-          <details><summary>Delivery and assembly</summary><div><p>Your POD ships flat-packed on a custom pallet, about 10 ft long and 30 in wide, to your driveway. Appliances are boxed separately. You'll need about 3 ft of clear access to bring it into the garden. <span class="tbc">[Assembly terms to confirm]</span></p></div></details>
-        </div>
+<!-- PRODUCT TEASER: the full buy box lives on product.html -->
+<section class="sec teaser" id="buy" aria-labelledby="h-buy">
+  <div class="wrap teaser-grid" data-buyzone>
+    <a class="teaser-img" href="product.html" data-cta="teaser_image"><img src="assets/pods/good.jpg" alt="The NOL POD with the roof lifted at dusk" loading="lazy" width="1170" height="780"></a>
+    <div class="teaser-copy">
+      <p class="eyebrow">NOL POD · 10 ft</p>
+      <h2 id="h-buy">NOL Outdoor Kitchen POD</h2>
+      <p class="teaser-price"><b><span data-price></span></b><span>or from <span data-monthly></span>/month with financing</span></p>
+      <ul class="ticks">
+        <li><svg class="ico"><use href="#i-check"/></svg>Sink, stainless BBQ and glass-door fridge</li>
+        <li><svg class="ico"><use href="#i-check"/></svg>Lift-up roof that closes weather-tight</li>
+        <li><svg class="ico"><use href="#i-check"/></svg>White or grey finish, four cooking options</li>
+        <li><svg class="ico"><use href="#i-check"/></svg><span>Reserve with a <span data-deposit></span> deposit</span></li>
+      </ul>
+      <div class="row">
+        <a class="btn btn-dark" href="product.html" data-cta="teaser_configure">Configure and reserve <svg class="ico"><use href="#i-ne"/></svg></a>
+        <a class="btn btn-line" href="#callback" data-cta="teaser_callback">Request a call back</a>
       </div>
     </div>
   </div>
@@ -354,7 +304,7 @@
       <img src="assets/photos/life-1.jpg" alt="" loading="lazy">
       <img src="assets/photos/build.jpg" alt="" loading="lazy">
       <img src="assets/photos/life-2.jpg" alt="" loading="lazy">
-      <a class="ft-cta" href="#buy" data-cta="footer_reserve"><span>Evenings<br>outside,<br>sorted.</span><b>Reserve now</b></a>
+      <a class="ft-cta" href="product.html" data-cta="footer_reserve"><span>Evenings<br>outside,<br>sorted.</span><b>Reserve now</b></a>
     </div>
     <div class="ft-grid">
       <form class="ft-news" id="newsForm" novalidate>
@@ -364,7 +314,7 @@
         <button class="btn btn-dark btn-sm" type="submit">Subscribe</button>
         <p class="msg" aria-live="polite"></p>
       </form>
-      <div><h4>Shop</h4><a href="#buy">NOL POD</a><a href="#features">Features</a><a href="#specs">Specifications</a></div>
+      <div><h4>Shop</h4><a href="product.html">NOL POD</a><a href="#features">Features</a><a href="#specs">Specifications</a></div>
       <div><h4>Support</h4><a href="#faq">FAQ</a><a href="#callback">Request a call</a><a href="#delivery">Delivery</a></div>
       <div><h4>Policies</h4><a href="#top">Warranty</a><a href="#top">Shipping</a><a href="#top">Privacy</a></div>
     </div>
@@ -377,7 +327,7 @@
 <div class="mini" id="mini" aria-hidden="true">
   <img src="assets/pods/good.jpg" alt="">
   <div><b>NOL Outdoor Kitchen POD</b><span id="miniPrice"></span></div>
-  <a class="btn btn-dark btn-sm" href="#buy" tabindex="-1" data-cta="mini_reserve">Reserve</a>
+  <a class="btn btn-dark btn-sm" href="product.html" tabindex="-1" data-cta="mini_reserve">Reserve</a>
 </div>
 
 <script src="assets/js/store.js" defer></script>

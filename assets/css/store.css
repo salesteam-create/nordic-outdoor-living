@@ -228,6 +228,39 @@ h2{font-size:clamp(2rem,3.8vw,3.3rem)}
   .stage{aspect-ratio:4/3.4}
 }
 
+/* Homepage product teaser */
+.teaser-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.teaser-img{display:block;border-radius:20px;overflow:hidden}
+.teaser-img img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;transition:transform 1.2s var(--ease)}
+.teaser-img:hover img{transform:scale(1.03)}
+.teaser h2{font-size:clamp(2rem,3.4vw,3rem);margin:.6rem 0 1rem}
+.teaser-price b{display:block;font-size:2rem;font-weight:450;letter-spacing:-.03em}
+.teaser-price > span{color:var(--muted);font-size:.93rem}
+.teaser .ticks{margin-top:1.4rem}
+@media (max-width:960px){.teaser-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Product page */
+.pdp-top{padding-top:clamp(1.5rem,3vw,2.5rem)}
+.hl-band{background:var(--tint);padding:clamp(2rem,4vw,3rem) 0}
+.hl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem}
+.hl-grid > div{display:grid;gap:.25rem;align-content:start}
+.hl-grid .ico{width:24px;height:24px;color:var(--accent);margin-bottom:.4rem}
+.hl-grid b{font-weight:500}
+.hl-grid span{font-size:.9rem;color:var(--ink-2)}
+.inc-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
+.inc{background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);padding-bottom:1.1rem}
+.inc img{width:100%;aspect-ratio:1;object-fit:cover;margin-bottom:1rem;background:var(--tint)}
+.inc.dark img{background:#000;object-fit:cover;object-position:50% 60%}
+.inc h3{font-size:1.1rem;padding:0 1.1rem}
+.inc p{font-size:.86rem;color:var(--muted);padding:.35rem 1.1rem 0}
+.inc-small{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;margin:1.8rem 0 0;padding:1.2rem 0 0;border-top:1px solid var(--line)}
+.inc-small li{display:flex;align-items:center;gap:.45rem;font-size:.92rem;color:var(--ink-2)}
+.inc-small .ico{width:16px;height:16px;color:var(--accent)}
+.steps-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+@media (max-width:1100px){.inc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){.hl-grid,.steps-grid{grid-template-columns:1fr 1fr}.inc-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.hl-grid,.steps-grid{grid-template-columns:minmax(0,1fr)}}
+
 /* Story band */
 .story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:#e9e2d6;min-height:560px}
 .story-copy{padding:clamp(3rem,7vw,6rem) var(--pad) clamp(3rem,7vw,6rem) var(--edge);display:flex;flex-direction:column;justify-content:center;gap:1.1rem}

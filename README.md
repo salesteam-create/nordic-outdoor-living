@@ -5,18 +5,18 @@ Static prototype of the NOL store, built for client review and hosted on GitHub 
 ## Pages
 
 ```
-index.html        The product page (everything lives here)
-pod-good.html     Redirect to index.html#buy (old links)
-pod-better.html   Redirect to index.html#buy (old links)
-pod-best.html     Redirect to index.html#buy (old links)
-product.html      Redirect to index.html#buy (old links)
+index.html        Homepage: storytelling, feature cards, how it opens, specs, comparison, FAQ, and a product card
+product.html      Product page: gallery and buy box, highlights, what's included, specs, delivery, FAQ, call back
+pod-good.html     Redirect to product.html (old links)
+pod-better.html   Redirect to product.html (old links)
+pod-best.html     Redirect to product.html (old links)
 ```
 
 ## Where things live
 
 ```
 assets/css/store.css   All styles (light, Google Sans Flex)
-assets/js/store.js     Product data at the top (price, options, add-ons, specs), then all page behaviour. No libraries.
+assets/js/store.js     Shared by both pages. Product data at the top (price, options, add-ons, specs), then each section's behaviour, which runs only if that section is on the page. No libraries.
 assets/frames/         30 rendered frames, scrubbed by scroll in "How it opens". Loaded only when the section is near.
 assets/video/          Hero video (muted, looping) and poster
 assets/pods, parts, photos   Product, part and lifestyle images
@@ -32,7 +32,8 @@ HTML, CSS and JS are about 19 KB gzipped in total. No WebGL, no animation librar
 - **Feature, detail and delivery cards:** edit `FEATURES`, `DETAILS` and `STEPS` in the same file.
 - **Pinned card sections:** in "Outdoor cooking" and "Designed down to the detail", scrolling down moves the cards sideways while the section stays pinned. Add `class="hs"` with the same inner markup to pin another row. With reduced motion turned on they become normal swipeable rows.
 - **Swap the scroll animation:** replace `assets/frames/00.webp` to `29.webp` with a new rendered sequence (same names). More frames: change `N` in the sequence block.
-- **Moving to Shopify:** each `<section>` maps to a theme section. The buy box options map to product variants and line-item properties, and "Reserve" becomes a deposit product added to the cart.
+- **Reserve buttons:** everything on the homepage links to `product.html`. The buy box (finish, cooking, fuel, add-ons, total, Reserve) lives only there.
+- **Moving to Shopify:** `index.html` maps to the home template and `product.html` to the product template; each `<section>` maps to a theme section. The buy box options map to product variants and line-item properties, and "Reserve" becomes a deposit product added to the cart.
 
 ## Versions
 
