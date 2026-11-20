@@ -220,7 +220,7 @@
 <!-- CLOSER LOOK: dark feature explorer. Pick a feature: its pill opens into a card, the image changes to a close-up. -->
 <section class="closer" id="closer" aria-labelledby="h-closer">
   <div class="cx" id="cx" data-buyzone>
-    <div class="cx-head"><h2 id="h-closer">Take a closer look.</h2><p>Six details that make the POD a real kitchen. Tap one to see it up close.</p></div>
+
     <div class="cx-stage" aria-hidden="true">
       <img class="cx-img on" data-k="overview" src="assets/closer/pod.webp" alt="" width="1600" height="948">
       <img class="cx-img" data-k="0" src="assets/closer/pod.webp" alt="" loading="lazy" width="1600" height="948">
@@ -230,7 +230,11 @@
       <img class="cx-img" data-k="4" src="assets/closer/drawers.webp" alt="" loading="lazy" width="774" height="657">
       <img class="cx-img" data-k="5" src="assets/closer/fridge.webp" alt="" loading="lazy" width="731" height="674">
     </div>
-    <div class="cx-nav" role="group" aria-label="Step through features">
+
+<div class="cx-side">
+  <div class="cx-head"><h2 id="h-closer">Take a closer look.</h2><p>Six details that make the POD a real kitchen. Tap one to see it up close.</p></div>
+      <div class="cx-body">
+  <div class="cx-nav" role="group" aria-label="Step through features">
       <button type="button" class="cx-arrow" data-step="-1" aria-label="Previous feature"><svg class="ico" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button>
       <button type="button" class="cx-arrow" data-step="1" aria-label="Next feature"><svg class="ico" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
     </div>
@@ -249,6 +253,8 @@
       <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>Glass-door fridge</button>
         <div class="fx-card"><p><b>Glass-door fridge.</b> Stainless with tempered glass and adjustable shelves. Runs on 110 V.</p></div></li>
     </ul>
+      </div>
+    </div>
     <button type="button" class="cx-close" aria-label="Close feature"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
 </section>
