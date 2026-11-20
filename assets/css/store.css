@@ -175,7 +175,12 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .said-pin{position:sticky;top:var(--stick,60px);height:calc(100vh - var(--stick,60px));height:calc(100svh - var(--stick,60px));display:flex;align-items:center;overflow:hidden;
   background:radial-gradient(70% 60% at 85% 10%,rgba(65,96,74,.10),rgba(65,96,74,0) 70%),radial-gradient(60% 60% at 10% 95%,rgba(65,96,74,.08),rgba(65,96,74,0) 70%)}
 .said-in{width:100%;text-align:center}
-.said-h{font-size:clamp(2.3rem,6vw,6rem);font-weight:400;line-height:1.12;letter-spacing:-.045em;text-wrap:initial}
+.said-h{font-size:clamp(2.3rem,6vw,6rem);font-weight:620;line-height:1.12;letter-spacing:-.045em;text-wrap:initial}
+/* hover: the word lifts and turns green; uses translate/scale so it never fights the scroll transform */
+.said-h .w{cursor:default;transition:translate .45s cubic-bezier(.2,.8,.2,1),scale .45s cubic-bezier(.2,.8,.2,1),color .35s}
+.said-h .w:hover{translate:0 -.07em;scale:1.04;color:var(--green-2)}
+.said-h .m{transition:scale .5s cubic-bezier(.2,.8,.2,1)}
+.said-h .m:hover{scale:1.06}
 .said-h .w,.said-h .m{display:inline-block;will-change:opacity,filter,transform}
 .said-h .g{background:linear-gradient(90deg,#2f4733,#5b8a66);-webkit-background-clip:text;background-clip:text;color:transparent}
 .said-h .m{width:1.9em;height:.84em;margin:0 .06em;border-radius:999px;overflow:hidden;vertical-align:-.1em;background:var(--card);box-shadow:0 .2em .5em -.25em rgba(0,0,0,.35)}
