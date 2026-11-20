@@ -430,7 +430,170 @@ $("#reserveBtn").addEventListener("click", function(){
     link.style.opacity = l.toFixed(3); link.style.transform = "translateY(" + (12 * (1 - l)).toFixed(1) + "px)";
   }
   addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, { passive:true });
-  addEventListener("resize", draw);
+  addEventListener("resize", function(){ bounds(); draw(); });
+  draw();
+})();
+
+/* ---------- Specs: a line drawing of the POD in 3D. Scroll draws it, shows the rear utility panel,
+   turns it to the front and explodes it into its parts. Plain SVG, rebuilt each frame from simple boxes. ---------- */
+(function(){
+  var sec = $("#specs"); if (!sec || !$("#xpSvg")) return;
+  var svg = $("#xpSvg"), steps = $$("#xpSteps li"), bar = $("#xpBar"), ticking = false, NS = "http://www.w3.org/2000/svg";
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function ease(a, b, p){ var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); }
+  function mix(a, b, t){ return a + (b - a) * t; }
+  var R = Math.PI / 180, E = 24 * R;
+
+  /* parts: boxes in inches (x across, d front to back, z up), how far each one moves when exploded, and line details per face */
+  function box(id, x0, x1, d0, d1, z0, z1, off, det){ return { id:id, b:[x0, x1, d0, d1, z0, z1], off:off, det:det || {} }; }
+  var slats = [], i;
+  for (i = 6; i < 120; i += 6) slats.push([i, 2, i, 78]);
+  var roofLines = [];
+  for (i = 8; i < 58; i += 8) roofLines.push([0, i, 124, i]);
+  var PARTS = [
+    box("plinth", 4, 116, 6, 38, 0, 4, [0, 0, -10]),
+    box("postL", 0, 4, 0, 40, 4, 84, [-18, 0, 0]),
+    box("postR", 116, 120, 0, 40, 4, 84, [18, 0, 0]),
+    box("wall", 4, 116, 34, 40, 4, 84, [0, 30, 4], { front:slats,
+      back:{ rects:[[40, 12, 64, 24]], circles:[[44, 18, 1.6], [49, 18, 1.6], [54, 18, 1.6], [59, 18, 1.6], [62, 14.5, 1]] } }),
+    box("sinkCab", 6, 42, 8, 33, 4, 36, [-10, -16, 0], { front:{ rects:[[1, 1, 17.5, 31], [18.5, 1, 35, 31]], lines:[[16, 17, 16, 26], [20.5, 17, 20.5, 26]] } }),
+    box("bbqCab", 42, 80, 8, 33, 4, 36, [0, -16, 0], { front:{ rects:[[1, 1, 37, 15], [1, 16, 37, 31]], lines:[[13, 11, 25, 11], [13, 27, 25, 27]] } }),
+    box("fridge", 80, 114, 8, 33, 4, 36, [10, -16, 0], { front:{ rects:[[4, 5, 31, 30]], lines:[[2.5, 9, 2.5, 26], [5, 13.5, 30, 13.5], [5, 21.5, 30, 21.5], [6, 2.2, 29, 2.2], [6, 3.4, 29, 3.4]] } }),
+    box("counter", 4, 116, 6, 34, 36, 38, [0, 0, 20], { top:{ rects:[[10, 6, 32, 21], [12, 8, 30, 19]] } }),
+    box("faucet", 20, 22, 26, 28, 38, 47, [0, 0, 20]),
+    box("bbq", 46, 76, 12, 30, 38, 48, [0, 0, 36], { front:{ lines:[[0, 6.5, 30, 6.5], [4, 8.2, 26, 8.2]], circles:[[6, 3.2, 1.5], [12, 3.2, 1.5], [18, 3.2, 1.5], [24, 3.2, 1.5]] }, top:{ circles:[[15, 9, 1.8]] } }),
+    box("roof", -2, 122, -14, 44, 84, 88, [0, 0, 48], { top:{ lines:roofLines } })
+  ];
+  /* rear connections: port on the panel, then out behind the POD to a label on the ground */
+  var PIPES = [
+    { x:76, z:22, lx:122, ld:70, ty:6, label:"Power" }, { x:71, z:22, lx:92, ld:70, ty:15, label:"Gas" }, { x:66, z:22, lx:62, ld:70, ty:6, label:"Hot water" },
+    { x:61, z:22, lx:32, ld:70, ty:15, label:"Cold water" }, { x:58, z:18.5, lx:2, ld:70, ty:6, label:"Grey water" }
+  ];
+  /* exploded callouts: point on the part, which side the label sits */
+  var CALLS = [
+    { part:"roof", p:[100, -14, 88], t:"Lift-up roof", side:1 },
+    { part:"wall", p:[112, 34, 70], t:"Slatted back wall", side:1 },
+    { part:"bbq", p:[46, 12, 44], t:"Built-in BBQ", side:-1 },
+    { part:"counter", p:[8, 6, 38], t:"Countertop", side:-1 },
+    { part:"sinkCab", p:[6, 8, 22], t:"Sink cabinet", side:-1 },
+    { part:"fridge", p:[114, 20, 30], t:"Glass-door fridge", side:1 },
+    { part:"bbqCab", p:[44, 8, 8], t:"Two-drawer cabinet", side:-1 }
+  ];
+  var BY = {}; PARTS.forEach(function(pt){ BY[pt.id] = pt; });
+
+  var cam, rv, uv;
+  function setCam(th){
+    var s = Math.sin(th), c = Math.cos(th);
+    cam = [s * Math.cos(E), -c * Math.cos(E), Math.sin(E)];
+    rv = [c, s, 0];
+    uv = [-s * Math.sin(E), c * Math.sin(E), Math.cos(E)];
+  }
+  function P(p){ return [p[0] * rv[0] + p[1] * rv[1], -(p[0] * uv[0] + p[1] * uv[1] + p[2] * uv[2])]; }
+  function far(p){ return -(p[0] * cam[0] + p[1] * cam[1] + p[2] * cam[2]); }
+  // a face: plane mapping from face coords (u, v) to the world, its normal and size
+  function faces(b){
+    var x0 = b[0], x1 = b[1], d0 = b[2], d1 = b[3], z0 = b[4], z1 = b[5];
+    return [
+      { k:"front", n:[0, -1, 0], w:x1 - x0, h:z1 - z0, m:function(u, v){ return [x0 + u, d0, z0 + v]; } },
+      { k:"back",  n:[0, 1, 0],  w:x1 - x0, h:z1 - z0, m:function(u, v){ return [x1 - u, d1, z0 + v]; } },
+      { k:"right", n:[1, 0, 0],  w:d1 - d0, h:z1 - z0, m:function(u, v){ return [x1, d0 + u, z0 + v]; } },
+      { k:"left",  n:[-1, 0, 0], w:d1 - d0, h:z1 - z0, m:function(u, v){ return [x0, d1 - u, z0 + v]; } },
+      { k:"top",   n:[0, 0, 1],  w:x1 - x0, h:d1 - d0, m:function(u, v){ return [x0 + u, d0 + v, z1]; } }
+    ];
+  }
+  function pt(p){ var s = P(p); return s[0].toFixed(2) + " " + s[1].toFixed(2); }
+  function poly(m, pts){ return "M" + pts.map(function(q){ return pt(m(q[0], q[1])); }).join("L") + "Z"; }
+  function line(m, a){ return "M" + pt(m(a[0], a[1])) + "L" + pt(m(a[2], a[3])); }
+  function circ(m, c){ var s = "", k; for (k = 0; k <= 24; k++){ var a = k / 24 * 2 * Math.PI; s += (k ? "L" : "M") + pt(m(c[0] + Math.cos(a) * c[2], c[1] + Math.sin(a) * c[2])); } return s + "Z"; }
+  function moved(pt0, ex){ var o = pt0.off; return pt0.b.map(function(v, j){ return v + o[j >> 1] * ex; }); }
+  function addOff(p, part, ex){ var o = BY[part].off; return [p[0] + o[0] * ex, p[1] + o[1] * ex, p[2] + o[2] * ex]; }
+
+  function state(p){
+    return { draw:ease(0, .2, p), panel:ease(.2, .3, p) - ease(.42, .5, p), th:mix(150, 32, ease(.42, .6, p)) * R, ex:ease(.62, .86, p), call:ease(.84, .92, p) };
+  }
+  function build(s){
+    setCam(s.th);
+    var out = [], list = PARTS.map(function(pt0, idx){ var b = moved(pt0, s.ex); return { pt:pt0, b:b, idx:idx, f:far([(b[0] + b[1]) / 2, (b[2] + b[3]) / 2, (b[4] + b[5]) / 2]) }; });
+    list.sort(function(a, b){ return b.f - a.f; });
+    list.forEach(function(it){
+      var t = clamp(s.draw * 1.6 - it.idx / PARTS.length * .6), d = (1 - t).toFixed(3), det = it.pt.det;
+      faces(it.b).forEach(function(f){
+        if (f.n[0] * cam[0] + f.n[1] * cam[1] + f.n[2] * cam[2] <= .02) return;
+        out.push('<path class="xf" style="fill-opacity:' + (t * t).toFixed(3) + ';stroke-dashoffset:' + d + '" pathLength="1" d="' + poly(f.m, [[0, 0], [f.w, 0], [f.w, f.h], [0, f.h]]) + '"/>');
+        var dd = det[f.k]; if (!dd || t < .6) return;
+        var o = clamp((t - .6) / .4).toFixed(3), segs = Array.isArray(dd) ? { lines:dd } : dd, path = "";
+        (segs.lines || []).forEach(function(a){ path += line(f.m, a); });
+        (segs.rects || []).forEach(function(r){ path += poly(f.m, [[r[0], r[1]], [r[2], r[1]], [r[2], r[3]], [r[0], r[3]]]); });
+        (segs.circles || []).forEach(function(c){ path += circ(f.m, c); });
+        var cls = it.pt.id === "wall" && f.k === "back" ? "xd xpanel" : "xd";
+        out.push('<path class="' + cls + '" style="opacity:' + o + '" d="' + path + '"/>');
+      });
+    });
+    // rear connections
+    if (s.panel > .01){
+      var g = '<g class="xpipes" style="opacity:' + s.panel.toFixed(3) + '">';
+      PIPES.forEach(function(q, k){
+        var a = addOff([q.x, 40, q.z], "wall", s.ex), b = addOff([q.x, 52, q.z], "wall", s.ex), c = addOff([q.lx, q.ld, 0], "wall", s.ex);
+        var len = clamp(s.panel * 1.4 - k * .08);
+        g += '<path pathLength="1" style="stroke-dashoffset:' + (1 - len).toFixed(3) + '" d="M' + pt(a) + "L" + pt(b) + "L" + pt([c[0], c[1], q.z]) + "L" + pt(c) + '"/>';
+        var cs = P(c);
+        g += '<circle cx="' + cs[0].toFixed(2) + '" cy="' + cs[1].toFixed(2) + '" r=".9"/><text x="' + cs[0].toFixed(2) + '" y="' + (cs[1] + q.ty).toFixed(2) + '" text-anchor="middle" style="opacity:' + clamp(len * 2 - 1).toFixed(3) + '">' + q.label + "</text>";
+      });
+      out.push(g + "</g>");
+    }
+    return out;
+  }
+  // fixed frame: the union of the drawing's bounds over the whole sequence, plus room for labels
+  var VB;
+  function bounds(){
+    var mnx = 1e9, mny = 1e9, mxx = -1e9, mxy = -1e9;
+    for (var p = 0; p <= 1.0001; p += .05){
+      var s = state(p); setCam(s.th);
+      PARTS.forEach(function(pt0){ var b = moved(pt0, s.ex);
+        [0, 1].forEach(function(a){ [2, 3].forEach(function(c){ [4, 5].forEach(function(e){ var q = P([b[a], b[c], b[e]]); mnx = Math.min(mnx, q[0]); mxx = Math.max(mxx, q[0]); mny = Math.min(mny, q[1]); mxy = Math.max(mxy, q[1]); }); }); });
+      });
+    }
+    var mob = innerWidth < 860, w = mxx - mnx, h = mxy - mny, padX = mob ? 6 : 42, padY = 14;
+    VB = [mnx - padX, mny - padY, w + padX * 2, h + padY * 2];
+    svg.setAttribute("viewBox", VB.map(function(v){ return v.toFixed(1); }).join(" "));
+  }
+  function callouts(s){
+    if (s.call < .01) return "";
+    setCam(s.th);
+    var g = '<g class="xcall" style="opacity:' + s.call.toFixed(3) + '">', L = VB[0] + 2, Rr = VB[0] + VB[2] - 2, GAP = 11;
+    [-1, 1].forEach(function(side){
+      var cs = CALLS.filter(function(c){ return c.side === side; }).map(function(c){ return { c:c, a:P(addOff(c.p, c.part, s.ex)) }; });
+      cs.sort(function(m, n){ return m.a[1] - n.a[1]; });
+      // labels keep their part's height where they can, pushed apart to at least GAP
+      var ys = cs.map(function(o){ return o.a[1]; });
+      for (var k = 1; k < ys.length; k++) ys[k] = Math.max(ys[k], ys[k - 1] + GAP);
+      cs.forEach(function(o, k){
+        var a = o.a, y = ys[k], tx = side < 0 ? L : Rr, ex = side < 0 ? L + 26 : Rr - 26;
+        g += '<circle cx="' + a[0].toFixed(2) + '" cy="' + a[1].toFixed(2) + '" r=".9"/><path d="M' + a[0].toFixed(2) + " " + a[1].toFixed(2) + "L" + (ex + side * -4).toFixed(2) + " " + y.toFixed(2) + "L" + ex.toFixed(2) + " " + y.toFixed(2) + '"/>' +
+          '<text x="' + tx.toFixed(2) + '" y="' + (y + 1.5).toFixed(2) + '" text-anchor="' + (side < 0 ? "start" : "end") + '">' + o.c.t + "</text>";
+      });
+    });
+    return g + "</g>";
+  }
+  function progress(){
+    var r = sec.getBoundingClientRect(), stick = stickH(), span = r.height - (innerHeight - stick);
+    return span > 0 ? clamp((stick - r.top) / span) : 1;
+  }
+  function draw(){
+    ticking = false;
+    var p = sec.classList.contains("static") ? 1 : progress(), s = state(p);
+    // one screen pixel in drawing units, so line weights stay crisp at any size
+    var k = Math.max(svg.clientWidth / VB[2], svg.clientHeight / VB[3]) || 3, fit = Math.min(svg.clientWidth / VB[2], svg.clientHeight / VB[3]) || 3;
+    svg.style.setProperty("--u", (1 / fit).toFixed(4) + "px");
+    svg.innerHTML = build(s).join("") + callouts(s);
+    bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+    var k = p < .2 ? 0 : p < .42 ? 1 : 2;
+    steps.forEach(function(li, j){ li.classList.toggle("on", j === k); });
+  }
+  bounds();
+  if (reduce) sec.classList.add("static");
+  else addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, { passive:true });
+  addEventListener("resize", function(){ bounds(); draw(); });
   draw();
 })();
 

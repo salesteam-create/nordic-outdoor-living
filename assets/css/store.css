@@ -523,3 +523,50 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .closer + .cooking{padding-top:clamp(4rem,8vw,7rem)}
 .quote + .title-card{padding-top:0}
 .cooking + .sec{padding-top:clamp(4.5rem,9vw,8rem)}
+
+/* Specs as a scroll-driven line drawing */
+.xp{position:relative;height:440vh}
+.xp-pin{position:sticky;top:var(--stick,60px);height:calc(100vh - var(--stick,60px));height:calc(100svh - var(--stick,60px));display:flex;align-items:center;overflow:hidden}
+.xp-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(1.5rem,3vw,3rem);align-items:center;width:100%}
+.xp h2{margin:.8rem 0 1.8rem;font-size:clamp(2rem,3.4vw,3.1rem)}
+.xp-steps{list-style:none;margin:0;padding:0;display:grid;gap:.2rem}
+.xp-steps li{padding:.7rem 0 .7rem 1.1rem;border-left:1px solid var(--line-2);color:var(--muted);transition:color .4s,border-color .4s}
+.xp-steps li b{display:block;font-weight:500;font-size:1rem;color:inherit}
+.xp-steps li span{font-size:.86rem}
+.xp-steps li.on{color:var(--ink);border-left-color:var(--ink)}
+.xp-bar{height:1px;margin-top:1.6rem;background:var(--line-2)}
+.xp-bar span{display:block;height:100%;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+.xp-fig{margin:0;height:calc(100svh - var(--stick,60px) - 48px);max-height:760px;display:flex;align-items:center}
+.xp-svg{width:100%;height:100%;overflow:visible}
+.xp-svg .xf{fill:var(--bg);stroke:var(--ink);stroke-width:calc(var(--u,.4px) * 1.15);stroke-linejoin:round;stroke-dasharray:1 1}
+.xp-svg .xd{fill:none;stroke:var(--ink);stroke-width:calc(var(--u,.4px) * .7);stroke-linecap:round}
+.xp-svg .xpanel{stroke:var(--green-2);stroke-width:calc(var(--u,.4px) * 1.1)}
+.xp-svg .xpipes path{fill:none;stroke:var(--green-2);stroke-width:calc(var(--u,.4px) * 1.3);stroke-dasharray:1 1;stroke-linejoin:round}
+.xp-svg .xpipes circle{fill:var(--green-2)}
+.xp-svg .xpipes text,.xp-svg .xcall text{font:500 4.2px var(--sans);fill:var(--ink);letter-spacing:.01em}
+.xp-svg .xcall path{fill:none;stroke:var(--muted);stroke-width:calc(var(--u,.4px) * .7)}
+.xp-svg .xcall circle{fill:var(--ink)}
+.xp.static{height:auto}
+.xp.static .xp-pin{position:relative;top:0;height:auto;padding:clamp(4rem,8vw,6rem) 0}
+.xp.static .xp-fig{height:auto;aspect-ratio:3/2}
+.spec-table{padding-top:clamp(2rem,4vw,3rem)}
+.spec-cols{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(1.5rem,3vw,3rem)}
+.spec-cols h3{font-size:1.3rem}
+.spec-cols .kv{column-count:2;column-gap:3rem;display:block}
+.spec-cols .kv dt{padding-bottom:0;border:0;padding-top:.75rem;font-size:.8rem;break-after:avoid}
+.spec-cols .kv dd{padding-top:.15rem;font-size:.9rem;break-before:avoid}
+@media (max-width:860px){
+  .xp-grid{grid-template-columns:minmax(0,1fr);gap:.6rem}
+  .xp h2{font-size:1.9rem;margin:.4rem 0 .8rem}
+  .xp-h2 br{display:none}
+  .xp-steps{grid-template-columns:repeat(3,1fr);gap:.5rem}
+  .xp-steps li{border-left:0;border-top:1px solid var(--line-2);padding:.5rem 0 0}
+  .xp-steps li.on{border-top-color:var(--ink)}
+  .xp-steps li span{display:none}
+  .xp-steps li b{font-size:.78rem;line-height:1.25}
+  .xp-bar{display:none}
+  .xp-fig{order:-1;height:46svh}
+  .spec-cols{grid-template-columns:minmax(0,1fr)}
+  .xp-svg .xcall,.xp-svg .xpipes text{display:none}
+  .spec-cols .kv{column-count:1}
+}
