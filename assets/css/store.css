@@ -119,7 +119,7 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .quote-by small{display:block;font-weight:400;color:var(--muted)}
 .avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff}
 .avatar .mk{width:17px}
-.quote blockquote{font-size:clamp(1.5rem,2.6vw,2.35rem);line-height:1.22;letter-spacing:-.025em;max-width:30ch;text-wrap:pretty}
+.quote blockquote{justify-self:end;font-size:clamp(1.5rem,2.6vw,2.35rem);line-height:1.22;letter-spacing:-.025em;max-width:30ch;text-wrap:pretty}
 @media (max-width:760px){.quote-grid{grid-template-columns:minmax(0,1fr)}}
 
 /* Two tiles */
