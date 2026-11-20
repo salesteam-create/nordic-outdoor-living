@@ -292,8 +292,8 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:860px){.cook-row{grid-template-columns:repeat(2,minmax(0,1fr))}.cook-head{flex-direction:column;align-items:flex-start;gap:.8rem}}
 
 /* Centred section title card */
-.title-card{padding:clamp(5rem,10vw,8.5rem) var(--pad) clamp(2.5rem,5vw,4rem)}
-.title-in{text-align:center}
+.title-card{padding:clamp(5rem,10vw,8.5rem) var(--edge) clamp(2.5rem,5vw,4rem)}
+.title-in{text-align:left}
 .title-in h2{font-size:clamp(2.4rem,5vw,4.4rem);letter-spacing:-.04em}
 .title-in p{font-size:.9rem;color:var(--muted);margin-top:.9rem}
 
