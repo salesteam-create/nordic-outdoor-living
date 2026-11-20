@@ -379,8 +379,8 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .ft-news b{grid-column:1/-1;font-weight:500;font-size:.9rem}
 .ft-news input{height:38px;padding:0 1rem;border:1px solid var(--line-2);border-radius:999px;background:var(--card-2);font:inherit;font-size:.86rem}
 .ft-news .msg{grid-column:1/-1;color:var(--green-2)}
-.ft-word{margin:clamp(3rem,6vw,5rem) 0 0;color:var(--ink)}
-.ft-word .logo{display:block;width:min(100%,1090px)}
+.ft-word{margin:clamp(2.5rem,5vw,4rem) 0 0;color:var(--ink)}
+.ft-word .mk{display:block;height:40px}
 .ft-base{display:flex;justify-content:space-between;gap:1rem;margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid var(--line);font-size:.76rem;color:var(--muted)}
 @media (max-width:860px){.ft-grid{grid-template-columns:1fr 1fr}.ft-news{grid-column:1/-1}}
 
