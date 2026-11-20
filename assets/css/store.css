@@ -519,7 +519,6 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .inc-small{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;margin:1.8rem 0 0;padding:1.2rem 0 0;border-top:1px solid var(--line)}
 .inc-small li{display:flex;align-items:center;gap:.45rem;font-size:.88rem;color:var(--ink-2)}
 .inc-small .ico{width:16px;height:16px;color:var(--green-2)}
-.pdp-page #specs{padding-top:clamp(4.5rem,9vw,8rem)}
 @media (max-width:1100px){.inc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:960px){
   .pdp{grid-template-columns:minmax(0,1fr)}
