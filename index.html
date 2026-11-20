@@ -51,7 +51,7 @@
     <a class="mark" href="index.html" aria-label="Nordic Outdoor Living home"><span class="logo" aria-hidden="true"></span></a>
     <nav class="hd-nav" aria-label="Main">
       <a href="#pod">The POD</a>
-      <a href="#opens">How it opens</a>
+      <a href="#closer">Up close</a>
       <a href="#delivery">Delivery</a>
       <a href="#faq">Help</a>
     </nav>
@@ -194,54 +194,42 @@
   </div>
 </section>
 
-<!-- HOW IT OPENS: front-view POD model built in HTML/CSS. Scroll lifts the shutter roof in perspective, then the lights come on. -->
-<section class="seq" id="opens" aria-labelledby="h-seq">
-  <div class="seq-pin">
-    <div class="wrap seq-grid">
-      <div class="seq-copy">
-        <p class="eyebrow">How it opens</p>
-        <h2 id="h-seq">One roof. <br>Two lives.</h2>
-        <ol class="seq-steps" id="seqSteps">
-          <li class="on"><b>Closed</b><span>A clean, weather-tight shape in the garden.</span></li>
-          <li><b>Lift</b><span>The roof swings up on gas struts, by hand.</span></li>
-          <li><b>Light</b><span>Lights under the roof warm the counter and the wall.</span></li>
-          <li><b>Cook</b><span>A canopy over the BBQ, sink and fridge.</span></li>
-        </ol>
-        <div class="seq-bar"><span id="seqBar"></span></div>
-      </div>
-      <div class="seq-stage" id="seqStage">
-        <span class="seq-tag" id="seqTag">Closed</span>
-        <div class="pm" id="podModel" role="img" aria-label="Front view of the NOL POD. The roof lifts into a canopy and the lights come on.">
-          <div class="pm-floor"></div>
-          <div class="pm-glow"></div>
-          <!-- interior behind the roof -->
-          <div class="pm-wall">
-            <div class="pm-shelf"><i class="c1"></i><i class="c2"></i><i class="v1"></i><i class="c3"></i></div>
-            <div class="pm-wash"></div>
-            <div class="pm-dim"></div>
-          </div>
-          <div class="pm-post l"></div><div class="pm-post r"></div>
-          <svg class="pm-tap" viewBox="0 0 60 100" aria-hidden="true"><path d="M14 100V30Q14 8 32 8Q50 8 50 28V40"/><path d="M8 100H24"/></svg>
-          <div class="pm-hood"><i class="therm"></i><b class="bar"></b></div>
-          <div class="pm-counter"></div>
-          <div class="pm-base">
-            <div class="pm-door d1"><i></i></div><div class="pm-door d2"><i></i></div>
-            <div class="pm-grill"><i></i><i></i><i></i><i></i></div>
-            <div class="pm-drawer a"><i></i></div><div class="pm-drawer b"><i></i></div>
-            <div class="pm-fridge"><div class="pm-glass"><div class="pm-cool"></div><i class="sh s1"></i><i class="sh s2"></i><span class="bt"></span><span class="bt"></span><span class="bt"></span><span class="bt"></span><span class="cn"></span><span class="cn"></span><span class="cn"></span></div><b class="pm-handle"></b></div>
-          </div>
-          <div class="pm-plinth"></div>
-          <div class="pm-beam"></div>
-          <!-- the roof: hinged at the beam, it hangs over the opening when closed and swings up into a canopy -->
-          <div class="pm-roof" id="pmRoof">
-            <div class="pm-face out"></div>
-            <div class="pm-face in"><i class="led"></i></div>
-            <div class="pm-edge"></div>
-          </div>
-          <svg class="pm-struts" id="pmStruts" viewBox="0 0 1000 860" aria-hidden="true"><path class="rod" d=""/><path class="cyl" d=""/><path class="rod" d=""/><path class="cyl" d=""/></svg>
-        </div>
-      </div>
+<!-- CLOSER LOOK: dark feature explorer. Pick a feature: its pill opens into a card, the image changes to a close-up. -->
+<section class="closer" id="closer" aria-labelledby="h-closer">
+  <div class="wrap"><h2 id="h-closer" class="closer-h">Take a closer look.</h2></div>
+  <div class="cx" id="cx" data-buyzone>
+    <div class="cx-stage" aria-hidden="true">
+      <img class="cx-img on" data-k="overview" src="assets/closer/pod.webp" alt="" width="1600" height="948">
+      <img class="cx-img" data-k="0" src="assets/closer/pod.webp" alt="" loading="lazy" width="1600" height="948">
+      <img class="cx-img fade-lb" data-k="1" src="assets/closer/roof.webp" alt="" loading="lazy" width="654" height="668">
+      <img class="cx-img" data-k="2" src="assets/closer/sink.webp" alt="" loading="lazy" width="881" height="791">
+      <img class="cx-img" data-k="3" src="assets/closer/bbq.webp" alt="" loading="lazy" width="711" height="487">
+      <img class="cx-img" data-k="4" src="assets/closer/pizza.webp" alt="" loading="lazy" width="634" height="646">
+      <img class="cx-img" data-k="5" src="assets/closer/drawers.webp" alt="" loading="lazy" width="774" height="657">
+      <img class="cx-img" data-k="6" src="assets/closer/fridge.webp" alt="" loading="lazy" width="731" height="674">
     </div>
+    <div class="cx-nav" role="group" aria-label="Step through features">
+      <button type="button" class="cx-arrow" data-step="-1" aria-label="Previous feature"><svg class="ico" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button type="button" class="cx-arrow" data-step="1" aria-label="Next feature"><svg class="ico" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    </div>
+    <ul class="cx-list" id="cxList">
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-dot"></i>Finishes</button>
+        <div class="fx-card"><p><b>Finishes.</b> Cabinet faces and panels in white or grey, on a black frame. Shown in white.</p>
+          <span class="fx-sw" aria-hidden="true"><i style="--c:#ECE7DF"></i><i style="--c:#56595C"></i><i style="--c:#151515"></i></span></div></li>
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>Lift-up roof</button>
+        <div class="fx-card"><p><b>Lift-up roof.</b> Lifts by hand on gas struts and holds itself open as a canopy. Lower it and the kitchen closes weather-tight.</p></div></li>
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>Sink cabinet</button>
+        <div class="fx-card"><p><b>Sink cabinet.</b> A stainless sink and black faucet. The plumbing kit and grey water tank hide behind the doors.</p></div></li>
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>Built-in BBQ</button>
+        <div class="fx-card"><p><b>Built-in BBQ.</b> Stainless, on propane or natural gas, set into its own vented cabinet.</p></div></li>
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>Four ways to cook</button>
+        <div class="fx-card"><p><b>Four ways to cook.</b> Keep the BBQ, or swap it for a griddle (+$390), pizza oven (+$590) or pellet smoker (+$790).</p></div></li>
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>BBQ cabinet</button>
+        <div class="fx-card"><p><b>BBQ cabinet.</b> Two deep drawers under the grill for tools, trays and fuel.</p></div></li>
+      <li class="fx"><button type="button" class="fx-pill" aria-expanded="false"><i class="fx-plus"></i>Glass-door fridge</button>
+        <div class="fx-card"><p><b>Glass-door fridge.</b> Stainless with tempered glass and adjustable shelves. Runs on 110 V.</p></div></li>
+    </ul>
+    <button type="button" class="cx-close" aria-label="Close feature"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
 </section>
 

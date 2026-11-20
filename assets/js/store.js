@@ -368,53 +368,40 @@ $("#reserveBtn").addEventListener("click", function(){
 });
 }
 
-/* ---------- How it opens: the front-view POD model. Scroll lifts the roof in perspective, then the lights come on. ---------- */
+/* ---------- Closer look: one feature open at a time. The pill grows into its card (size animated), the others move to make room,
+   the image crossfades to that feature. Arrows step through; the close button goes back to the whole POD. ---------- */
 (function(){
-  var sec = $("#opens"); if (!sec || !$("#podModel")) return;
-  var stage = $("#seqStage"), model = $("#podModel"), steps = $$("#seqSteps li"), bar = $("#seqBar"), tag = $("#seqTag"),
-      NAMES = ["Closed", "Lift", "Light", "Cook"], ticking = false;
-  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
-  function ease(a, b, p){ var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); }
-  var struts = $$("#pmStruts path"), D = 2600, OX = 500, OY = 860 * .7, HINGE = 150, RH = 334;
-  function fit(){
-    // leave room above for the lifted roof
-    var s = Math.min(stage.clientWidth / 1080, stage.clientHeight / 1000);
-    model.style.transform = "translateY(" + (40 * s).toFixed(1) + "px) scale(" + s.toFixed(4) + ")";
-    draw();
+  var cx = $("#cx"); if (!cx) return;
+  var items = $$(".fx", cx), imgs = $$(".cx-img", cx), arrows = $$(".cx-arrow", cx), cur = -1, EASE = "cubic-bezier(.45,0,.2,1)", DUR = reduce ? 0 : 460;
+  function size(el){ var r = el.getBoundingClientRect(); return { w:r.width, h:r.height }; }
+  // switch an item's state and animate its box from the old size to the new one
+  function morph(el, open){
+    var a = size(el);
+    el.classList.toggle("open", open);
+    $(".fx-pill", el).setAttribute("aria-expanded", String(open));
+    var b = size(el);
+    if (!DUR || !el.animate) return;
+    el.classList.add(open ? "enter" : "leave");
+    var an = el.animate([{ width:a.w + "px", height:a.h + "px" }, { width:b.w + "px", height:b.h + "px" }], { duration:DUR, easing:EASE });
+    an.onfinish = function(){ el.classList.remove("enter", "leave"); };
   }
-  // where a point on the roof lands on screen, using the same perspective as the CSS
-  function proj(x, ly, a){
-    var y = HINGE + ly * Math.cos(a), z = ly * Math.sin(a), k = D / (D - z);
-    return [OX + (x - OX) * k, OY + (y - OY) * k];
+  function show(i){
+    var key = i < 0 ? "overview" : String(i);
+    imgs.forEach(function(im){ im.classList.toggle("on", im.dataset.k === key); });
   }
-  function strut(i, base, top){
-    // gas strut: a fat cylinder from the post, a thin rod up to the roof
-    var mx = base[0] + (top[0] - base[0]) * .55, my = base[1] + (top[1] - base[1]) * .55;
-    struts[i * 2].setAttribute("d", "M" + mx.toFixed(1) + " " + my.toFixed(1) + "L" + top[0].toFixed(1) + " " + top[1].toFixed(1));
-    struts[i * 2 + 1].setAttribute("d", "M" + base[0] + " " + base[1] + "L" + mx.toFixed(1) + " " + my.toFixed(1));
+  function open(i){
+    if (i === cur) return;
+    if (cur >= 0) morph(items[cur], false);
+    cur = i;
+    if (i >= 0){ morph(items[i], true); track("feature_card_open", { card: $(".fx-pill", items[i]).textContent.trim() }); }
+    cx.classList.toggle("is-open", i >= 0);
+    arrows[0].disabled = i <= 0; arrows[1].disabled = i >= items.length - 1;
+    show(i);
   }
-  function progress(){
-    var r = sec.getBoundingClientRect(), stick = stickH(), span = r.height - (innerHeight - stick);
-    return span > 0 ? clamp((stick - r.top) / span) : 0;
-  }
-  function draw(){
-    ticking = false;
-    var p = sec.classList.contains("static") ? 1 : progress();
-    var lift = ease(.1, .55, p), light = ease(.58, .74, p);
-    model.style.setProperty("--lift", lift.toFixed(4));
-    model.style.setProperty("--light", light.toFixed(4));
-    var ang = lift * 100 * Math.PI / 180;
-    strut(0, [56, 430], proj(70, RH * .62, ang)); strut(1, [944, 430], proj(930, RH * .62, ang));
-    $("#pmStruts").style.opacity = ease(.18, .32, p).toFixed(3);
-    bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
-    var s = p < .1 ? 0 : p < .56 ? 1 : p < .78 ? 2 : 3;
-    steps.forEach(function(li, j){ li.classList.toggle("on", j === s); });
-    tag.textContent = NAMES[s];
-  }
-  if (reduce) sec.classList.add("static");
-  else addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, { passive:true });
-  addEventListener("resize", fit);
-  fit();
+  items.forEach(function(el, i){ $(".fx-pill", el).addEventListener("click", function(){ open(i); }); });
+  arrows.forEach(function(b){ b.addEventListener("click", function(){ var n = cur + +b.dataset.step; if (n >= 0 && n < items.length) open(n); }); });
+  $(".cx-close", cx).addEventListener("click", function(){ open(-1); });
+  cx.addEventListener("keydown", function(e){ if (e.key === "Escape" && cur >= 0) open(-1); });
 })();
 
 /* ---------- Sticky subnav: active section ---------- */
