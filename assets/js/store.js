@@ -559,7 +559,7 @@ $("#reserveBtn").addEventListener("click", function(){
     PIPES.forEach(function(q){ var c = P(addOff([q.lx, q.ld, 0], "wall", s.ex)); add([c[0] - 9, c[1]]); add([c[0] + 9, c[1] + q.ty + 2]); });
     var t = clamp(s.panel * 3), bx = [mix(box0[0], mnx, t), mix(box0[1], mny, t), mix(box0[2], mxx, t), mix(box0[3], mxy, t)];
     var W = svg.clientWidth || 800, H = svg.clientHeight || 600, mob = innerWidth < 860;
-    var padX = mob ? 8 : mix(40, 150, s.call), padY = mob ? 12 : 36, gw = bx[2] - bx[0], gh = bx[3] - bx[1];
+    var padX = mob ? 8 : mix(40, 170, s.call), padY = mob ? 12 : 48, gw = bx[2] - bx[0], gh = bx[3] - bx[1];
     var f = Math.min((W - 2 * padX) / gw, (H - 2 * padY) / gh);
     if (probe) return f;
     // the most cramped stage sets the base zoom; others may zoom in a little, never more than 20%
