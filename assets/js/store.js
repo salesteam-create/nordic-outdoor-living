@@ -157,6 +157,59 @@ $$(".arrows").forEach(function(a){
   measure();
 })();
 
+/* ---------- POD showcase: pinned; scrolling grows the photo to full screen while the wordmark sinks away ---------- */
+(function(){
+  var sec = $("#pod"); if (!sec || !$(".sage-pin", sec)) return;
+  var pin = $(".sage-pin", sec), media = $(".sage-media", sec), word = $(".sage-word", sec), top = $(".sage-top", sec),
+      shade = $(".sage-shade", sec), end = $(".sage-end", sec), endLink = $("a", end);
+  var L = {}, ticking = false;
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function ease(a, b, p){ var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); }
+  function measure(){
+    var W = pin.clientWidth, H = pin.clientHeight;
+    // fit the wordmark to the width, but keep it under about half the height
+    word.style.fontSize = "100px";
+    var size = 100 * (W - 2 * Math.max(12, W * .02)) / word.offsetWidth;
+    size = Math.min(size, H * .5 / .74);
+    word.style.fontSize = size.toFixed(1) + "px";
+    var capH = size * .72, zone = top.offsetTop + top.offsetHeight + 24;
+    // the photo sits over the top half of the letters, below the headline
+    var bottom = H - capH * .42, h = Math.min(H * .46, bottom - zone), w = h * 1.5;
+    if (w > W * .5){ w = W * .5; h = w / 1.5; }
+    if (W < 760){ w = W - 32; h = w / 1.5; }
+    L = { W:W, H:H, capH:capH, x:(W - w) / 2, y:Math.max(zone, bottom - h), w:w, h:h };
+    update();
+  }
+  function progress(){
+    var r = sec.getBoundingClientRect(), stick = stickH(), span = r.height - (innerHeight - stick);
+    return span > 0 ? clamp((stick - r.top) / span) : 0;
+  }
+  function update(){
+    ticking = false;
+    var p = sec.classList.contains("static") ? 0 : progress(), g = ease(.08, .62, p);
+    media.style.left = (L.x * (1 - g)).toFixed(1) + "px";
+    media.style.top = (L.y * (1 - g)).toFixed(1) + "px";
+    media.style.width = (L.w + (L.W - L.w) * g).toFixed(1) + "px";
+    media.style.height = (L.h + (L.H - L.h) * g).toFixed(1) + "px";
+    media.style.borderRadius = (8 * (1 - g)).toFixed(1) + "px";
+    var w = ease(.12, .5, p);
+    word.style.transform = "translate(-50%," + (w * L.capH * .9).toFixed(1) + "px)";
+    word.style.opacity = (1 - ease(.3, .55, p)).toFixed(3);
+    var t = ease(.04, .3, p);
+    top.style.opacity = (1 - t).toFixed(3); top.style.transform = "translateY(" + (-24 * t).toFixed(1) + "px)";
+    shade.style.opacity = ease(.55, .8, p).toFixed(3);
+    var e = ease(.66, .86, p);
+    end.style.opacity = e.toFixed(3); end.style.transform = "translateY(" + (24 * (1 - e)).toFixed(1) + "px)";
+    var on = e > .5; end.classList.toggle("on", on); end.setAttribute("aria-hidden", String(!on)); endLink.tabIndex = on ? 0 : -1;
+  }
+  if (reduce) sec.classList.add("static");
+  else addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive:true });
+  addEventListener("resize", measure);
+  addEventListener("load", measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  measure();
+})();
+
 /* ---------- Product page: gallery and configurator ---------- */
 var st = { cook:"bbq", fuel:"propane", addons:{}, total:P.price };
 P.finish.forEach(function(f){ st[f.id] = f.def; });
@@ -309,13 +362,14 @@ function activeSec(){
 }
 
 /* ---------- Mini buy box: after the hero, hidden while the buy box or footer is on screen ---------- */
-var mini = $("#mini"), miniLink = $("a", mini), hero = $(".hero"), zones = $$("[data-buyzone]"), seq = $("#opens"), foot = $(".ft");
+var mini = $("#mini"), miniLink = $("a", mini), hero = $(".hero"), zones = $$("[data-buyzone]"), seq = $("#opens"), pod = $("#pod"), foot = $(".ft");
 function inView(el){ var r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }
 function onScroll(){
   $("#hd").classList.toggle("solid", scrollY > 10);
   var past = hero ? hero.getBoundingClientRect().bottom < 0 : scrollY > innerHeight * .6;
   var inSeq = seq && (function(r){ return r.top < innerHeight * .5 && r.bottom > innerHeight * .5; })(seq.getBoundingClientRect());
-  var show = past && !zones.some(inView) && !inSeq && foot.getBoundingClientRect().top > innerHeight;
+  var inPod = pod && (function(r){ return r.top < innerHeight * .5 && r.bottom > innerHeight * .5; })(pod.getBoundingClientRect());
+  var show = past && !zones.some(inView) && !inSeq && !inPod && foot.getBoundingClientRect().top > innerHeight;
   mini.classList.toggle("show", show); mini.setAttribute("aria-hidden", String(!show)); miniLink.tabIndex = show ? 0 : -1;
   activeSec();
 }

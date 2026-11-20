@@ -117,18 +117,26 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:760px){.duo-grid,.pair-grid{grid-template-columns:minmax(0,1fr)}}
 
 /* Sage showcase with oversized wordmark */
-.sage{position:relative;margin-top:clamp(5rem,11vw,10rem);background:var(--sage);color:#fff;overflow:hidden}
-.sage-top{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;padding-top:clamp(3rem,6vw,5rem)}
+.sage{position:relative;margin-top:clamp(5rem,11vw,10rem);height:340vh;background:var(--sage);color:#fff}
+.sage-pin{position:sticky;top:var(--stick,60px);height:calc(100vh - var(--stick,60px));height:calc(100svh - var(--stick,60px));overflow:hidden;background:var(--sage)}
+.sage-media{position:absolute;z-index:1;left:30%;top:30%;width:40%;height:40%;border-radius:8px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.5)}
+.sage-media img{width:100%;height:100%;object-fit:cover}
+.sage-shade{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(10,14,10,.62),rgba(10,14,10,0) 55%);opacity:0;pointer-events:none}
+.sage-word{position:absolute;z-index:3;left:50%;bottom:0;width:max-content;margin:0;transform:translateX(-50%);font-size:30vw;font-weight:450;line-height:.74;letter-spacing:-.06em;white-space:nowrap;user-select:none;pointer-events:none;will-change:transform,opacity}
+.sage-word sup{font-size:.14em;top:.6em;font-weight:300;margin-left:.15em}
+.sage-top{position:absolute;z-index:4;left:var(--edge);right:var(--edge);top:clamp(1.5rem,5vh,3.2rem);display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;will-change:transform,opacity}
 .sage h2{font-size:clamp(1.8rem,3vw,2.8rem);max-width:20ch}
 .sage .link{margin-top:1.4rem;color:rgba(255,255,255,.92)}
 .sage-facts{display:flex;gap:clamp(1.2rem,3vw,2.8rem);margin:0}
 .sage-facts dt{font-size:clamp(1.3rem,2vw,1.8rem);letter-spacing:-.03em;line-height:1}
 .sage-facts dd{font-size:.76rem;color:rgba(255,255,255,.75);margin-top:.35rem}
-.sage-stage{position:relative;margin-top:clamp(-4rem,-4vw,-2rem)}
-.sage-stage img{width:min(620px,52vw);aspect-ratio:3/2;object-fit:cover;margin:0 auto;border-radius:6px;box-shadow:0 40px 90px -40px rgba(0,0,0,.5)}
-.sage-word{position:relative;z-index:2;margin-top:-.42em;padding-left:var(--pad);font-size:clamp(9rem,44vw,44rem);font-weight:450;line-height:.74;letter-spacing:-.06em;white-space:nowrap;user-select:none}
-.sage-word sup{font-size:.14em;top:.6em;font-weight:300;margin-left:.15em}
-@media (max-width:760px){.sage-top{flex-direction:column}.sage-stage{margin-top:2rem}.sage-stage img{width:calc(100% - 2*var(--pad))}}
+.sage-end{position:absolute;z-index:4;left:var(--edge);right:var(--edge);bottom:clamp(1.5rem,5vh,3rem);display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;opacity:0;pointer-events:none}
+.sage-end.on{pointer-events:auto}
+.sage-facts.big dt{font-size:clamp(2.6rem,6vw,5.4rem);letter-spacing:-.05em}
+.sage-facts.big dd{font-size:.86rem;margin-top:.6rem}
+.sage.static{height:auto}
+.sage.static .sage-pin{position:relative;top:0;height:calc(100svh - var(--stick,60px));min-height:620px}
+@media (max-width:760px){.sage-top{flex-direction:column;gap:1.2rem}.sage-end{flex-direction:column;align-items:flex-start}}
 
 /* Two-column statement */
 .statement{padding:clamp(4.5rem,9vw,8rem) 0 clamp(3rem,6vw,5rem)}
