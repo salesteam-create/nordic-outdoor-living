@@ -462,38 +462,25 @@ $("#newsForm").addEventListener("submit", function(e){
 });
 $$(".faq details").forEach(function(d){ d.addEventListener("toggle", function(){ if (d.open) track("faq_expand", { question: $("summary", d).textContent }); }); });
 
-/* ---------- Hero title: letters scramble and settle, left to right, every 4.5 s ---------- */
+/* ---------- Hero title: each letter flips a full turn on its centre line, left to right, every 4.5 s ---------- */
 (function(){
   var h = $("#h-hero"); if (!h || reduce) return;
-  var text = h.textContent, UP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*+=<>/", LO = "abcdefghijklmnopqrstuvwxyz#%&*+=<>/";
+  var text = h.textContent, n = 0, hero = $(".hero"), seen = true;
   h.setAttribute("aria-label", text);
   h.innerHTML = text.split(" ").map(function(w){
-    return '<span class="wd" aria-hidden="true">' + w.split("").map(function(c){ return '<span class="ch">' + c + "</span>"; }).join("") + "</span>";
+    return '<span class="wd" aria-hidden="true">' + w.split("").map(function(c){
+      return '<span class="ch" style="--i:' + (n++) + '">' + c + "</span>";
+    }).join("") + "</span>";
   }).join(" ");
-  var chars = $$(".ch", h), busy = false, hero = $(".hero"), seen = true;
-  function lock(){ chars.forEach(function(el){ el.style.width = ""; }); chars.forEach(function(el){ el.style.width = el.getBoundingClientRect().width + "px"; }); }
-  function pick(c){ var set = c === c.toLowerCase() ? LO : UP; return set.charAt(Math.floor(Math.random() * set.length)); }
+  var total = 700 + n * 45 + 60;
   function run(){
-    if (busy || !seen || document.hidden) return;
-    busy = true;
-    var t0 = performance.now(), ends = chars.map(function(el, i){ return 260 + i * 55 + Math.random() * 160; });
-    var orig = chars.map(function(el){ return el.textContent; }), last = 0;
-    (function tick(now){
-      var t = now - t0, live = false;
-      if (now - last > 55){
-        last = now;
-        chars.forEach(function(el, i){
-          if (t < ends[i]){ live = true; if (orig[i] !== ".") { el.textContent = pick(orig[i]); el.classList.add("sc"); } }
-          else if (el.textContent !== orig[i] || el.classList.contains("sc")){ el.textContent = orig[i]; el.classList.remove("sc"); }
-        });
-      } else live = true;
-      if (live) requestAnimationFrame(tick); else busy = false;
-    })(t0);
+    if (!seen || document.hidden) return;
+    h.classList.remove("roll"); void h.offsetWidth; h.classList.add("roll");
+    // a full turn ends where it started, so dropping the class afterwards resets with no visible jump
+    setTimeout(function(){ h.classList.remove("roll"); }, total);
   }
   new IntersectionObserver(function(en){ seen = en[0].isIntersecting; }).observe(hero);
-  function start(){ lock(); setTimeout(run, 700); setInterval(run, 4500); }
-  addEventListener("resize", lock);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
+  setTimeout(run, 900); setInterval(run, 4500);
 })();
 
 /* ---------- Quiet reveal ---------- */

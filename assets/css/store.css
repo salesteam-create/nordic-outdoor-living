@@ -80,10 +80,12 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .hero-head{position:absolute;z-index:1;left:clamp(1rem,3vw,2.6rem);right:clamp(1rem,3vw,2.6rem);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(.8rem,1.6vw,1.4rem);color:#fff}
 .hero-mk{flex:none;height:clamp(40px,5vw,56px);color:#fff;filter:drop-shadow(0 2px 16px rgba(0,0,0,.25))}
 .hero-head h1{font-size:clamp(3.2rem,8vw,7.5rem);font-weight:450;line-height:.92;letter-spacing:-.05em;text-shadow:0 4px 40px rgba(0,0,0,.25)}
-/* title scramble: each letter keeps its own width so nothing shifts while the glyphs flicker */
-.hero-head h1 .wd{white-space:nowrap}
-.hero-head h1 .ch{display:inline-block;text-align:center;white-space:pre}
-.hero-head h1 .ch.sc{opacity:.75}
+/* title flip: every letter spins a full turn around its own centre line, in a wave from left to right.
+   Mid-turn a letter is squashed flat, which gives the H, T and O their boxy, crossed shapes. */
+.hero-head h1 .wd{display:inline-block;white-space:nowrap}
+.hero-head h1 .ch{display:inline-block;transform-origin:50% 54%;transform:perspective(2.4em) rotateX(0deg)}
+.hero-head h1.roll .ch{animation:nolFlip .7s cubic-bezier(.45,0,.2,1) both;animation-delay:calc(var(--i) * 45ms)}
+@keyframes nolFlip{from{transform:perspective(2.4em) rotateX(0deg)}to{transform:perspective(2.4em) rotateX(360deg)}}
 .hero-card{flex:none;width:min(330px,100%);padding:1rem 1rem 1rem;border-radius:var(--r-sm);background:rgba(255,255,255,.95);color:var(--ink);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .hero-card .hc-title{color:var(--ink);margin:0;font-size:.95rem;font-weight:500;letter-spacing:-.01em;line-height:1.3}
 .hero-card > p{font-size:.8rem;line-height:1.45;color:var(--muted);margin-top:.4rem}
