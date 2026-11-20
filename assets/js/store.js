@@ -158,18 +158,20 @@ $$(".arrows").forEach(function(a){
 })();
 
 /* ---------- POD showcase, pinned and driven by scroll:
-   1. a line sketch of the POD draws itself  2. the photo fades in over it  3. it grows to full screen as the wordmark sinks away
-   4. the camera zooms to four features with callouts  5. it pulls back to the sizes and Reserve ---------- */
+   1. the wordmark sinks away  2. a white line sketch of the POD draws itself on the sage, with dimension lines
+   3. the photo takes its place  4. it grows to full screen  5. the camera zooms to four features with callouts
+   6. it pulls back to the sizes and Reserve ---------- */
 (function(){
   var sec = $("#pod"); if (!sec || !$(".sage-pin", sec)) return;
   var pin = $(".sage-pin", sec), media = $(".sage-media", sec), art = $(".sage-art", sec), photo = $("img", art), sketch = $(".sage-sketch", sec),
-      groups = $$(".sage-sketch g", sec), word = $(".sage-word", sec), top = $(".sage-top", sec), shade = $(".sage-shade", sec),
-      fshade = $(".sage-fshade", sec), end = $(".sage-end", sec), endLink = $("a", end),
+      groups = $$(".sage-sketch g[data-g]", sec), dims = $(".sk-dims", sec), word = $(".sage-word", sec), top = $(".sage-top", sec),
+      shade = $(".sage-shade", sec), fshade = $(".sage-fshade", sec), end = $(".sage-end", sec), endLink = $("a", end),
       texts = $$(".co-text", sec), line = $(".co-line", sec), dot = $(".co-dot", sec);
   var IW = 1170, IH = 780, L = {}, ticking = false;
   // focus points in photo pixels, and how far to zoom
   var SPOTS = [ { fx:1005, fy:300, s:2.1 }, { fx:300, fy:480, s:2.1 }, { fx:616, fy:480, s:2 }, { fx:886, fy:595, s:2 } ];
-  var F0 = .38, FS = .125, FEND = .885;
+  var DRAW = [ [.03, .1], [.07, .14], [.11, .18], [.16, .22] ], PHOTO = [.25, .31], GROW = [.3, .42];
+  var F0 = .45, FS = .11, FEND = .9;
   function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ease(a, b, p){ var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); }
   function mix(a, b, t){ return a + (b - a) * t; }
@@ -179,64 +181,65 @@ $$(".arrows").forEach(function(a){
     var size = 100 * (W - 2 * Math.max(12, W * .02)) / word.offsetWidth;
     size = Math.min(size, H * .5 / .74);
     word.style.fontSize = size.toFixed(1) + "px";
-    var capH = size * .72, zone = top.offsetTop + top.offsetHeight + 24;
-    // the framed drawing sits over the top of the letters, below the headline
-    var bottom = H - capH * .55, h = Math.min(H * .5, bottom - zone), w = h * 1.5;
-    if (w > W * .52){ w = W * .52; h = w / 1.5; }
-    if (W < 760){ w = W - 32; h = w / 1.5; }
-    L = { W:W, H:H, capH:capH, x:(W - w) / 2, y:Math.max(zone, bottom - h), w:w, h:h, mob:W < 860 };
+    // the drawing (with its dimension lines) fits the space under the headline; the wordmark is gone by then
+    var zone = top.offsetTop + top.offsetHeight + 28, aw = Math.min(W * .84, W - 32), ah = H - zone - 28;
+    var u = Math.min(aw / 1060, ah / 650);
+    var w = IW * u, h = IH * u;
+    L = { W:W, H:H, capH:size * .72, u:u, x:W / 2 - 590 * u, y:zone + ah / 2 - 512 * u, w:w, h:h, mob:W < 860 };
     update();
   }
   function progress(){
     var r = sec.getBoundingClientRect(), stick = stickH(), span = r.height - (innerHeight - stick);
-    return span > 0 ? Math.min(1, (stick - r.top) / span) : 0; // negative while the section scrolls in
-  }
-  function state(p){
-    // camera: 0 = whole photo; otherwise blend between neighbouring spots
-    var ov = { fx:IW / 2, fy:IH / 2, s:1, ov:1 }, list = [ov].concat(SPOTS);
-    if (p >= FEND) return blend(SPOTS[3], ov, ease(FEND, FEND + .045, p));
-    for (var i = SPOTS.length - 1; i >= 0; i--){
-      var t0 = F0 + i * FS;
-      if (p >= t0) return blend(list[i], list[i + 1], ease(t0, t0 + .035, p));
-    }
-    return ov;
+    return span > 0 ? clamp((stick - r.top) / span) : 0;
   }
   function blend(a, b, t){ return { fx:mix(a.fx, b.fx, t), fy:mix(a.fy, b.fy, t), s:mix(a.s, b.s, t), ov:mix(a.ov || 0, b.ov || 0, t) }; }
+  function state(p){
+    var ov = { fx:IW / 2, fy:IH / 2, s:1, ov:1 }, list = [ov].concat(SPOTS);
+    if (p >= FEND) return blend(SPOTS[3], ov, ease(FEND, FEND + .04, p));
+    for (var i = SPOTS.length - 1; i >= 0; i--){ var t0 = F0 + i * FS; if (p >= t0) return blend(list[i], list[i + 1], ease(t0, t0 + .03, p)); }
+    return ov;
+  }
   function update(){
     ticking = false;
-    var stat = sec.classList.contains("static"), p = stat ? 0 : progress(), q = Math.max(0, p);
-    // 1. sketch draws, group by group, starting just before the section pins
-    groups.forEach(function(gr, i){ var a = -.07 + i * .045; gr.style.setProperty("--d", stat ? 0 : (1 - ease(a, a + .09, p)).toFixed(4)); });
-    // 2. photo over the sketch
-    photo.style.opacity = stat ? 1 : ease(.17, .25, q).toFixed(3);
-    sketch.style.opacity = stat ? 0 : (1 - ease(.24, .3, q)).toFixed(3);
-    // 3. frame grows to full screen
-    var g = ease(.22, .36, q), mw = L.w + (L.W - L.w) * g, mh = L.h + (L.H - L.h) * g;
+    var stat = sec.classList.contains("static"), q = stat ? .23 : progress();
+    // 1. wordmark sinks before anything is drawn, so the two never overlap
+    var w = ease(0, .06, q);
+    word.style.transform = "translate(-50%," + (w * L.capH * 1.1).toFixed(1) + "px)";
+    word.style.opacity = (1 - ease(.01, .05, q)).toFixed(3);
+    // 2. sketch
+    groups.forEach(function(gr, i){ gr.style.setProperty("--d", (1 - ease(DRAW[i][0], DRAW[i][1], q)).toFixed(4)); });
+    dims.style.opacity = ease(.2, .23, q).toFixed(3);
+    // 3. photo replaces the drawing; headline leaves
+    var ph = ease(PHOTO[0], PHOTO[1], q);
+    photo.style.opacity = ph.toFixed(3);
+    sketch.style.opacity = (1 - ease(PHOTO[0] + .02, PHOTO[1], q)).toFixed(3);
+    media.classList.toggle("lit", ph > .02);
+    var t = ease(.21, .25, q);
+    top.style.opacity = (1 - t).toFixed(3); top.style.transform = "translateY(" + (-24 * t).toFixed(1) + "px)";
+    // 4. grow to full screen
+    var g = ease(GROW[0], GROW[1], q), mw = L.w + (L.W - L.w) * g, mh = L.h + (L.H - L.h) * g;
     media.style.left = (L.x * (1 - g)).toFixed(1) + "px";
     media.style.top = (L.y * (1 - g)).toFixed(1) + "px";
     media.style.width = mw.toFixed(1) + "px";
     media.style.height = mh.toFixed(1) + "px";
     media.style.borderRadius = (8 * (1 - g)).toFixed(1) + "px";
-    var w = ease(.22, .34, q);
-    word.style.transform = "translate(-50%," + (w * L.capH * .9).toFixed(1) + "px)";
-    word.style.opacity = (1 - ease(.27, .36, q)).toFixed(3);
-    var t = ease(.2, .3, q);
-    top.style.opacity = (1 - t).toFixed(3); top.style.transform = "translateY(" + (-24 * t).toFixed(1) + "px)";
-    // 4. camera
+    // 5. camera
     var k = Math.max(mw / IW, mh / IH), aw = IW * k, ah = IH * k, ax = (mw - aw) / 2, ay = (mh - ah) / 2;
     var cam = state(q), X = L.mob ? mw * .5 : mw * .64, Y = L.mob ? mh * .34 : mh * .5;
     X = mix(X, ax + aw / 2, cam.ov); Y = mix(Y, ay + ah / 2, cam.ov);
     var tx = X - ax - cam.s * cam.fx * k, ty = Y - ay - cam.s * cam.fy * k;
-    tx = Math.min(-ax, Math.max(mw - ax - cam.s * aw, tx)); ty = Math.min(-ay, Math.max(mh - ay - cam.s * ah, ty));
+    if (g > 0){ tx = Math.min(-ax, Math.max(mw - ax - cam.s * aw, tx)); ty = Math.min(-ay, Math.max(mh - ay - cam.s * ah, ty)); }
     art.style.left = ax.toFixed(1) + "px"; art.style.top = ay.toFixed(1) + "px";
     art.style.width = aw.toFixed(1) + "px"; art.style.height = ah.toFixed(1) + "px";
     art.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) scale(" + cam.s.toFixed(4) + ")";
+    sketch.style.strokeWidth = (1.5 * IW / (aw * cam.s)).toFixed(3); // a steady 1.5 px line at any size
     // callouts
     var vis = 0, on = -1;
     texts.forEach(function(el, i){
-      var t0 = F0 + i * FS, v = ease(t0 + .025, t0 + .045, q) - (i < 3 ? ease(t0 + .105, t0 + .122, q) : ease(FEND - .015, FEND, q));
+      var t0 = F0 + i * FS, v = ease(t0 + .02, t0 + .04, q) - (i < 3 ? ease(t0 + .09, t0 + .105, q) : ease(FEND - .015, FEND, q));
       v = stat ? 0 : clamp(v);
-      el.style.opacity = v.toFixed(3); el.style.transform = (L.mob ? "translateY(" : "translateY(calc(-50% + ") + (16 * (1 - v)).toFixed(1) + (L.mob ? "px)" : "px))");
+      el.style.opacity = v.toFixed(3);
+      el.style.transform = L.mob ? "translateY(" + (16 * (1 - v)).toFixed(1) + "px)" : "translateY(calc(-50% + " + (16 * (1 - v)).toFixed(1) + "px))";
       if (v > vis){ vis = v; on = i; }
     });
     fshade.style.opacity = vis.toFixed(3);
@@ -250,9 +253,9 @@ $$(".arrows").forEach(function(a){
       dot.style.left = px.toFixed(1) + "px"; dot.style.top = py.toFixed(1) + "px";
     }
     line.style.opacity = dot.style.opacity = vis.toFixed(3);
-    // 5. sizes and Reserve over the whole photo
-    shade.style.opacity = ease(.9, .95, q).toFixed(3);
-    var e = ease(.92, .97, q);
+    // 6. sizes and Reserve over the whole photo
+    shade.style.opacity = ease(.92, .96, q).toFixed(3);
+    var e = ease(.94, .98, q);
     end.style.opacity = e.toFixed(3); end.style.transform = "translateY(" + (24 * (1 - e)).toFixed(1) + "px)";
     var shown = e > .5; end.classList.toggle("on", shown); end.setAttribute("aria-hidden", String(!shown)); endLink.tabIndex = shown ? 0 : -1;
   }
