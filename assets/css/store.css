@@ -53,14 +53,16 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .link{display:inline-flex;align-items:center;gap:2.5rem;margin-top:2rem;padding-bottom:.45rem;border-bottom:1px solid currentColor;font-size:.84rem;font-weight:500}
 .link .ico{width:15px;height:15px;transition:transform .4s var(--ease)}
 .link:hover .ico{transform:translateX(4px)}
+.logo,.mk{display:inline-block;background:currentColor;-webkit-mask:url(../brand/nol-logo.png) no-repeat center/contain;mask:url(../brand/nol-logo.png) no-repeat center/contain;aspect-ratio:1090/428}
+.mk{-webkit-mask-image:url(../brand/nol-mark.png);mask-image:url(../brand/nol-mark.png);aspect-ratio:524/394}
 .chip{display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:500}
 .chip i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:.6rem}
 
 /* Header: small and quiet */
 .hd{position:sticky;top:0;z-index:50;background:rgba(243,243,240,.88);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px)}
 .hd-in{height:var(--hd);display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2rem;padding:0 calc(var(--gut) + .6rem)}
-.mark{font:600 1.08rem/1 var(--sans);letter-spacing:.04em}
-.mark sup{font-size:.5em;top:-.1em;font-weight:400}
+.mark{display:inline-flex;align-items:center;color:var(--ink)}
+.mark .logo{height:32px}
 .hd-nav{display:flex;gap:1.6rem;font-size:.82rem}
 .hd-nav a{color:var(--ink-2);transition:color .3s}
 .hd-nav a:hover{color:var(--ink)}
@@ -74,7 +76,8 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .hero-live{position:absolute;right:clamp(1rem,2vw,1.5rem);top:clamp(1rem,2vw,1.5rem);display:inline-flex;align-items:center;gap:.5rem;padding:.42rem .85rem;border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);font-size:.76rem;font-weight:500}
 .hero-live i{width:7px;height:7px;border-radius:50%;background:#3f9a5a;box-shadow:0 0 0 3px rgba(63,154,90,.22)}
 .hero-foot{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;padding:0 clamp(1rem,2vw,1.5rem) clamp(1rem,2vw,1.5rem) clamp(1rem,3vw,2.6rem)}
-.hero-word{font-size:clamp(6rem,19vw,19rem);font-weight:450;letter-spacing:-.065em;line-height:.74;margin-bottom:.02em;user-select:none}
+.hero-word{display:flex;margin:0;color:#fff}
+.hero-word .logo{height:clamp(110px,24vh,230px);filter:drop-shadow(0 4px 30px rgba(0,0,0,.25))}
 .hero-card{flex:none;width:min(330px,100%);padding:1rem 1rem 1rem;border-radius:var(--r-sm);background:rgba(255,255,255,.95);color:var(--ink);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .hero-card h1{font-size:.95rem;font-weight:500;letter-spacing:-.01em;line-height:1.3}
 .hero-card > p{font-size:.8rem;line-height:1.45;color:var(--muted);margin-top:.4rem}
@@ -86,7 +89,7 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:760px){
   .hero-frame{height:auto;min-height:calc(100svh - var(--hd) - var(--gut));display:flex;flex-direction:column;justify-content:flex-end}
   .hero-foot{position:relative;flex-direction:column;align-items:stretch;gap:.6rem;padding:5rem .75rem .75rem}
-  .hero-word{padding-left:.3rem;font-size:31vw}
+  .hero-word{padding-left:.3rem}.hero-word .logo{height:auto;width:min(78vw,320px)}
   .hero-card{width:100%}
 }
 
@@ -102,7 +105,8 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .quote-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:2rem;align-items:start}
 .quote-by{display:flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:500;padding-top:.6rem}
 .quote-by small{display:block;font-weight:400;color:var(--muted)}
-.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;font-size:.78rem;font-weight:600}
+.avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff}
+.avatar .mk{width:17px}
 .quote blockquote{font-size:clamp(1.5rem,2.6vw,2.35rem);line-height:1.22;letter-spacing:-.025em;max-width:30ch;text-wrap:pretty}
 @media (max-width:760px){.quote-grid{grid-template-columns:minmax(0,1fr)}}
 
@@ -112,8 +116,8 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .tile{position:relative;border-radius:var(--r-sm);overflow:hidden;background:var(--card);aspect-ratio:1/1.02}
 .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
 .tile:hover img{transform:scale(1.025)}
-.tile-word span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.6rem;color:#fff;font-size:clamp(1.4rem,2.6vw,2.4rem);font-weight:500;letter-spacing:.32em;text-shadow:0 2px 30px rgba(0,0,0,.35)}
-.tile-word svg{width:.9em;height:.9em;fill:none;stroke:#fff;stroke-width:2}
+.tile-word span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff}
+.tile-word .logo{width:clamp(150px,22vw,280px);filter:drop-shadow(0 4px 24px rgba(0,0,0,.35))}
 @media (max-width:760px){.duo-grid,.pair-grid{grid-template-columns:minmax(0,1fr)}}
 
 /* Sage showcase with oversized wordmark */
@@ -375,8 +379,8 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .ft-news b{grid-column:1/-1;font-weight:500;font-size:.9rem}
 .ft-news input{height:38px;padding:0 1rem;border:1px solid var(--line-2);border-radius:999px;background:var(--card-2);font:inherit;font-size:.86rem}
 .ft-news .msg{grid-column:1/-1;color:var(--green-2)}
-.ft-word{margin:clamp(3rem,6vw,5rem) 0 0;font-weight:450;font-size:clamp(7rem,30vw,30rem);line-height:.74;letter-spacing:-.06em;user-select:none}
-.ft-word sup{font-size:.14em;top:.6em;font-weight:300}
+.ft-word{margin:clamp(3rem,6vw,5rem) 0 0;color:var(--ink)}
+.ft-word .logo{display:block;width:min(100%,1090px)}
 .ft-base{display:flex;justify-content:space-between;gap:1rem;margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid var(--line);font-size:.76rem;color:var(--muted)}
 @media (max-width:860px){.ft-grid{grid-template-columns:1fr 1fr}.ft-news{grid-column:1/-1}}
 
