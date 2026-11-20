@@ -521,3 +521,5 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none !important;animation:none !important}}
 .closer + .cooking{padding-top:clamp(4rem,8vw,7rem)}
+.quote + .title-card{padding-top:0}
+.cooking + .duo{padding-top:var(--gut)}
