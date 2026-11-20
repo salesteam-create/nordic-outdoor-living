@@ -543,7 +543,7 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .xp-svg .xpanel{stroke:var(--green-2);stroke-width:calc(var(--u,.4px) * 1.1)}
 .xp-svg .xpipes path{fill:none;stroke:var(--green-2);stroke-width:calc(var(--u,.4px) * 1.3);stroke-dasharray:1 1;stroke-linejoin:round}
 .xp-svg .xpipes circle{fill:var(--green-2)}
-.xp-svg .xpipes text,.xp-svg .xcall text{font:500 4.2px var(--sans);fill:var(--ink);letter-spacing:.01em}
+.xp-svg .xpipes text,.xp-svg .xcall text{font-family:var(--sans);font-weight:500;font-size:calc(var(--u,.3px) * 13);fill:var(--ink);letter-spacing:.01em}
 .xp-svg .xcall path{fill:none;stroke:var(--muted);stroke-width:calc(var(--u,.4px) * .7)}
 .xp-svg .xcall circle{fill:var(--ink)}
 .xp.static{height:auto}

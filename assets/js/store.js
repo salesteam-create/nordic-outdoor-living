@@ -430,7 +430,7 @@ $("#reserveBtn").addEventListener("click", function(){
     link.style.opacity = l.toFixed(3); link.style.transform = "translateY(" + (12 * (1 - l)).toFixed(1) + "px)";
   }
   addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, { passive:true });
-  addEventListener("resize", function(){ bounds(); draw(); });
+  addEventListener("resize", draw);
   draw();
 })();
 
@@ -545,22 +545,35 @@ $("#reserveBtn").addEventListener("click", function(){
   }
   // fixed frame: the union of the drawing's bounds over the whole sequence, plus room for labels
   var VB;
-  function bounds(){
+  // frame what is on screen now: the parts (and the pipe labels while they show), scaled to fill the stage,
+  // with fixed room in screen pixels for the labels at the sides
+  var VB, FIT = 3, FMIN = 0, FW = 0;
+  function frame(s, probe){
+    setCam(s.th);
     var mnx = 1e9, mny = 1e9, mxx = -1e9, mxy = -1e9;
-    for (var p = 0; p <= 1.0001; p += .05){
-      var s = state(p); setCam(s.th);
-      PARTS.forEach(function(pt0){ var b = moved(pt0, s.ex);
-        [0, 1].forEach(function(a){ [2, 3].forEach(function(c){ [4, 5].forEach(function(e){ var q = P([b[a], b[c], b[e]]); mnx = Math.min(mnx, q[0]); mxx = Math.max(mxx, q[0]); mny = Math.min(mny, q[1]); mxy = Math.max(mxy, q[1]); }); }); });
-      });
-    }
-    var mob = innerWidth < 860, w = mxx - mnx, h = mxy - mny, padX = mob ? 6 : 46, padY = 6;
-    VB = [mnx - padX, mny - padY, w + padX * 2, h + padY * 2];
-    svg.setAttribute("viewBox", VB.map(function(v){ return v.toFixed(1); }).join(" "));
+    function add(q){ mnx = Math.min(mnx, q[0]); mxx = Math.max(mxx, q[0]); mny = Math.min(mny, q[1]); mxy = Math.max(mxy, q[1]); }
+    PARTS.forEach(function(pt0){ var b = moved(pt0, s.ex);
+      [0, 1].forEach(function(a){ [2, 3].forEach(function(c){ [4, 5].forEach(function(e){ add(P([b[a], b[c], b[e]])); }); }); });
+    });
+    var box0 = [mnx, mny, mxx, mxy];
+    PIPES.forEach(function(q){ var c = P(addOff([q.lx, q.ld, 0], "wall", s.ex)); add([c[0] - 9, c[1]]); add([c[0] + 9, c[1] + q.ty + 2]); });
+    var t = clamp(s.panel * 3), bx = [mix(box0[0], mnx, t), mix(box0[1], mny, t), mix(box0[2], mxx, t), mix(box0[3], mxy, t)];
+    var W = svg.clientWidth || 800, H = svg.clientHeight || 600, mob = innerWidth < 860;
+    var padX = mob ? 8 : mix(40, 150, s.call), padY = mob ? 12 : 36, gw = bx[2] - bx[0], gh = bx[3] - bx[1];
+    var f = Math.min((W - 2 * padX) / gw, (H - 2 * padY) / gh);
+    if (probe) return f;
+    // the most cramped stage sets the base zoom; others may zoom in a little, never more than 20%
+    if (FW !== W + "x" + H){ FW = W + "x" + H; FMIN = 1e9; for (var q = 0; q <= 1.0001; q += .04) FMIN = Math.min(FMIN, frame(state(q), true)); }
+    FIT = Math.min(f, FMIN * 1.2);
+    var vw = W / FIT, vh = H / FIT, cx = (bx[0] + bx[2]) / 2, cy = (bx[1] + bx[3]) / 2;
+    VB = [cx - vw / 2, cy - vh / 2, vw, vh];
+    svg.setAttribute("viewBox", VB.map(function(v){ return v.toFixed(2); }).join(" "));
+    svg.style.setProperty("--u", (1 / FIT).toFixed(4) + "px");
   }
   function callouts(s){
     if (s.call < .01) return "";
     setCam(s.th);
-    var g = '<g class="xcall" style="opacity:' + s.call.toFixed(3) + '">', L = VB[0] + 2, Rr = VB[0] + VB[2] - 2, GAP = 11;
+    var g = '<g class="xcall" style="opacity:' + s.call.toFixed(3) + '">', u = 1 / FIT, L = VB[0] + 4 * u, Rr = VB[0] + VB[2] - 4 * u, GAP = 30 * u;
     [-1, 1].forEach(function(side){
       var cs = CALLS.filter(function(c){ return c.side === side; }).map(function(c){ return { c:c, a:P(addOff(c.p, c.part, s.ex)) }; });
       cs.sort(function(m, n){ return m.a[1] - n.a[1]; });
@@ -568,9 +581,9 @@ $("#reserveBtn").addEventListener("click", function(){
       var ys = cs.map(function(o){ return o.a[1]; });
       for (var k = 1; k < ys.length; k++) ys[k] = Math.max(ys[k], ys[k - 1] + GAP);
       cs.forEach(function(o, k){
-        var a = o.a, y = ys[k], tx = side < 0 ? L : Rr, ex = side < 0 ? L + 26 : Rr - 26;
-        g += '<circle cx="' + a[0].toFixed(2) + '" cy="' + a[1].toFixed(2) + '" r=".9"/><path d="M' + a[0].toFixed(2) + " " + a[1].toFixed(2) + "L" + (ex + side * -4).toFixed(2) + " " + y.toFixed(2) + "L" + ex.toFixed(2) + " " + y.toFixed(2) + '"/>' +
-          '<text x="' + tx.toFixed(2) + '" y="' + (y + 1.5).toFixed(2) + '" text-anchor="' + (side < 0 ? "start" : "end") + '">' + o.c.t + "</text>";
+        var a = o.a, y = ys[k], tx = side < 0 ? L : Rr, ex = side < 0 ? L + 130 * u : Rr - 130 * u;
+        g += '<circle cx="' + a[0].toFixed(2) + '" cy="' + a[1].toFixed(2) + '" r=".9"/><path d="M' + a[0].toFixed(2) + " " + a[1].toFixed(2) + "L" + (ex + side * -12 * u).toFixed(2) + " " + y.toFixed(2) + "L" + ex.toFixed(2) + " " + y.toFixed(2) + '"/>' +
+          '<text x="' + tx.toFixed(2) + '" y="' + (y + 4.5 * u).toFixed(2) + '" text-anchor="' + (side < 0 ? "start" : "end") + '">' + o.c.t + "</text>";
       });
     });
     return g + "</g>";
@@ -583,17 +596,15 @@ $("#reserveBtn").addEventListener("click", function(){
     ticking = false;
     var p = sec.classList.contains("static") ? 1 : progress(), s = state(p);
     // one screen pixel in drawing units, so line weights stay crisp at any size
-    var k = Math.max(svg.clientWidth / VB[2], svg.clientHeight / VB[3]) || 3, fit = Math.min(svg.clientWidth / VB[2], svg.clientHeight / VB[3]) || 3;
-    svg.style.setProperty("--u", (1 / fit).toFixed(4) + "px");
+    frame(s);
     svg.innerHTML = build(s).join("") + callouts(s);
     bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
     var k = p < .2 ? 0 : p < .42 ? 1 : 2;
     steps.forEach(function(li, j){ li.classList.toggle("on", j === k); });
   }
-  bounds();
   if (reduce) sec.classList.add("static");
   else addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, { passive:true });
-  addEventListener("resize", function(){ bounds(); draw(); });
+  addEventListener("resize", draw);
   draw();
 })();
 
