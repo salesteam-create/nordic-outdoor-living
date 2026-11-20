@@ -80,12 +80,16 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .hero-head{position:absolute;z-index:1;left:clamp(1rem,3vw,2.6rem);right:clamp(1rem,3vw,2.6rem);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(.8rem,1.6vw,1.4rem);color:#fff}
 .hero-mk{flex:none;height:clamp(40px,5vw,56px);color:#fff;filter:drop-shadow(0 2px 16px rgba(0,0,0,.25))}
 .hero-head h1{font-size:clamp(3.2rem,8vw,7.5rem);font-weight:450;line-height:.92;letter-spacing:-.05em;text-shadow:0 4px 40px rgba(0,0,0,.25)}
-/* title flip: every letter spins a full turn around its own centre line, in a wave from left to right.
-   Mid-turn a letter is squashed flat, which gives the H, T and O their boxy, crossed shapes. */
-.hero-head h1 .wd{display:inline-block;white-space:nowrap}
-.hero-head h1 .ch{display:inline-block;transform-origin:50% 54%;transform:perspective(2.4em) rotateX(0deg)}
-.hero-head h1.roll .ch{animation:nolFlip .7s cubic-bezier(.45,0,.2,1) both;animation-delay:calc(var(--i) * 45ms)}
-@keyframes nolFlip{from{transform:perspective(2.4em) rotateX(0deg)}to{transform:perspective(2.4em) rotateX(360deg)}}
+/* title roll (vanilla port of the TextRoll component): each word clips to its line. On every run the letters
+   slide up out of view while a second copy slides up from below, staggered outward from the centre of the title. */
+.hero-head h1 .tr{position:relative;display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:top;line-height:.92;padding:.06em 0 .02em}
+.hero-head h1 .tr .l2{position:absolute;left:0;top:.06em}
+.hero-head h1 .tr .c{display:inline-block}
+.hero-head h1 .tr .l2 .c{transform:translateY(100%)}
+.hero-head h1.roll .l1 .c{animation:trUp .3s ease-in-out both;animation-delay:var(--d)}
+.hero-head h1.roll .l2 .c{animation:trIn .3s ease-in-out both;animation-delay:var(--d)}
+@keyframes trUp{from{transform:translateY(0)}to{transform:translateY(-100%)}}
+@keyframes trIn{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .hero-card{flex:none;width:min(330px,100%);padding:1rem 1rem 1rem;border-radius:var(--r-sm);background:rgba(255,255,255,.95);color:var(--ink);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .hero-card .hc-title{color:var(--ink);margin:0;font-size:.95rem;font-weight:500;letter-spacing:-.01em;line-height:1.3}
 .hero-card > p{font-size:.8rem;line-height:1.45;color:var(--muted);margin-top:.4rem}

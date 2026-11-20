@@ -462,22 +462,26 @@ $("#newsForm").addEventListener("submit", function(e){
 });
 $$(".faq details").forEach(function(d){ d.addEventListener("toggle", function(){ if (d.open) track("faq_expand", { question: $("summary", d).textContent }); }); });
 
-/* ---------- Hero title: each letter flips a full turn on its centre line, left to right, every 4.5 s ---------- */
+/* ---------- Hero title: TextRoll, run automatically every 4.5 s ----------
+   Port of the supplied TextRoll component (stagger 35 ms from the centre, 0.3 s ease-in-out, y 0 to -100% and 100% to 0). */
 (function(){
   var h = $("#h-hero"); if (!h || reduce) return;
-  var text = h.textContent, n = 0, hero = $(".hero"), seen = true;
+  var text = h.textContent, STAGGER = 35, mid = (text.length - 1) / 2, k = 0, maxD = 0;
   h.setAttribute("aria-label", text);
-  h.innerHTML = text.split(" ").map(function(w){
-    return '<span class="wd" aria-hidden="true">' + w.split("").map(function(c){
-      return '<span class="ch" style="--i:' + (n++) + '">' + c + "</span>";
-    }).join("") + "</span>";
+  h.innerHTML = text.split(" ").map(function(w, wi){
+    var start = k; k += w.length + 1;
+    var letters = w.split("").map(function(c, i){
+      var d = STAGGER * Math.abs(start + i - mid); maxD = Math.max(maxD, d);
+      return '<span class="c" style="--d:' + d.toFixed(0) + 'ms">' + c + "</span>";
+    }).join("");
+    return '<span class="tr" aria-hidden="true"><span class="l1">' + letters + '</span><span class="l2">' + letters + "</span></span>";
   }).join(" ");
-  var total = 700 + n * 45 + 60;
+  var hero = $(".hero"), seen = true;
   function run(){
     if (!seen || document.hidden) return;
     h.classList.remove("roll"); void h.offsetWidth; h.classList.add("roll");
-    // a full turn ends where it started, so dropping the class afterwards resets with no visible jump
-    setTimeout(function(){ h.classList.remove("roll"); }, total);
+    // both copies are the same word, so dropping the class afterwards resets with no visible jump
+    setTimeout(function(){ h.classList.remove("roll"); }, maxD + 360);
   }
   new IntersectionObserver(function(en){ seen = en[0].isIntersecting; }).observe(hero);
   setTimeout(run, 900); setInterval(run, 4500);
