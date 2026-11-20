@@ -643,9 +643,11 @@ document.addEventListener("click", function(e){
 var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 $("#cbForm").addEventListener("submit", function(e){
   e.preventDefault(); var f = e.target, m = $(".msg", f);
-  if (f.name.value.trim().length < 2 || !EMAIL.test(f.email.value) || !/^\d{5}(-\d{4})?$/.test(f.zip.value.trim())){ m.textContent = "Please add your name, an email address and a 5-digit ZIP code."; return; }
-  m.textContent = "Thank you. A specialist will call you within one business day."; $("button", f).disabled = true; track("generate_lead", { form:"callback" });
+  if (f.name.value.trim().length < 2 || !EMAIL.test(f.email.value) || f.message.value.trim().length < 3){ m.textContent = "Please add your name, an email address and a short message."; return; }
+  m.textContent = "Thank you. We'll reply within one business day."; $("button", f).disabled = true; track("generate_lead", { form:"contact" });
 });
+// the message line grows as you type
+$$(".blank textarea").forEach(function(t){ function fit(){ t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; } t.addEventListener("input", fit); fit(); });
 $("#newsForm").addEventListener("submit", function(e){
   e.preventDefault(); var m = $(".msg", e.target);
   if (!EMAIL.test($("#newsEmail").value)){ m.textContent = "Enter an email like name@example.com."; return; }

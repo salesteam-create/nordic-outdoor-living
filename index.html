@@ -356,18 +356,24 @@
 <!-- CALL BACK -->
 <section class="cb" id="callback" aria-labelledby="h-cb">
   <div class="cb-card">
-    <div>
-      <p class="eyebrow">Talk to a specialist</p>
-      <h2 id="h-cb">Not sure it fits your garden?</h2>
-      <p class="lede">Send your ZIP code and we'll call you back within one business day to talk through space, utilities and delivery.</p>
+    <div class="cb-photo" aria-hidden="true"><img src="assets/photos/life-1.jpg" alt="" loading="lazy" width="1200" height="1600"></div>
+    <div class="cb-main">
+      <p class="eyebrow">Contact us</p>
+      <h2 id="h-cb">Let's talk about your garden.</h2>
+      <!-- the form reads as a sentence: fill in the blanks -->
+      <form class="cb-form" id="cbForm" novalidate>
+        <p class="cb-sentence">
+          Hi, I'm <label class="blank"><span class="sr-only">Your name</span><input name="name" autocomplete="name" placeholder="your name" required></label>.
+          You can reach me at <label class="blank wide"><span class="sr-only">Your email</span><input name="email" type="email" autocomplete="email" placeholder="your email" required></label>.
+          I'd like to know <label class="blank grow"><span class="sr-only">Your question</span><textarea name="message" rows="1" placeholder="what's on your mind" required></textarea></label>
+        </p>
+        <div class="cb-foot">
+          <button class="cb-send" type="submit">Send message <svg class="ico"><use href="#i-arrow"/></svg></button>
+          <p class="cb-note">We reply within one business day.</p>
+        </div>
+        <p class="msg" aria-live="polite"></p>
+      </form>
     </div>
-    <form class="cb-form" id="cbForm" novalidate>
-      <label>Name<input name="name" autocomplete="name" required></label>
-      <label>Email<input name="email" type="email" autocomplete="email" required></label>
-      <label>ZIP code<input name="zip" inputmode="numeric" autocomplete="postal-code" required></label>
-      <button class="btn btn-light btn-block" type="submit">Request a call back</button>
-      <p class="msg" aria-live="polite"></p>
-    </form>
   </div>
 </section>
 
@@ -384,7 +390,7 @@
         <p class="msg" aria-live="polite"></p>
       </form>
       <div><h4>Shop</h4><a href="product.html">NOL POD</a><a href="#features">Features</a><a href="#specs">Specifications</a></div>
-      <div><h4>Support</h4><a href="#faq">FAQ</a><a href="#callback">Request a call</a><a href="#delivery">Delivery</a></div>
+      <div><h4>Support</h4><a href="#faq">FAQ</a><a href="#callback">Contact us</a><a href="#delivery">Delivery</a></div>
       <div><h4>Policies</h4><a href="#top">Warranty</a><a href="#top">Shipping</a><a href="#top">Privacy</a></div>
     </div>
     <p class="ft-word" aria-hidden="true"><span class="mk"></span></p>
