@@ -279,10 +279,10 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:860px){.cook-row{grid-template-columns:repeat(2,minmax(0,1fr))}.cook-head{flex-direction:column;align-items:flex-start;gap:.8rem}}
 
 /* Centred section title card */
-.title-card{padding:var(--gut) var(--gut) 0}
-.title-in{padding:clamp(2.5rem,5vw,3.8rem) 1rem;border-radius:var(--r);background:#ebebe6;text-align:center}
-.title-in h2{font-size:clamp(1.4rem,2.2vw,2rem)}
-.title-in p{font-size:.8rem;color:var(--muted);margin-top:.5rem}
+.title-card{padding:clamp(5rem,10vw,8.5rem) var(--pad) clamp(2.5rem,5vw,4rem)}
+.title-in{text-align:center}
+.title-in h2{font-size:clamp(2.4rem,5vw,4.4rem);letter-spacing:-.04em}
+.title-in p{font-size:.9rem;color:var(--muted);margin-top:.9rem}
 
 /* Buy pair: deep green product card + photo */
 .buy-pair{padding:var(--gut) var(--gut) 0}
