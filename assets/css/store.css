@@ -305,20 +305,25 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 
 /* Buy pair: deep green product card + photo */
 .buy-pair{padding:var(--gut) var(--gut) 0}
+/* Buy card: full-bleed photo, one line of product, one price, one action */
 .buy-card{position:relative;display:flex;flex-direction:column;border-radius:var(--r-sm);overflow:hidden;background:var(--green);color:#fff;aspect-ratio:1/1.02}
-.badge-pill{position:absolute;left:1rem;top:1rem;z-index:2;padding:.32rem .7rem;border-radius:7px;background:#d9e6a8;color:var(--green);font-size:.72rem;font-weight:600}
-.buy-img{position:relative;flex:1;min-height:0;display:block;margin:3.4rem clamp(1rem,3vw,2.5rem) 0}
-.buy-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px;box-shadow:0 40px 70px -40px rgba(0,0,0,.6);transition:transform 1.4s var(--ease)}
-.buy-img:hover img{transform:scale(1.02)}
-.buy-copy{padding:clamp(1.2rem,2.5vw,2rem) clamp(1rem,3vw,2.5rem) clamp(1.2rem,2.5vw,2rem)}
-.buy-copy h3{display:flex;align-items:center;gap:.6rem;font-size:clamp(1.3rem,2vw,1.7rem)}
-.ring{display:inline-grid;place-items:center;height:30px;padding:0 .6rem;border:1px solid rgba(255,255,255,.55);border-radius:999px;font-size:.72rem;letter-spacing:0}
-.buy-copy > p{font-size:.86rem;color:rgba(255,255,255,.78);max-width:46ch;margin-top:.5rem}
-.buy-cta{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;margin-top:1.1rem}
-.buy-sub{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:500}
-.buy-sub .ico{width:24px;height:24px;padding:5px;border-radius:50%;background:rgba(255,255,255,.16)}
-.buy-note{font-size:.74rem;color:rgba(255,255,255,.6);margin-top:.9rem}
-@media (max-width:760px){.buy-card{aspect-ratio:auto}.buy-img{flex:none;aspect-ratio:3/2}}
+.buy-img{position:relative;flex:1;min-height:0;display:block;overflow:hidden}
+.buy-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.buy-img::after{content:"";position:absolute;inset:auto 0 0;height:30%;background:linear-gradient(0deg,rgba(47,71,51,.55),rgba(47,71,51,0))}
+.buy-img:hover img{transform:scale(1.025)}
+.buy-tag{position:absolute;left:clamp(1.2rem,2.4vw,2rem);top:clamp(1.2rem,2.4vw,2rem);z-index:1;display:inline-flex;align-items:center;gap:.5rem;padding:.42rem .85rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink);font-size:.76rem;font-weight:500}
+.buy-tag i{width:7px;height:7px;border-radius:50%;background:#3f9a5a;box-shadow:0 0 0 3px rgba(63,154,90,.22)}
+.buy-copy{padding:clamp(1.4rem,2.6vw,2.2rem) clamp(1.2rem,2.4vw,2rem) clamp(1.3rem,2.4vw,2rem)}
+.buy-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1.2rem}
+.buy-copy h3{font-size:.86rem;font-weight:500;letter-spacing:0;color:rgba(255,255,255,.72)}
+.buy-price{display:flex;align-items:baseline;gap:.7rem;margin-top:.35rem}
+.buy-price b{font-size:clamp(2.2rem,3.6vw,3rem);font-weight:400;letter-spacing:-.04em;line-height:1}
+.buy-price > span{font-size:.86rem;color:rgba(255,255,255,.65)}
+.buy-btn{flex:none;display:inline-flex;align-items:center;gap:.6rem;height:48px;padding:0 1.4rem;border-radius:999px;background:#fff;color:var(--ink);font-size:.9rem;font-weight:500;transition:background-color .3s,gap .3s}
+.buy-btn .ico{width:16px;height:16px}
+.buy-btn:hover{background:#ecece8;gap:.85rem}
+.buy-note{margin-top:1.1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.14);font-size:.8rem;color:rgba(255,255,255,.62)}
+@media (max-width:760px){.buy-card{aspect-ratio:auto}.buy-img{flex:none;aspect-ratio:4/3}.buy-row{flex-direction:column;align-items:stretch}.buy-btn{justify-content:center}}
 
 /* Make it yours */
 .yours{padding:var(--gut) var(--gut) 0}
