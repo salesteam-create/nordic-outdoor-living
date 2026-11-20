@@ -1,6 +1,6 @@
 # Nordic Outdoor Living: website prototype
 
-Static prototype of the NOL store, built for client review and hosted on GitHub Pages. Following Tim's latest feedback, the store sells one product, the NOL Outdoor Kitchen POD (the former "Good" kit). There are no tier names. The page layout follows a single-product Shopify page: video hero, feature cards, product with callouts, buy box, one scroll-driven section, detail and delivery carousels, specs, comparison, FAQ.
+Static prototype of the NOL store, built for client review and hosted on GitHub Pages. Following Tim's latest feedback, the store sells one product, the NOL Outdoor Kitchen POD (the former "Good" kit). There are no tier names. The design (v7) follows an editorial reference: off-white page, soft grey cards, a sage band, deep green accents, oversized wordmarks and small UI text. Homepage order: inset video hero with wordmark and product card, three fact cards, statement, two tiles, sage POD showcase, two-column statement, three images, pinned feature cards, banner, how it opens (scroll sequence), cooking options, buy card, finishes, delivery steps, specs, comparison, FAQ, call back.
 
 ## Pages
 
@@ -15,7 +15,7 @@ pod-best.html     Redirect to product.html (old links)
 ## Where things live
 
 ```
-assets/css/store.css   All styles (light, Google Sans Flex)
+assets/css/store.css   All styles (tokens at the top: --bg, --card, --sage, --green; Google Sans Flex)
 assets/js/store.js     Shared by both pages. Product data at the top (price, options, add-ons, specs), then each section's behaviour, which runs only if that section is on the page. No libraries.
 assets/frames/         30 rendered frames, scrubbed by scroll in "How it opens". Loaded only when the section is near.
 assets/video/          Hero video (muted, looping) and poster
@@ -44,7 +44,8 @@ Frozen copies that open on their own live in `versions/` (see `versions/README.m
 - **v3**: Good / Better / Best per the Modular System Guide, product pages, upgrade nudges.
 - **v4**: dark cinematic homepage with a coded 3D model.
 - **v5**: light homepage with a coded 3D hero, Good / Better / Best product pages.
-- **v6 (current)**: single product, light, conversion-focused product page with one rendered scroll sequence.
+- **v6**: single product, light, conversion-focused product page with one rendered scroll sequence. Frozen in `versions/v6/`.
+- **v7 (current)**: editorial redesign following the reference: grey cards, sage band, deep green, oversized wordmarks.
 
 ## Hosting on GitHub Pages
 

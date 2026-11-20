@@ -80,6 +80,7 @@ function money(v){ return "$" + Number(v).toLocaleString("en-US"); }
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 window.dataLayer = window.dataLayer || [];
 function track(e, p){ var o = { event:e }; for (var k in p) o[k] = p[k]; window.dataLayer.push(o); }
+function stickH(){ var sn = $("#subnav"); return $("#hd").offsetHeight + (sn ? sn.offsetHeight : 0); }
 var ICO = function(id){ return '<svg class="ico"><use href="#' + id + '"/></svg>'; };
 
 $$("[data-price]").forEach(function(el){ el.textContent = money(P.price); });
@@ -105,7 +106,7 @@ if ($("#detCards")) $("#detCards").innerHTML = DETAILS.map(function(d){
   return '<figure class="dcard' + (d.dark ? " dark" : "") + '"><img src="' + d.img + '" alt="" loading="lazy"><figcaption>' + d.t + '</figcaption></figure>';
 }).join("");
 if ($("#stepCards")) $("#stepCards").innerHTML = STEPS.map(function(s){
-  return '<article class="scard"><img src="' + s.img + '" alt="" loading="lazy"><p class="s-n">' + s.n + ' ' + s.k + '</p><h3>' + s.t + '</h3><p>' + s.d + '</p></article>';
+  return '<article class="scard" data-rise><span class="chip"><i>' + s.n + '</i>' + s.k + '</span><h3>' + s.t + '</h3><p>' + s.d + '</p></article>';
 }).join("");
 $$(".arrows").forEach(function(a){
   var rail = document.getElementById(a.dataset.for); if (!rail) return;
@@ -132,7 +133,7 @@ $$(".arrows").forEach(function(a){
   document.documentElement.classList.add("hs-on");
   var stick = 0, ticking = false;
   function measure(){
-    stick = $("#hd").offsetHeight + $("#subnav").offsetHeight;
+    stick = stickH();
     document.documentElement.style.setProperty("--stick", stick + "px");
     secs.forEach(function(o){
       o.travel = Math.max(0, o.track.scrollWidth - innerWidth);
@@ -272,7 +273,7 @@ $("#reserveBtn").addEventListener("click", function(){
     canvas.width = Math.round(r.width * d); canvas.height = Math.round(r.height * d); last = -1; draw();
   }
   function progress(){
-    var stick = $("#hd").offsetHeight + $("#subnav").offsetHeight;
+    var stick = stickH();
     var r = sec.getBoundingClientRect(), span = r.height - (innerHeight - stick);
     return Math.max(0, Math.min(1, (stick - r.top) / span));
   }

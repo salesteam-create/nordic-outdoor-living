@@ -9,3 +9,4 @@ Each folder is a frozen, self-contained copy of the site at a point in time. The
 | [v3](v3/) | Nov 19, 2026 | Good / Better / Best PODs, product pages, upgrade pop-up | `186f024` |
 | [v4](v4/) | Nov 19, 2026 | Dark cinematic homepage, coded 3D POD, eight-chapter scroll journey | `e4487b6` |
 | [v5](v5/) | Nov 19, 2026 | Light homepage in Google Sans Flex, coded 3D POD in a sunny hero, Good / Better / Best product pages | `4e92d3c` |
+| [v6](v6/) | Nov 19, 2026 | Light single-product store, pinned horizontal cards, product page, dark teaser card | `a03b7a3` |

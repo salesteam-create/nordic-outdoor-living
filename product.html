@@ -13,7 +13,7 @@
 <meta property="og:title" content="The NOL POD outdoor kitchen">
 <meta property="og:description" content="Sink, BBQ and fridge under one roof. Lift it to cook, close it when you're done.">
 <meta property="og:image" content="assets/pods/good.jpg">
-<meta name="theme-color" content="#f7f5f1">
+<meta name="theme-color" content="#f3f3f0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131313'/%3E%3Cpath d='M7 14l9-6 9 6v10H7z' fill='none' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,31 +47,18 @@
   </defs>
 </svg>
 
-<p class="announce">Reservations are open. Hold your POD with a <span data-deposit></span> deposit that counts toward your price.</p>
-
 <header class="hd" id="hd">
-  <div class="wrap hd-in">
-    <a class="mark" href="index.html" aria-label="Nordic Outdoor Living home">NOL<span>Nordic Outdoor Living</span></a>
+  <div class="hd-in">
+    <a class="mark" href="index.html" aria-label="Nordic Outdoor Living home">NOL<sup>®</sup></a>
     <nav class="hd-nav" aria-label="Main">
-      <a href="index.html#features">The POD</a>
+      <a href="index.html#pod">The POD</a>
       <a href="index.html#opens">How it opens</a>
       <a href="#delivery">Delivery</a>
       <a href="#faq">Help</a>
     </nav>
-    <a class="btn btn-dark btn-sm" href="#buy" data-cta="header_reserve">Reserve</a>
+    <a class="pill pill-dark" href="#buy" data-cta="header_reserve">Reserve · <span data-price></span></a>
   </div>
 </header>
-
-
-<nav class="subnav" id="subnav" aria-label="On this page">
-  <div class="subnav-in">
-    <a href="#buy">Overview</a>
-    <a href="#included-sec">What's included</a>
-    <a href="#specs">Specifications</a>
-    <a href="#delivery">Delivery</a>
-    <a href="#faq">FAQ</a>
-  </div>
-</nav>
 
 <main id="top">
 
@@ -160,9 +147,7 @@
 <!-- WHAT'S INCLUDED -->
 <section class="sec" id="included-sec" aria-labelledby="h-inc">
   <div class="wrap">
-    <div class="sec-head">
-      <div><p class="eyebrow">In the box</p><h2 id="h-inc">Everything you need<br>to cook outside.</h2></div>
-    </div>
+    <div class="sec-head"><h2 id="h-inc">Everything you need<br>to cook outside.</h2><p class="sec-note">In the box, ready to connect.</p></div>
     <div class="inc-grid" id="incGrid"></div>
     <ul class="inc-small">
       <li><svg class="ico"><use href="#i-check"/></svg>Countertop over the fridge</li>
@@ -200,17 +185,17 @@
 </section>
 
 <!-- DELIVERY -->
-<section class="sec tint" id="delivery" aria-labelledby="h-del">
+<section class="sec" id="delivery" aria-labelledby="h-del">
   <div class="wrap">
-    <div class="sec-head"><div><p class="eyebrow">Delivery</p><h2 id="h-del">From reservation<br>to first cookout.</h2></div></div>
+    <div class="sec-head"><h2 id="h-del">From reservation<br>to first cookout.</h2><p class="sec-note">Four steps, one pallet, one panel.</p></div>
     <div class="steps-grid" id="stepCards"></div>
   </div>
 </section>
 
 <!-- FAQ -->
 <section class="sec" id="faq" aria-labelledby="h-faq">
-  <div class="wrap faq-wrap">
-    <h2 class="center" id="h-faq">FAQ</h2>
+  <div class="wrap faq-grid">
+    <div><p class="eyebrow">Help</p><h2 id="h-faq">Questions,<br>answered.</h2></div>
     <div class="faq">
       <details><summary>What's included with the POD?</summary><p>The shell with a lift-up roof, a sink cabinet with black faucet, plumbing kit and grey water tank, a BBQ cabinet with a stainless BBQ, a glass-door fridge, and a countertop over the fridge.</p></details>
       <details><summary>Can I swap the BBQ for something else?</summary><p>Yes. The BBQ cabinet takes one cooking appliance: the stainless BBQ, a griddle, a pizza oven or a pellet smoker. Choose it when you reserve.</p></details>
@@ -226,8 +211,8 @@
 </section>
 
 <!-- CALL BACK -->
-<section class="sec cb" id="callback" aria-labelledby="h-cb">
-  <div class="wrap cb-grid">
+<section class="cb" id="callback" aria-labelledby="h-cb">
+  <div class="cb-card">
     <div>
       <p class="eyebrow">Talk to a specialist</p>
       <h2 id="h-cb">Not sure it fits your garden?</h2>
@@ -237,7 +222,7 @@
       <label>Name<input name="name" autocomplete="name" required></label>
       <label>Email<input name="email" type="email" autocomplete="email" required></label>
       <label>ZIP code<input name="zip" inputmode="numeric" autocomplete="postal-code" required></label>
-      <button class="btn btn-dark btn-block" type="submit">Request a call back</button>
+      <button class="btn btn-light btn-block" type="submit">Request a call back</button>
       <p class="msg" aria-live="polite"></p>
     </form>
   </div>
@@ -247,25 +232,19 @@
 
 <footer class="ft">
   <div class="wrap">
-    <div class="ft-tiles">
-      <img src="assets/photos/life-1.jpg" alt="" loading="lazy">
-      <img src="assets/photos/build.jpg" alt="" loading="lazy">
-      <img src="assets/photos/life-2.jpg" alt="" loading="lazy">
-      <a class="ft-cta" href="#buy" data-cta="footer_reserve"><span>Evenings<br>outside,<br>sorted.</span><b>Reserve now</b></a>
-    </div>
     <div class="ft-grid">
       <form class="ft-news" id="newsForm" novalidate>
         <b>Updates and launch offers</b>
         <label class="sr-only" for="newsEmail">Email</label>
         <input id="newsEmail" type="email" placeholder="Your email" autocomplete="email">
-        <button class="btn btn-dark btn-sm" type="submit">Subscribe</button>
+        <button class="pill pill-dark" type="submit">Subscribe</button>
         <p class="msg" aria-live="polite"></p>
       </form>
       <div><h4>Shop</h4><a href="#buy">NOL POD</a><a href="index.html#features">Features</a><a href="#specs">Specifications</a></div>
       <div><h4>Support</h4><a href="#faq">FAQ</a><a href="#callback">Request a call</a><a href="#delivery">Delivery</a></div>
       <div><h4>Policies</h4><a href="#top">Warranty</a><a href="#top">Shipping</a><a href="#top">Privacy</a></div>
     </div>
-    <p class="ft-word" aria-hidden="true">NOL</p>
+    <p class="ft-word" aria-hidden="true">NOL<sup>®</sup></p>
     <div class="ft-base"><span>© 2026 Nordic Outdoor Living</span><span>Prototype by Kilowott</span></div>
   </div>
 </footer>
@@ -274,7 +253,7 @@
 <div class="mini" id="mini" aria-hidden="true">
   <img src="assets/pods/good.jpg" alt="">
   <div><b>NOL Outdoor Kitchen POD</b><span id="miniPrice"></span></div>
-  <a class="btn btn-dark btn-sm" href="#buy" tabindex="-1" data-cta="mini_reserve">Reserve</a>
+  <a class="pill pill-dark" href="#buy" tabindex="-1" data-cta="mini_reserve">Reserve</a>
 </div>
 
 <script src="assets/js/store.js" defer></script>
