@@ -553,7 +553,7 @@ $("#reserveBtn").addEventListener("click", function(){
         [0, 1].forEach(function(a){ [2, 3].forEach(function(c){ [4, 5].forEach(function(e){ var q = P([b[a], b[c], b[e]]); mnx = Math.min(mnx, q[0]); mxx = Math.max(mxx, q[0]); mny = Math.min(mny, q[1]); mxy = Math.max(mxy, q[1]); }); }); });
       });
     }
-    var mob = innerWidth < 860, w = mxx - mnx, h = mxy - mny, padX = mob ? 6 : 42, padY = 14;
+    var mob = innerWidth < 860, w = mxx - mnx, h = mxy - mny, padX = mob ? 6 : 46, padY = 6;
     VB = [mnx - padX, mny - padY, w + padX * 2, h + padY * 2];
     svg.setAttribute("viewBox", VB.map(function(v){ return v.toFixed(1); }).join(" "));
   }
