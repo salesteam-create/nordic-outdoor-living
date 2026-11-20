@@ -75,9 +75,9 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .hero-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,10,8,.5) 0%,rgba(8,10,8,.08) 40%,rgba(8,10,8,0) 65%)}
 .hero-live{position:absolute;right:clamp(1rem,2vw,1.5rem);top:clamp(1rem,2vw,1.5rem);display:inline-flex;align-items:center;gap:.5rem;padding:.42rem .85rem;border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);font-size:.76rem;font-weight:500}
 .hero-live i{width:7px;height:7px;border-radius:50%;background:#3f9a5a;box-shadow:0 0 0 3px rgba(63,154,90,.22)}
-.hero-foot{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;padding:0 clamp(1rem,2vw,1.5rem) clamp(1rem,2vw,1.5rem) clamp(1rem,3vw,2.6rem)}
+.hero-foot{position:absolute;z-index:2;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:flex-end;gap:1.5rem;padding:0 clamp(1rem,2vw,1.5rem) clamp(1rem,2vw,1.5rem) clamp(1rem,3vw,2.6rem)}
 .hero-word{display:flex;margin:0;color:#fff}
-.hero-head{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(.8rem,1.6vw,1.4rem);color:#fff}
+.hero-head{position:absolute;z-index:1;left:clamp(1rem,3vw,2.6rem);right:clamp(1rem,3vw,2.6rem);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start;gap:clamp(.8rem,1.6vw,1.4rem);color:#fff}
 .hero-head .mk{height:clamp(32px,3.6vw,44px);filter:drop-shadow(0 2px 16px rgba(0,0,0,.25))}
 .hero-head h1{font-size:clamp(3.2rem,8vw,7.5rem);font-weight:450;line-height:.92;letter-spacing:-.05em;text-shadow:0 4px 40px rgba(0,0,0,.25)}
 .hero-card{flex:none;width:min(330px,100%);padding:1rem 1rem 1rem;border-radius:var(--r-sm);background:rgba(255,255,255,.95);color:var(--ink);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
@@ -91,7 +91,7 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:760px){
   .hero-frame{height:auto;min-height:calc(100svh - var(--hd) - var(--gut));display:flex;flex-direction:column;justify-content:flex-end}
   .hero-foot{position:relative;flex-direction:column;align-items:stretch;gap:.6rem;padding:5rem .75rem .75rem}
-  .hero-word{padding-left:.3rem}.hero-head h1{font-size:clamp(2.8rem,13vw,3.6rem)}
+  .hero-head{top:40%}.hero-head h1{font-size:clamp(2.8rem,13vw,3.6rem)}
   .hero-card{width:100%}
 }
 
