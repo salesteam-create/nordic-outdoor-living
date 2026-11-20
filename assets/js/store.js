@@ -404,6 +404,36 @@ $("#reserveBtn").addEventListener("click", function(){
   cx.addEventListener("keydown", function(e){ if (e.key === "Escape" && cur >= 0) open(-1); });
 })();
 
+/* ---------- Statement: while pinned, each word and frame comes out of a blur in reading order ---------- */
+(function(){
+  var sec = $("#said"); if (!sec) return;
+  var bits = $$(".said-h .w, .said-h .m", sec), link = $(".said-link", sec), vids = $$("video", sec), n = bits.length, ticking = false;
+  // clips load only when the section is close
+  new IntersectionObserver(function(en, o){
+    if (!en[0].isIntersecting) return; o.disconnect();
+    vids.forEach(function(v){ v.src = v.dataset.src; if (!reduce){ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); } });
+  }, { rootMargin:"60% 0px" }).observe(sec);
+  if (reduce){ sec.classList.add("static"); return; }
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function draw(){
+    ticking = false;
+    var r = sec.getBoundingClientRect(), stick = stickH(), span = r.height - (innerHeight - stick);
+    // start a little before the pin so the first words are already forming as the section arrives
+    var p = clamp(((stick - r.top) / span) * 1.25 + .06), head = p * (n + 3);
+    bits.forEach(function(el, i){
+      var t = clamp((head - i) / 3), e = t * t * (3 - 2 * t);
+      el.style.opacity = (.08 + .92 * e).toFixed(3);
+      el.style.filter = e > .995 ? "none" : "blur(" + (14 * (1 - e)).toFixed(2) + "px)";
+      el.style.transform = "translateY(" + (.18 * (1 - e)).toFixed(3) + "em)";
+    });
+    var l = clamp((head - n) / 2);
+    link.style.opacity = l.toFixed(3); link.style.transform = "translateY(" + (12 * (1 - l)).toFixed(1) + "px)";
+  }
+  addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, { passive:true });
+  addEventListener("resize", draw);
+  draw();
+})();
+
 /* ---------- Sticky subnav: active section ---------- */
 var links = $$(".subnav a"), secs = links.map(function(a){ return document.getElementById(a.getAttribute("href").slice(1)); });
 function activeSec(){

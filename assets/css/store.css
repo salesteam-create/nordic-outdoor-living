@@ -170,12 +170,20 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:760px){.sage-top{flex-direction:column;gap:1.2rem}.sage-end{flex-direction:column;align-items:flex-start}}
 @media (max-width:859px){.co-text{top:auto;bottom:clamp(1.5rem,5vh,2.5rem);transform:none}.sage-fshade{background:linear-gradient(0deg,rgba(8,10,8,.8) 0%,rgba(8,10,8,.4) 35%,rgba(8,10,8,0) 60%)}}
 
-/* Two-column statement */
-.statement{padding:clamp(4.5rem,9vw,8rem) 0 clamp(3rem,6vw,5rem)}
-.st-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:2rem}
-.st-small{font-size:.84rem;font-weight:500;line-height:1.45;padding-top:.5rem}
-.statement h2{font-size:clamp(1.7rem,2.8vw,2.6rem);line-height:1.14;max-width:23ch}
-@media (max-width:760px){.st-grid{grid-template-columns:minmax(0,1fr)}}
+/* Statement: big centred words with small photos and clips in the line; scroll brings each piece out of a blur */
+.said{position:relative;height:260vh}
+.said-pin{position:sticky;top:var(--stick,60px);height:calc(100vh - var(--stick,60px));height:calc(100svh - var(--stick,60px));display:flex;align-items:center;overflow:hidden;
+  background:radial-gradient(70% 60% at 85% 10%,rgba(65,96,74,.10),rgba(65,96,74,0) 70%),radial-gradient(60% 60% at 10% 95%,rgba(65,96,74,.08),rgba(65,96,74,0) 70%)}
+.said-in{width:100%;text-align:center}
+.said-h{font-size:clamp(2.3rem,6vw,6rem);font-weight:400;line-height:1.12;letter-spacing:-.045em;text-wrap:initial}
+.said-h .w,.said-h .m{display:inline-block;will-change:opacity,filter,transform}
+.said-h .g{background:linear-gradient(90deg,#2f4733,#5b8a66);-webkit-background-clip:text;background-clip:text;color:transparent}
+.said-h .m{width:1.9em;height:.84em;margin:0 .06em;border-radius:.18em;overflow:hidden;vertical-align:-.1em;background:var(--card);box-shadow:0 .2em .5em -.25em rgba(0,0,0,.35)}
+.said-h .m img,.said-h .m video{display:block;width:100%;height:100%;object-fit:cover}
+.said-link{margin-top:clamp(2rem,4vw,3rem)}
+.said.static{height:auto}
+.said.static .said-pin{position:relative;top:0;height:auto;padding:clamp(5rem,10vw,8rem) 0}
+@media (max-width:760px){.said-h br.d{display:none}.said-h{font-size:clamp(2rem,9.5vw,2.8rem);line-height:1.18}}
 
 /* Section heads */
 .sec{padding:clamp(4.5rem,9vw,8rem) 0}
