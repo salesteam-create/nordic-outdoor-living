@@ -177,15 +177,6 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .statement h2{font-size:clamp(1.7rem,2.8vw,2.6rem);line-height:1.14;max-width:23ch}
 @media (max-width:760px){.st-grid{grid-template-columns:minmax(0,1fr)}}
 
-/* Three images, the last one runs off the edge */
-.trio-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.5fr);gap:var(--gut);padding-left:var(--edge)}
-.trio-grid img{width:100%;height:clamp(240px,30vw,460px);object-fit:cover;border-radius:6px;background:var(--card)}
-.trio-grid img:last-of-type{border-radius:6px 0 0 6px}
-.trio-cap{grid-column:2;padding-top:.8rem;max-width:46ch}
-.trio-cap b{display:block;font-weight:500;font-size:.86rem}
-.trio-cap p{font-size:.84rem;color:var(--muted);margin-top:.5rem;line-height:1.6}
-@media (max-width:760px){.trio-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:0 var(--pad)}.trio-grid img:last-of-type{display:none}.trio-cap{grid-column:1/-1}}
-
 /* Section heads */
 .sec{padding:clamp(4.5rem,9vw,8rem) 0}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;margin-bottom:clamp(2rem,4vw,3rem)}
@@ -516,5 +507,4 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 @media (max-width:480px){.hl-grid{grid-template-columns:minmax(0,1fr)}}
 
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none !important;animation:none !important}}
-.hs + .trio{padding-top:clamp(4rem,8vw,7rem)}
 .closer + .cooking{padding-top:clamp(4rem,8vw,7rem)}
