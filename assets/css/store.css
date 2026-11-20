@@ -398,13 +398,12 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .cb .eyebrow{color:rgba(255,255,255,.65)}
 .cb h2{margin-top:.7rem;max-width:16ch;font-size:clamp(2rem,3.4vw,3.1rem)}
 .cb-sentence{margin:clamp(1.8rem,3.5vw,2.8rem) 0 0;font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.75;letter-spacing:-.02em;color:rgba(255,255,255,.9);max-width:30em}
-.blank{display:inline-block;vertical-align:baseline}
-.blank input,.blank textarea{font:inherit;letter-spacing:inherit;color:#fff;background:transparent;border:0;border-bottom:1.5px solid rgba(255,255,255,.35);padding:0 .1em;outline:none;width:8.5em;transition:border-color .3s}
-.blank.wide input{width:11em}
+.blank{display:inline-block;vertical-align:baseline;max-width:100%}
+.blank input,.blank textarea{font:inherit;letter-spacing:inherit;color:inherit;background:transparent;border:0;padding:0;outline:none;width:6em;max-width:100%;caret-color:#d9e6a8}
 .blank.grow{display:inline}
-.blank textarea{width:100%;max-width:100%;resize:none;overflow:hidden;line-height:1.4;vertical-align:top;display:block;margin-top:.2em}
+.blank textarea{width:100%;resize:none;overflow:hidden;line-height:inherit;vertical-align:top;display:block}
 .blank input::placeholder,.blank textarea::placeholder{color:rgba(255,255,255,.38)}
-.blank input:focus,.blank textarea:focus{border-color:#d9e6a8}
+.blank input:focus::placeholder,.blank textarea:focus::placeholder{color:rgba(255,255,255,.22)}
 .cb-foot{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.6rem;margin-top:clamp(1.8rem,3.5vw,2.6rem)}
 .cb-send{display:inline-flex;align-items:center;gap:.6rem;height:52px;padding:0 1.6rem;border:0;border-radius:999px;background:#fff;color:var(--ink);font:500 .95rem var(--sans);transition:background-color .3s,gap .3s}
 .cb-send .ico{width:16px;height:16px}
@@ -413,7 +412,7 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .cb-note{font-size:.84rem;color:rgba(255,255,255,.6)}
 .msg{font-size:.86rem;min-height:1.2em}
 .cb .msg{color:#d9e6a8;margin-top:1rem}
-@media (max-width:860px){.cb-card{grid-template-columns:minmax(0,1fr);min-height:0}.cb-photo{aspect-ratio:16/10}.blank input{width:7.5em}.blank.wide input{width:10.5em}}
+@media (max-width:860px){.cb-card{grid-template-columns:minmax(0,1fr);min-height:0}.cb-photo{aspect-ratio:16/10}}
 
 /* Footer */
 .ft{padding:clamp(4rem,8vw,7rem) 0 1.5rem;overflow:hidden}

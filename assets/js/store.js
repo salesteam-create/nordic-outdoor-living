@@ -646,6 +646,20 @@ $("#cbForm").addEventListener("submit", function(e){
   if (f.name.value.trim().length < 2 || !EMAIL.test(f.email.value) || f.message.value.trim().length < 3){ m.textContent = "Please add your name, an email address and a short message."; return; }
   m.textContent = "Thank you. We'll reply within one business day."; $("button", f).disabled = true; track("generate_lead", { form:"contact" });
 });
+// the name and email blanks grow with what you type, so the sentence reads as one paragraph
+(function(){
+  var cv = document.createElement("canvas").getContext("2d");
+  $$(".blank input").forEach(function(inp){
+    function fit(){
+      var cs = getComputedStyle(inp); cv.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+      var t = inp.value || inp.placeholder, w = cv.measureText(t).width + t.length * (parseFloat(cs.letterSpacing) || 0);
+      var max = inp.closest(".cb-sentence").clientWidth;
+      inp.style.width = Math.min(Math.ceil(w + 1), max) + "px";
+    }
+    inp.addEventListener("input", fit); addEventListener("resize", fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); fit();
+  });
+})();
 // the message line grows as you type
 $$(".blank textarea").forEach(function(t){ function fit(){ t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; } t.addEventListener("input", fit); fit(); });
 $("#newsForm").addEventListener("submit", function(e){
