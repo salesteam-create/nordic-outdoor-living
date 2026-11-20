@@ -365,7 +365,7 @@
         <p class="cb-sentence">
           Hi, I'm <label class="blank"><span class="sr-only">Your name</span><input name="name" autocomplete="name" placeholder="your name" required></label>.
           You can reach me at <label class="blank wide"><span class="sr-only">Your email</span><input name="email" type="email" autocomplete="email" placeholder="your email" required></label>.
-          I'd like to know <label class="blank grow"><span class="sr-only">Your question</span><textarea name="message" rows="1" placeholder="what's on your mind" required></textarea></label>
+          I'd like to know <span class="blank-msg" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Your question" data-ph="what's on your mind"></span><input type="hidden" name="message">
         </p>
         <div class="cb-foot">
           <button class="cb-send" type="submit">Send message <svg class="ico"><use href="#i-arrow"/></svg></button>

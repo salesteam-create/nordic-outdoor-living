@@ -660,8 +660,12 @@ $("#cbForm").addEventListener("submit", function(e){
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); fit();
   });
 })();
-// the message line grows as you type
-$$(".blank textarea").forEach(function(t){ function fit(){ t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; } t.addEventListener("input", fit); fit(); });
+// the question is typed straight into the sentence; a hidden field carries it for the form
+$$(".blank-msg").forEach(function(ed){
+  var hid = ed.nextElementSibling;
+  ed.addEventListener("input", function(){ if (!ed.textContent.trim()) ed.textContent = ""; hid.value = ed.textContent.trim(); });
+  ed.addEventListener("keydown", function(e){ if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); ed.closest("form").requestSubmit(); } });
+});
 $("#newsForm").addEventListener("submit", function(e){
   e.preventDefault(); var m = $(".msg", e.target);
   if (!EMAIL.test($("#newsEmail").value)){ m.textContent = "Enter an email like name@example.com."; return; }

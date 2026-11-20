@@ -400,7 +400,9 @@ sup{font-size:.32em;vertical-align:top;position:relative;top:.35em;margin-left:.
 .cb-sentence{margin:clamp(1.8rem,3.5vw,2.8rem) 0 0;font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.75;letter-spacing:-.02em;color:rgba(255,255,255,.9);max-width:30em}
 .blank{display:inline-block;vertical-align:baseline;max-width:100%}
 .blank input,.blank textarea{font:inherit;letter-spacing:inherit;color:inherit;background:transparent;border:0;padding:0;outline:none;width:6em;max-width:100%;caret-color:#d9e6a8}
-.blank.grow{display:inline}
+.blank-msg{outline:none;caret-color:#d9e6a8;color:inherit;white-space:pre-wrap;word-break:break-word;padding-right:.1em}
+.blank-msg:empty::before{content:attr(data-ph);color:rgba(255,255,255,.38);pointer-events:none}
+.blank-msg:focus:empty::before{color:rgba(255,255,255,.22)}
 .blank textarea{width:100%;resize:none;overflow:hidden;line-height:inherit;vertical-align:top;display:block}
 .blank input::placeholder,.blank textarea::placeholder{color:rgba(255,255,255,.38)}
 .blank input:focus::placeholder,.blank textarea:focus::placeholder{color:rgba(255,255,255,.22)}
