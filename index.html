@@ -193,15 +193,7 @@
   </div>
 </section>
 
-<!-- BANNER -->
-<section class="banner" aria-labelledby="h-banner">
-  <div class="banner-card">
-    <img src="assets/photos/life-3.jpg" alt="The POD open on a stone patio" loading="lazy" width="1400" height="1054">
-    <h2 id="h-banner" data-rise>Your garden's<br>best room.</h2>
-  </div>
-</section>
-
-<!-- SCROLL SEQUENCE: the only scroll animation on the page -->
+<!-- HOW IT OPENS: front-view POD model built in HTML/CSS. Scroll lifts the shutter roof in perspective, then the lights come on. -->
 <section class="seq" id="opens" aria-labelledby="h-seq">
   <div class="seq-pin">
     <div class="wrap seq-grid">
@@ -211,14 +203,42 @@
         <ol class="seq-steps" id="seqSteps">
           <li class="on"><b>Closed</b><span>A clean, weather-tight shape in the garden.</span></li>
           <li><b>Lift</b><span>The roof swings up on gas struts, by hand.</span></li>
-          <li><b>Cook</b><span>It becomes a canopy over the BBQ, sink and fridge.</span></li>
+          <li><b>Light</b><span>Lights under the roof warm the counter and the wall.</span></li>
+          <li><b>Cook</b><span>A canopy over the BBQ, sink and fridge.</span></li>
         </ol>
         <div class="seq-bar"><span id="seqBar"></span></div>
       </div>
-      <div class="seq-stage">
-        <canvas id="seqCanvas" aria-hidden="true"></canvas>
-        <img class="seq-fallback" src="assets/frames/29.webp" alt="The POD with its roof lifted, showing the BBQ, sink and fridge" loading="lazy">
+      <div class="seq-stage" id="seqStage">
         <span class="seq-tag" id="seqTag">Closed</span>
+        <div class="pm" id="podModel" role="img" aria-label="Front view of the NOL POD. The roof lifts into a canopy and the lights come on.">
+          <div class="pm-floor"></div>
+          <div class="pm-glow"></div>
+          <!-- interior behind the roof -->
+          <div class="pm-wall">
+            <div class="pm-shelf"><i class="c1"></i><i class="c2"></i><i class="v1"></i><i class="c3"></i></div>
+            <div class="pm-wash"></div>
+            <div class="pm-dim"></div>
+          </div>
+          <div class="pm-post l"></div><div class="pm-post r"></div>
+          <svg class="pm-tap" viewBox="0 0 60 100" aria-hidden="true"><path d="M14 100V30Q14 8 32 8Q50 8 50 28V40"/><path d="M8 100H24"/></svg>
+          <div class="pm-hood"><i class="therm"></i><b class="bar"></b></div>
+          <div class="pm-counter"></div>
+          <div class="pm-base">
+            <div class="pm-door d1"><i></i></div><div class="pm-door d2"><i></i></div>
+            <div class="pm-grill"><i></i><i></i><i></i><i></i></div>
+            <div class="pm-drawer a"><i></i></div><div class="pm-drawer b"><i></i></div>
+            <div class="pm-fridge"><div class="pm-glass"><div class="pm-cool"></div><i class="sh s1"></i><i class="sh s2"></i><span class="bt"></span><span class="bt"></span><span class="bt"></span><span class="bt"></span><span class="cn"></span><span class="cn"></span><span class="cn"></span></div><b class="pm-handle"></b></div>
+          </div>
+          <div class="pm-plinth"></div>
+          <div class="pm-beam"></div>
+          <!-- the roof: hinged at the beam, it hangs over the opening when closed and swings up into a canopy -->
+          <div class="pm-roof" id="pmRoof">
+            <div class="pm-face out"></div>
+            <div class="pm-face in"><i class="led"></i></div>
+            <div class="pm-edge"></div>
+          </div>
+          <svg class="pm-struts" id="pmStruts" viewBox="0 0 1000 860" aria-hidden="true"><path class="rod" d=""/><path class="cyl" d=""/><path class="rod" d=""/><path class="cyl" d=""/></svg>
+        </div>
       </div>
     </div>
   </div>
